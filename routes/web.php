@@ -20,8 +20,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index')->middleware(AuthenticateMiddleware::class);
 
+//Backend Routes
+Route::get('dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index')->middleware('admin');
+
+//User Routes
+Route::get('user/index', [UserController::class, 'index'])->name('user.index')->middleware('admin');
 
 
 Route::get('admin', [AuthController::class, 'admin'])->name('auth.admin')->middleware('login');
