@@ -20,30 +20,64 @@ class BaseRepository implements BaseRepositoryInterface
         $this->model = $model;
     }
 
+
     public function pagination(
         array $column = ['*'],
         array $condition = [],
         int $perPage = 1,
         array $extend = [],
-        array $orderBy = ['id', 'DESC'],
         array $join = [],
         array $relations = [],
-        array $rawQuery = []
-
     ) {
-        $query = $this->model->select($column);
-        return $query
-            ->keyword($condition['keyword'] ?? null)
-            ->publish($condition['publish'] ?? null)
-            ->relationCount($relations ?? null)
-            ->CustomWhere($condition['where'] ?? null)
-            ->customWhereRaw($rawQuery['whereRaw'] ?? null)
-            ->customJoin($join ?? null)
-            ->customGroupBy($extend['groupBy'] ?? null)
-            ->customOrderBy($orderBy ?? null)
-            ->paginate($perPage)
+
+        $query = $this->model->select($column)->where(function ($query) use ($condition) {
+            if (isset($condition['keyword']) && !empty($condition['keyword'])) {
+                $query->where('name', 'LIKE', '%' . $condition['keyword'] . '%');
+            }
+            if (isset($condition['publish']) && $condition['publish'] != 0) {
+                $query->where('publish', '=', $condition['publish']);
+            }
+            return $query;
+        });
+
+        if(isset($relations) && !empty($relations)){
+            foreach($relations as $relation){
+                $query->withCount($relation);
+            }
+        }
+
+        if (!empty($join)) {
+            $query->join(...$join);
+        }
+
+        return $query->paginate($perPage)
             ->withQueryString()->withPath(env('APP_URL') . $extend['path']);
     }
+
+    // public function pagination(
+    //     array $column = ['*'],
+    //     array $condition = [],
+    //     int $perPage = 1,
+    //     array $extend = [],
+    //     array $orderBy = ['id', 'DESC'],
+    //     array $join = [],
+    //     array $relations = [],
+    //     array $rawQuery = []
+
+    // ) {
+    //     $query = $this->model->select($column);
+    //     return $query
+    //         ->keyword($condition['keyword'] ?? null)
+    //         ->publish($condition['publish'] ?? null)
+    //         ->relationCount($relations ?? null)
+    //         ->CustomWhere($condition['where'] ?? null)
+    //         ->customWhereRaw($rawQuery['whereRaw'] ?? null)
+    //         ->customJoin($join ?? null)
+    //         ->customGroupBy($extend['groupBy'] ?? null)
+    //         ->customOrderBy($orderBy ?? null)
+    //         ->paginate($perPage)
+    //         ->withQueryString()->withPath(env('APP_URL') . $extend['path']);
+    // }
 
     public function create(array $payload = [])
     {
