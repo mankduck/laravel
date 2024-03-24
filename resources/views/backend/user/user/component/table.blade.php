@@ -33,7 +33,7 @@
                         {{ $user->address }}
                     </td>
                     <td class="text-center">
-                        {{-- {{ $user->user_catalogues->name }} --}}
+                        {{ $user->user_catalogues->name }}
                     </td>
                     <td class="text-center js-switch-{{ $user->id }}">
                         <input type="checkbox" value="{{ $user->publish }}" class="js-switch status"

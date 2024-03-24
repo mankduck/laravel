@@ -33,7 +33,8 @@ class UserCatalogueController extends Controller
         $config = [
             'js' => [
                 'backend/js/plugins/switchery/switchery.js',
-                'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js'
+                'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
+                'backend/library/library.js'
             ],
             'css' => [
                 'backend/css/plugins/switchery/switchery.css',
@@ -42,10 +43,12 @@ class UserCatalogueController extends Controller
             'model' => 'UserCatalogue',
         ];
         $config['seo'] = config('apps.usercatalogue');
-        return view('backend.user.catalogue.index', compact(
-            'config',
-            'userCatalogues'
-        )
+        return view(
+            'backend.user.catalogue.index',
+            compact(
+                'config',
+                'userCatalogues'
+            )
         );
     }
 
@@ -54,9 +57,11 @@ class UserCatalogueController extends Controller
         // $this->authorize('modules', 'user.catalogue.create');
         $config['seo'] = config('apps.usercatalogue');
         $config['method'] = 'create';
-        return view('backend.user.catalogue.create', compact(
-            'config',
-        )
+        return view(
+            'backend.user.catalogue.create',
+            compact(
+                'config',
+            )
         );
     }
 
@@ -74,10 +79,12 @@ class UserCatalogueController extends Controller
         $userCatalogue = $this->userCatalogueRepository->findById($id);
         $config['seo'] = config('apps.usercatalogue');
         $config['method'] = 'edit';
-        return view('backend.user.catalogue.create', compact(
-            'config',
-            'userCatalogue',
-        )
+        return view(
+            'backend.user.catalogue.create',
+            compact(
+                'config',
+                'userCatalogue',
+            )
         );
     }
 
@@ -94,10 +101,12 @@ class UserCatalogueController extends Controller
         // $this->authorize('modules', 'user.catalogue.destroy');
         $config['seo'] = config('apps.usercatalogue');
         $userCatalogue = $this->userCatalogueRepository->findById($id);
-        return view('backend.user.catalogue.delete', compact(
-            'userCatalogue',
-            'config',
-        )
+        return view(
+            'backend.user.catalogue.delete',
+            compact(
+                'userCatalogue',
+                'config',
+            )
         );
     }
 

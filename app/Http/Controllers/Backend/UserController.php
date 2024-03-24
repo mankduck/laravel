@@ -43,6 +43,7 @@ class UserController extends Controller
         ];
 
         $users = $this->userService->paginate($request);
+        // dd($users);
         $config['seo'] = config('apps.user');
 
         return view('backend.user.user.index', compact('config', 'users'));
