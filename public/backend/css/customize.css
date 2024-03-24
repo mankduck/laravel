@@ -33,19 +33,19 @@ table .image {
     object-fit: cover;
 }
 
-table strong {
+/* table strong {
     min-width: 88px;
     display: inline-block;
-}
+} */
 
-.table>thead>tr>th,
+/* .table>thead>tr>th,
 .table>tbody>tr>th,
 .table>tfoot>tr>th,
 .table>thead>tr>td,
 .table>tbody>tr>td,
 .table>tfoot>tr>td {
     vertical-align: middle;
-}
+} */
 
 .uk-flex-space-between {
     -ms-flex-pack: justify;

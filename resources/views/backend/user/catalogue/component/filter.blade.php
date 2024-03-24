@@ -1,4 +1,4 @@
-<form action="{{ route('user.index') }}">
+<form action="{{ route('user.catalogue.index') }}">
     <div class="filter-wrapper">
         <div class="row">
             <div class="col-lg-2">
@@ -26,10 +26,6 @@
                 </select>
             </div>
             <div class="col-lg-3">
-                <select name="user_catalogue_id" class="form-control mr10 setupSelect2">
-                    <option value="0" selected="selected">Chọn Nhóm Thành Viên</option>
-                    <option value="1">Quản trị viên</option>
-                </select>
             </div>
             <div class="col-lg-3">
                 <div class="input-group">
@@ -43,7 +39,9 @@
                 </div>
             </div>
             <div class="col-lg-2">
-                <a href="{{route('user.create')}}" class="btn btn-danger"><i class="fa fa-plus mr5"></i>Thêm mới</a>
+                {{-- <a href="{{ route('user.catalogue.permission') }}" class="btn btn-warning mr10"><i class="fa fa-key mr5"></i>Phân Quyền</a> --}}
+                <a href="{{ route('user.catalogue.create') }}" class="btn btn-danger"><i class="fa fa-plus mr5"></i>Thêm
+                    mới</a>
 
             </div>
         </div>

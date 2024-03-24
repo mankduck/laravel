@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\Services\Interfaces\UserServiceInterface;
+use App\Services\Interfaces\UserCatalogueServiceInterface;
+use App\Repositories\Interfaces\UserCatalogueRepositoryInterface as UserCatalogueRepository;
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -10,17 +11,20 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * Class UserService
+ * Class UserCatalogueService
  * @package App\Services
  */
-class UserService implements UserServiceInterface
+class UserCatalogueService implements UserCatalogueServiceInterface
 {
+    protected $userCatalogueRepository;
     protected $userRepository;
 
 
     public function __construct(
+        UserCatalogueRepository $userCatalogueRepository,
         UserRepository $userRepository
     ) {
+        $this->userCatalogueRepository = $userCatalogueRepository;
         $this->userRepository = $userRepository;
     }
 
@@ -31,30 +35,23 @@ class UserService implements UserServiceInterface
         $condition['keyword'] = addslashes($request->input('keyword'));
         $condition['publish'] = $request->integer('publish');
         $perPage = $request->integer('perpage');
-        $users = $this->userRepository->userPagination(
+        $userCatalogues = $this->userCatalogueRepository->userCataloguePagination(
             $this->paginateSelect(),
             $condition,
             $perPage,
-            ['path' => 'user/index'],
+            ['path' => 'user/catalogue/index'],
+
         );
-
-        // dd($users);
-
-
-        return $users;
+        return $userCatalogues;
     }
+
 
     public function create($request)
     {
         DB::beginTransaction();
         try {
-
-            $payload = $request->except(['_token', 'send', 're_password']);
-            if ($payload['birthday'] != null) {
-                $payload['birthday'] = $this->convertBirthdayDate($payload['birthday']);
-            }
-            $payload['password'] = Hash::make($payload['password']);
-            $user = $this->userRepository->create($payload);
+            $payload = $request->except(['_token', 'send']);
+            $user = $this->userCatalogueRepository->create($payload);
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -73,10 +70,7 @@ class UserService implements UserServiceInterface
         try {
 
             $payload = $request->except(['_token', 'send']);
-            if ($payload['birthday'] != null) {
-                $payload['birthday'] = $this->convertBirthdayDate($payload['birthday']);
-            }
-            $user = $this->userRepository->update($id, $payload);
+            $user = $this->userCatalogueRepository->update($id, $payload);
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -92,7 +86,7 @@ class UserService implements UserServiceInterface
     {
         DB::beginTransaction();
         try {
-            $user = $this->userRepository->delete($id);
+            $user = $this->userCatalogueRepository->delete($id);
 
             DB::commit();
             return true;
@@ -110,8 +104,8 @@ class UserService implements UserServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
-            $user = $this->userRepository->update($post['modelId'], $payload);
-            // dd($user); die;
+            $user = $this->userCatalogueRepository->update($post['modelId'], $payload);
+            $this->changeUserStatus($post, $payload[$post['field']]);
 
             DB::commit();
             return true;
@@ -129,7 +123,8 @@ class UserService implements UserServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = $post['value'];
-            $flag = $this->userRepository->updateByWhereIn('id', $post['id'], $payload);
+            $flag = $this->userCatalogueRepository->updateByWhereIn('id', $post['id'], $payload);
+            $this->changeUserStatus($post, $post['value']);
 
             DB::commit();
             return true;
@@ -142,23 +137,64 @@ class UserService implements UserServiceInterface
         }
     }
 
-    private function convertBirthdayDate($birthday = '')
+
+    private function changeUserStatus($post, $value)
     {
-        $carbonDate = Carbon::createFromFormat('Y-m-d', $birthday);
-        $birthday = $carbonDate->format('Y-m-d H:i:s');
-        return $birthday;
+        DB::beginTransaction();
+        try {
+            $array = [];
+            if (isset($post['modelId'])) {
+                $array[] = $post['modelId'];
+            } else {
+                $array = $post['id'];
+            }
+            $payload[$post['field']] = $value;
+            $this->userRepository->updateByWhereIn('user_catalogue_id', $array, $payload);
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Log::error($e->getMessage());
+            echo $e->getMessage();
+            die();
+            return false;
+        }
     }
+
+    public function setPermission($request)
+    {
+        DB::beginTransaction();
+        try {
+
+            $permissions = $request->input('permission');
+            if (count($permissions)) {
+                foreach ($permissions as $key => $val) {
+                    $userCatalogue = $this->userCatalogueRepository->findById($key);
+                    $userCatalogue->permissions()->detach();
+                    $userCatalogue->permissions()->sync($val);
+
+                }
+            }
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Log::error($e->getMessage());
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+        //Mục đích là đưa được dữ liệu vào bên trong bảng user_catalogue_permission
+    }
+
 
     private function paginateSelect()
     {
         return [
             'id',
-            'email',
-            'phone',
-            'address',
             'name',
+            'description',
             'publish',
-            'user_catalogue_id'
         ];
     }
 

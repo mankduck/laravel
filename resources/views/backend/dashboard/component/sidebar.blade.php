@@ -26,8 +26,8 @@
                 <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">QL Thành Viên</span> <span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li><a href="{{route('user.index')}}">QL Thành Viên</a></li>
-                    <li class="active"><a href="dashboard_2.html">QL Nhóm Thành Viên</a></li>
+                    <li><a href="{{ route('user.index') }}">QL Thành Viên</a></li>
+                    <li class=""><a href="{{ route('user.catalogue.index') }}">QL Nhóm Thành Viên</a></li>
                 </ul>
             </li>
         </ul>
