@@ -5,7 +5,7 @@
             <input type="checkbox" value="" id="checkAll" class="input-checkbox">
         </th>
         <th>{{ __('messages.tableName') }}</th>
-        @include('backend.dashboard.component.languageTh')
+        {{-- @include('backend.dashboard.component.languageTh') --}}
         <th class="text-center" style="width:100px;">{{ __('messages.tableStatus') }} </th>
         <th class="text-center" style="width:100px;">{{ __('messages.tableAction') }} </th>
     </tr>
