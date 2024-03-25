@@ -54,15 +54,10 @@
                             <div class="row mb15">
                                 <div class="col-lg-6">
                                     <div class="form-row">
-                                        <label for="" class="control-label text-left">Nhóm Thành viên <span
-                                                class="text-danger">(*)</span></label>
-                                        <select name="user_catalogue_id" class="form-control setupSelect2">
-                                            @foreach ($userCatalogue as $key => $item)
-                                                <option
-                                                    {{ $key == old('user_catalogue_id', isset($user->user_catalogue_id) ? $user->user_catalogue_id : '') ? 'selected' : '' }}
-                                                    value="{{ $key }}">{{ $item }}</option>
-                                            @endforeach
-                                        </select>
+                                        <label for="" class="control-label text-left">Ảnh đại diện </label>
+                                        <input type="text" name="image" value="{{ old('image', $user->image ?? '') }}"
+                                            class="form-control upload-image" placeholder="" autocomplete="off"
+                                            data-upload="Images">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -97,10 +92,10 @@
                             <div class="row mb15">
                                 <div class="col-lg-12">
                                     <div class="form-row">
-                                        <label for="" class="control-label text-left">Ảnh đại diện </label>
-                                        <input type="text" name="image" value="{{ old('image', $user->image ?? '') }}"
-                                            class="form-control upload-image" placeholder="" autocomplete="off"
-                                            data-upload="Images">
+                                        <label for="" class="control-label text-left">Ghi chú</label>
+                                        <input type="text" name="description"
+                                            value="{{ old('description', $user->description ?? '') }}" class="form-control"
+                                            placeholder="" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
@@ -174,10 +169,15 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-row">
-                                        <label for="" class="control-label text-left">Ghi chú</label>
-                                        <input type="text" name="description"
-                                            value="{{ old('description', $user->description ?? '') }}"
-                                            class="form-control" placeholder="" autocomplete="off">
+                                        <label for="" class="control-label text-left">Nhóm Thành viên <span
+                                                class="text-danger">(*)</span></label>
+                                        <select name="user_catalogue_id" class="form-control setupSelect2">
+                                            @foreach ($userCatalogue as $key => $item)
+                                                <option
+                                                    {{ $key == old('user_catalogue_id', isset($user->user_catalogue_id) ? $user->user_catalogue_id : '') ? 'selected' : '' }}
+                                                    value="{{ $key }}">{{ $item }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>

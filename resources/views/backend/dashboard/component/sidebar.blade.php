@@ -26,7 +26,7 @@
                 </div>
             </li>
             @foreach (config('apps.module.module') as $key => $val)
-                <li class="active">
+                <li class="{{$segment == $val['name'] ? 'active' : '' }}">
                     <a href="index.html"><i class="{{ $val['icon'] }}"></i> <span
                             class="nav-label">{{ $val['title'] }}</span>
                         <span class="fa arrow"></span></a>

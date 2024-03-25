@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Ajax\LocationController;
+use App\Http\Controllers\Backend\LanguageController;
+use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\UserCatalogueController;
 use App\Http\Controllers\Backend\UserController;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +53,30 @@ Route::group(['prefix' => 'user/catalogue'], function () {
     Route::delete('{id}/destroy', [UserCatalogueController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('user.catalogue.destroy');
     // Route::get('permission', [UserCatalogueController::class, 'permission'])->name('user.catalogue.permission');
     // Route::post('updatePermission', [UserCatalogueController::class, 'updatePermission'])->name('user.catalogue.updatePermission');
+});
+
+
+Route::group(['prefix' => 'language'], function () {
+    Route::get('index', [LanguageController::class, 'index'])->name('language.index')->middleware(['admin']);
+    Route::get('create', [LanguageController::class, 'create'])->name('language.create');
+    Route::post('store', [LanguageController::class, 'store'])->name('language.store');
+    Route::get('{id}/edit', [LanguageController::class, 'edit'])->where(['id' => '[0-9]+'])->name('language.edit');
+    Route::post('{id}/update', [LanguageController::class, 'update'])->where(['id' => '[0-9]+'])->name('language.update');
+    Route::get('{id}/delete', [LanguageController::class, 'delete'])->where(['id' => '[0-9]+'])->name('language.delete');
+    Route::delete('{id}/destroy', [LanguageController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('language.destroy');
+    // Route::get('{id}/switch', [LanguageController::class, 'swicthBackendLanguage'])->where(['id' => '[0-9]+'])->name('language.switch');
+    // Route::get('{id}/{languageId}/{model}/translate', [LanguageController::class, 'translate'])->where(['id' => '[0-9]+', 'languageId' => '[0-9]+'])->name('language.translate');
+    // Route::post('storeTranslate', [LanguageController::class, 'storeTranslate'])->name('language.storeTranslate');
+});
+
+Route::group(['prefix' => 'post'], function () {
+    Route::get('index', [PostController::class, 'index'])->name('post.index');
+    Route::get('create', [PostController::class, 'create'])->name('post.create');
+    Route::post('store', [PostController::class, 'store'])->name('post.store');
+    Route::get('{id}/edit', [PostController::class, 'edit'])->where(['id' => '[0-9]+'])->name('post.edit');
+    Route::post('{id}/update', [PostController::class, 'update'])->where(['id' => '[0-9]+'])->name('post.update');
+    Route::get('{id}/delete', [PostController::class, 'delete'])->where(['id' => '[0-9]+'])->name('post.delete');
+    Route::delete('{id}/destroy', [PostController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('post.destroy');
 });
 
 

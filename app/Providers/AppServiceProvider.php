@@ -17,6 +17,13 @@ class AppServiceProvider extends ServiceProvider
 
         'App\Repositories\Interfaces\ProvinceRepositoryInterface' => 'App\Repositories\ProvinceRepository',
         'App\Repositories\Interfaces\DistrictRepositoryInterface' => 'App\Repositories\DistrictRepository',
+
+        'App\Services\Interfaces\LanguageServiceInterface' => 'App\Services\LanguageService',
+        'App\Repositories\Interfaces\LanguageRepositoryInterface' => 'App\Repositories\LanguageRepository',
+
+        'App\Services\Interfaces\PostServiceInterface' => 'App\Services\PostService',
+        'App\Repositories\Interfaces\PostRepositoryInterface' => 'App\Repositories\PostRepository',
+
     ];
     /**
      * Register any application services.
