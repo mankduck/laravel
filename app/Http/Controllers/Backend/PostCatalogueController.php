@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Classes\Nestedsetbie;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -22,6 +23,11 @@ class PostCatalogueController extends Controller
     ) {
         $this->postCatalogueService = $postCatalogueService;
         $this->postCatalogueRepository = $postCatalogueRepository;
+        $this->nestedset = new Nestedsetbie([
+            'table' => 'post_catalogues',
+            'foreignkey' => 'post_catalogue_id',
+            'language_id' => 1,
+        ]);
     }
 
     public function index(Request $request)
@@ -57,22 +63,24 @@ class PostCatalogueController extends Controller
         $config = $this->configData();
         $config['seo'] = config('apps.postcatalogue');
         $config['method'] = 'create';
+        $dropdown = $this->nestedset->Dropdown();
         $config['model'] = 'PostCatalogue';
         return view(
             'backend.post.catalogue.create',
             compact(
                 'config',
+                'dropdown'
             )
         );
     }
 
-    // public function store(StorePostCatalogueRequest $request)
-    // {
-    //     if ($this->postCatalogueService->create($request)) {
-    //         return redirect()->route('post.catalogue.index')->with('success', 'Thêm mới bản ghi thành công');
-    //     }
-    //     return redirect()->route('post.catalogue.index')->with('error', 'Thêm mới bản ghi không thành công. Hãy thử lại');
-    // }
+    public function store(StorePostCatalogueRequest $request)
+    {
+        if ($this->postCatalogueService->create($request)) {
+            return redirect()->route('post.catalogue.index')->with('success', 'Thêm mới bản ghi thành công');
+        }
+        return redirect()->route('post.catalogue.index')->with('error', 'Thêm mới bản ghi không thành công. Hãy thử lại');
+    }
 
     // public function edit($id)
     // {

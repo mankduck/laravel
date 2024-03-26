@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Services\Interfaces\PostCatalogueServiceInterface;
+use App\Services\Interfaces\BaseServiceInterface;
 use App\Repositories\Interfaces\PostCatalogueRepositoryInterface as PostCatalogueRepository;
 // use App\Repositories\Interfaces\RouterRepositoryInterface as RouterRepository;
 use Illuminate\Support\Facades\DB;
@@ -11,14 +12,16 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Classes\Nestedsetbie;
 
 /**
  * Class LanguageService
  * @package App\Services
  */
-class PostCatalogueService implements PostCatalogueServiceInterface
+class PostCatalogueService extends BaseService implements PostCatalogueServiceInterface
 {
     protected $postCatalogueRepository;
+    protected $nestedset;
     protected $routerRepository;
 
 
@@ -27,6 +30,11 @@ class PostCatalogueService implements PostCatalogueServiceInterface
         // RouterRepository $routerRepository,
     ) {
         $this->postCatalogueRepository = $postCatalogueRepository;
+        $this->nestedset = new Nestedsetbie([
+            'table' => 'post_catalogues',
+            'foreignkey' => 'post_catalogue_id',
+            'language_id' => $this->currentLanguage(),
+        ]);
         // $this->routerRepository = $routerRepository;
     }
 
@@ -47,23 +55,37 @@ class PostCatalogueService implements PostCatalogueServiceInterface
         return $postCatalogues;
     }
 
-    // public function create($request)
-    // {
-    //     DB::beginTransaction();
-    //     try {
-    //         $payload = $request->except(['_token', 'send']);
-    //         $payload['user_id'] = Auth::id();
-    //         $language = $this->languageRepository->create($payload);
-    //         DB::commit();
-    //         return true;
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         // Log::error($e->getMessage());
-    //         echo $e->getMessage();
-    //         die();
-    //         return false;
-    //     }
-    // }
+    public function create($request)
+    {
+        DB::beginTransaction();
+        try {
+            $payload = $request->only($this->payload());
+            $payload['user_id'] = Auth::id();
+            $postCatalogue = $this->postCatalogueRepository->create($payload);
+            // echo $postCatalogues->id;die;
+            if ($postCatalogue->id > 0) {
+                $payloadLanguage = $request->only($this->payloadLanguage());
+                $payloadLanguage['language_id'] = $this->currentLanguage();
+                $payloadLanguage['post_catalogue_id'] = $postCatalogue->id;
+
+                $language = $this->postCatalogueRepository->createLanguagePivot($postCatalogue, $payloadLanguage);
+                // dd($language);
+            }
+
+            $this->nestedset->Get('level ASC, order ASC');
+            $this->nestedset->Recursive(0, $this->nestedset->Set());
+            $this->nestedset->Action();
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Log::error($e->getMessage());
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+    }
 
 
     // public function update($id, $request)
@@ -222,6 +244,16 @@ class PostCatalogueService implements PostCatalogueServiceInterface
             'publish',
             'image'
         ];
+    }
+
+    private function payload()
+    {
+        return ['parent_id', 'follow', 'publish', 'image'];
+    }
+
+    private function payloadLanguage()
+    {
+        return ['name', 'description', 'content', 'meta_title', 'meta_keyword', 'meta_description', 'canonical'];
     }
 
 
