@@ -120,15 +120,8 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
                 $payloadLanguage['post_catalogue_id'] = $id;
                 $postCatalogue->languages()->detach([$payloadLanguage['language_id'], $id]);
                 // dd($payloadLanguage); 
-
-
                 $response = $this->postCatalogueRepository->createLanguagePivot($postCatalogue, $payloadLanguage);
-
-
-           
-
                 $this->nestedset->Get('level ASC', 'order ASC');
-              
                 $this->nestedset->Recursive(0, $this->nestedset->Set());
                 $this->nestedset->Action();
 
@@ -146,22 +139,26 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
         }
     }
 
-    // public function destroy($id)
-    // {
-    //     DB::beginTransaction();
-    //     try {
-    //         $language = $this->languageRepository->delete($id);
+    public function destroy($id)
+    {
+        DB::beginTransaction();
+        try {
+            $postCatalogue = $this->postCatalogueRepository->delete($id);
 
-    //         DB::commit();
-    //         return true;
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         // Log::error($e->getMessage());
-    //         echo $e->getMessage();
-    //         die();
-    //         return false;
-    //     }
-    // }
+            $this->nestedset->Get('level ASC', 'order ASC');
+            $this->nestedset->Recursive(0, $this->nestedset->Set());
+            $this->nestedset->Action();
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Log::error($e->getMessage());
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+    }
 
     // public function updateStatus($post = [])
     // {

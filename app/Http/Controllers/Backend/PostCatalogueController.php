@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Classes\Nestedsetbie;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DeletePostCatalogueRequest;
 use Illuminate\Http\Request;
 
 use App\Services\Interfaces\PostCatalogueServiceInterface as PostCatalogueService;
@@ -112,27 +113,27 @@ class PostCatalogueController extends Controller
         return redirect()->route('post.catalogue.index')->with('error', 'Cập nhật bản ghi không thành công. Hãy thử lại');
     }
 
-    // public function delete($id)
-    // {
-    //     // $this->authorize('modules', 'language.delete');
-    //     $config['seo'] = config('apps.language');
-    //     $language = $this->languageRepository->findById($id);
-    //     return view(
-    //         'backend.language.delete',
-    //         compact(
-    //             'language',
-    //             'config',
-    //         )
-    //     );
-    // }
+    public function delete($id)
+    {
+        // $this->authorize('modules', 'language.delete');
+        $config['seo'] = config('apps.postcatalogue');
+        $postCatalogue = $this->postCatalogueRepository->getPostCatalogueById($id, $this->language);
+        return view(
+            'backend.post.catalogue.delete',
+            compact(
+                'postCatalogue',
+                'config',
+            )
+        );
+    }
 
-    // public function destroy($id)
-    // {
-    //     if ($this->languageService->destroy($id)) {
-    //         return redirect()->route('language.index')->with('success', 'Xóa bản ghi thành công');
-    //     }
-    //     return redirect()->route('language.index')->with('error', 'Xóa bản ghi không thành công. Hãy thử lại');
-    // }
+    public function destroy($id, DeletePostCatalogueRequest $request)
+    {
+        if ($this->postCatalogueService->destroy($id)) {
+            return redirect()->route('post.catalogue.index')->with('success', 'Xóa bản ghi thành công');
+        }
+        return redirect()->route('post.catalogue.index')->with('error', 'Xóa bản ghi không thành công. Hãy thử lại');
+    }
 
     private function configData()
     {
