@@ -22,6 +22,8 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
 {
     protected $postCatalogueRepository;
     protected $nestedset;
+
+    protected $language;
     protected $routerRepository;
 
 
@@ -29,11 +31,12 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
         PostCatalogueRepository $postCatalogueRepository,
         // RouterRepository $routerRepository,
     ) {
+        $this->language = $this->currentLanguage();
         $this->postCatalogueRepository = $postCatalogueRepository;
         $this->nestedset = new Nestedsetbie([
             'table' => 'post_catalogues',
             'foreignkey' => 'post_catalogue_id',
-            'language_id' => $this->currentLanguage(),
+            'language_id' => $this->language,
         ]);
         // $this->routerRepository = $routerRepository;
     }
@@ -45,13 +48,29 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
 
         $condition['keyword'] = addslashes($request->input('keyword'));
         $condition['publish'] = $request->integer('publish');
+        $condition['where'] = [
+            ['tb2.language_id', '=', $this->language]
+        ];
+
         $perPage = $request->integer('perpage');
         $postCatalogues = $this->postCatalogueRepository->pagination(
             $this->paginateSelect(),
             $condition,
             $perPage,
-            ['path' => 'PostCatalogue/index'],
+            ['path' => 'post/catalogue/index'],
+
+            [
+                ['post_catalogue_language as tb2', 'tb2.post_catalogue_id', '=', 'post_catalogues.id']
+            ],
+
+            [],
+            [
+                'post_catalogues.lft',
+                'ASC'
+            ]
         );
+        // dd($postCatalogues);
+
         return $postCatalogues;
     }
 
@@ -65,7 +84,7 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
             // echo $postCatalogues->id;die;
             if ($postCatalogue->id > 0) {
                 $payloadLanguage = $request->only($this->payloadLanguage());
-                $payloadLanguage['language_id'] = $this->currentLanguage();
+                $payloadLanguage['language_id'] = $this->language;
                 $payloadLanguage['post_catalogue_id'] = $postCatalogue->id;
 
                 $language = $this->postCatalogueRepository->createLanguagePivot($postCatalogue, $payloadLanguage);
@@ -88,23 +107,44 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
     }
 
 
-    // public function update($id, $request)
-    // {
-    //     DB::beginTransaction();
-    //     try {
+    public function update($id, $request)
+    {
+        DB::beginTransaction();
+        try {
+            $postCatalogue = $this->postCatalogueRepository->findById($id);
+            $payload = $request->only($this->payload());
+            $flag = $this->postCatalogueRepository->update($id, $payload);
+            if ($flag == TRUE) {
+                $payloadLanguage = $request->only($this->payloadLanguage());
+                $payloadLanguage['language_id'] = $this->language;
+                $payloadLanguage['post_catalogue_id'] = $id;
+                $postCatalogue->languages()->detach([$payloadLanguage['language_id'], $id]);
+                // dd($payloadLanguage); 
 
-    //         $payload = $request->except(['_token', 'send']);
-    //         $language = $this->languageRepository->update($id, $payload);
-    //         DB::commit();
-    //         return true;
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         // Log::error($e->getMessage());
-    //         echo $e->getMessage();
-    //         die();
-    //         return false;
-    //     }
-    // }
+
+                $response = $this->postCatalogueRepository->createLanguagePivot($postCatalogue, $payloadLanguage);
+
+
+           
+
+                $this->nestedset->Get('level ASC', 'order ASC');
+              
+                $this->nestedset->Recursive(0, $this->nestedset->Set());
+                $this->nestedset->Action();
+
+            }
+
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Log::error($e->getMessage());
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+    }
 
     // public function destroy($id)
     // {
@@ -238,11 +278,12 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
     private function paginateSelect()
     {
         return [
-            'id',
-            'name',
-            'canonical',
-            'publish',
-            'image'
+            'post_catalogues.id',
+            'post_catalogues.publish',
+            'post_catalogues.image',
+            'post_catalogues.level',
+            'tb2.name',
+            'tb2.canonical',
         ];
     }
 

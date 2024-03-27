@@ -69,6 +69,8 @@ class Nestedsetbie{
 					'user_id' => Auth::id(),
 				);
 			}
+
+
 			if(isset($data) && is_array($data) && count($data)){
 				DB::table($this->params['table'])->upsert($data, 'id', ['level','lft','rgt']);
 			}

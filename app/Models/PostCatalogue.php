@@ -39,7 +39,7 @@ class PostCatalogue extends Model
             'meta_keyword',
             'meta_description',
             'description',
-            'content'
+            'content',
         )->withTimestamps();
     }
 

@@ -16,6 +16,7 @@ class PostCatalogueController extends Controller
 {
     protected $postCatalogueService;
     protected $postCatalogueRepository;
+    protected $language;
 
     public function __construct(
         PostCatalogueService $postCatalogueService,
@@ -28,6 +29,7 @@ class PostCatalogueController extends Controller
             'foreignkey' => 'post_catalogue_id',
             'language_id' => 1,
         ]);
+        $this->language = $this->currentLanguage();
     }
 
     public function index(Request $request)
@@ -45,7 +47,7 @@ class PostCatalogueController extends Controller
                 'backend/css/plugins/switchery/switchery.css',
                 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css'
             ],
-            'model' => 'Postcatalogue',
+            'model' => 'PostCatalogue',
         ];
         $config['seo'] = config('apps.postcatalogue');
         return view(
@@ -82,30 +84,33 @@ class PostCatalogueController extends Controller
         return redirect()->route('post.catalogue.index')->with('error', 'Thêm mới bản ghi không thành công. Hãy thử lại');
     }
 
-    // public function edit($id)
-    // {
-    //     // $this->authorize('modules', 'language.update');
-    //     $language = $this->languageRepository->findById($id);
-    //     $config = $this->configData();
-    //     $config['seo'] = config('apps.language');
-    //     $config['method'] = 'edit';
-    //     $config['model'] = 'Language';
-    //     return view(
-    //         'backend.language.create',
-    //         compact(
-    //             'config',
-    //             'language',
-    //         )
-    //     );
-    // }
+    public function edit($id)
+    {
+        // $this->authorize('modules', 'language.update');
+        $postCatalogue = $this->postCatalogueRepository->getPostCatalogueById($id, $this->language);
+        // dd($postCatalogue);
+        $config = $this->configData();
+        $config['seo'] = config('apps.postcatalogue');
+        $config['method'] = 'edit';
+        $dropdown = $this->nestedset->Dropdown();
+        $config['model'] = 'PostCatalogue';
+        return view(
+            'backend.post.catalogue.create',
+            compact(
+                'config',
+                'dropdown',
+                'postCatalogue'
+            )
+        );
+    }
 
-    // public function update($id, UpdateLanguageRequest $request)
-    // {
-    //     if ($this->languageService->update($id, $request)) {
-    //         return redirect()->route('language.index')->with('success', 'Cập nhật bản ghi thành công');
-    //     }
-    //     return redirect()->route('language.index')->with('error', 'Cập nhật bản ghi không thành công. Hãy thử lại');
-    // }
+    public function update($id, UpdatePostCatalogueRequest $request)
+    {
+        if ($this->postCatalogueService->update($id, $request)) {
+            return redirect()->route('post.catalogue.index')->with('success', 'Cập nhật bản ghi thành công');
+        }
+        return redirect()->route('post.catalogue.index')->with('error', 'Cập nhật bản ghi không thành công. Hãy thử lại');
+    }
 
     // public function delete($id)
     // {

@@ -28,6 +28,8 @@ class BaseRepository implements BaseRepositoryInterface
         array $extend = [],
         array $join = [],
         array $relations = [],
+        array $orderBy = ['id', 'DESC'],
+        array $where = []
     ) {
 
         $query = $this->model->select($column)->where(function ($query) use ($condition) {
@@ -37,18 +39,33 @@ class BaseRepository implements BaseRepositoryInterface
             if (isset($condition['publish']) && $condition['publish'] != 0) {
                 $query->where('publish', '=', $condition['publish']);
             }
+
+            if(isset($condition['where']) && count($condition['where'])){
+                foreach ($condition['where'] as $key => $val) {
+                    $query->where($val[0], $val[1], $val[2]);
+                }
+            }
             return $query;
         });
 
-        if(isset($relations) && !empty($relations)){
-            foreach($relations as $relation){
+        if (isset($relations) && !empty($relations)) {
+            foreach ($relations as $relation) {
                 $query->withCount($relation);
             }
         }
 
-        if (!empty($join)) {
-            $query->join(...$join);
+        if (isset($join) && is_array($join) && count($join)) {
+            // dd($join);
+            foreach ($join as $key => $val) {
+                $query->join($val[0], $val[1], $val[2], $val[3]);
+            }
         }
+
+        if (isset($orderBy)) {
+            $query->orderBy($orderBy[0], $orderBy[1]);
+        }
+
+        // dd($orderBy);
 
         return $query->paginate($perPage)
             ->withQueryString()->withPath(env('APP_URL') . $extend['path']);
@@ -147,7 +164,8 @@ class BaseRepository implements BaseRepositoryInterface
         return $query->first();
     }
 
-    public function createLanguagePivot($model, array $payload = []){
+    public function createLanguagePivot($model, array $payload = [])
+    {
         return $model->languages()->attach($model->id, $payload);
     }
 
