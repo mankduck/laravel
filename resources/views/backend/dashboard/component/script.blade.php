@@ -12,6 +12,9 @@
 <script src="backend/js/plugins/flot/jquery.flot.symbol.js"></script>
 <script src="backend/js/plugins/flot/jquery.flot.time.js"></script>
 
+{{-- Jquery UI --}}
+<script src="backend/plugins/jquery-ui.js"></script>
+
 <!-- Peity -->
 <script src="backend/js/plugins/peity/jquery.peity.min.js"></script>
 <script src="backend/js/demo/peity-demo.js"></script>

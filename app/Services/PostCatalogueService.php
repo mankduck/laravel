@@ -58,15 +58,13 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
             $condition,
             $perPage,
             ['path' => 'post/catalogue/index'],
-
-            [
-                ['post_catalogue_language as tb2', 'tb2.post_catalogue_id', '=', 'post_catalogues.id']
-            ],
-
-            [],
             [
                 'post_catalogues.lft',
                 'ASC'
+            ],
+
+            [
+                ['post_catalogue_language as tb2', 'tb2.post_catalogue_id', '=', 'post_catalogues.id']
             ]
         );
         // dd($postCatalogues);
@@ -80,10 +78,12 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
         try {
             $payload = $request->only($this->payload());
             $payload['user_id'] = Auth::id();
+            $payload['album'] = json_encode($payload['album']);
             $postCatalogue = $this->postCatalogueRepository->create($payload);
             // echo $postCatalogues->id;die;
             if ($postCatalogue->id > 0) {
                 $payloadLanguage = $request->only($this->payloadLanguage());
+                $payloadLanguage['canonical'] = Str::slug($payloadLanguage['canonical']);
                 $payloadLanguage['language_id'] = $this->language;
                 $payloadLanguage['post_catalogue_id'] = $postCatalogue->id;
 
@@ -113,6 +113,7 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
         try {
             $postCatalogue = $this->postCatalogueRepository->findById($id);
             $payload = $request->only($this->payload());
+            $payload['album'] = json_encode($payload['album']);
             $flag = $this->postCatalogueRepository->update($id, $payload);
             if ($flag == TRUE) {
                 $payloadLanguage = $request->only($this->payloadLanguage());
@@ -160,43 +161,43 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
         }
     }
 
-    // public function updateStatus($post = [])
-    // {
-    //     DB::beginTransaction();
-    //     try {
-    //         $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
-    //         $language = $this->languageRepository->update($post['modelId'], $payload);
-    //         // $this->changeUserStatus($post, $payload[$post['field']]);
+    public function updateStatus($post = [])
+    {
+        DB::beginTransaction();
+        try {
+            $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
+            $language = $this->postCatalogueRepository->update($post['modelId'], $payload);
+            // $this->changeUserStatus($post, $payload[$post['field']]);
 
-    //         DB::commit();
-    //         return true;
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         // Log::error($e->getMessage());
-    //         echo $e->getMessage();
-    //         die();
-    //         return false;
-    //     }
-    // }
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Log::error($e->getMessage());
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+    }
 
-    // public function updateStatusAll($post)
-    // {
-    //     DB::beginTransaction();
-    //     try {
-    //         $payload[$post['field']] = $post['value'];
-    //         $flag = $this->languageRepository->updateByWhereIn('id', $post['id'], $payload);
-    //         // $this->changeUserStatus($post, $post['value']);
+    public function updateStatusAll($post)
+    {
+        DB::beginTransaction();
+        try {
+            $payload[$post['field']] = $post['value'];
+            $flag = $this->postCatalogueRepository->updateByWhereIn('id', $post['id'], $payload);
+            // $this->changeUserStatus($post, $post['value']);
 
-    //         DB::commit();
-    //         return true;
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         // Log::error($e->getMessage());
-    //         echo $e->getMessage();
-    //         die();
-    //         return false;
-    //     }
-    // }
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Log::error($e->getMessage());
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+    }
 
     // public function switch($id){
     //     DB::beginTransaction();
@@ -286,12 +287,26 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
 
     private function payload()
     {
-        return ['parent_id', 'follow', 'publish', 'image'];
+        return [
+            'parent_id',
+            'follow',
+            'publish',
+            'image',
+            'album'
+        ];
     }
 
     private function payloadLanguage()
     {
-        return ['name', 'description', 'content', 'meta_title', 'meta_keyword', 'meta_description', 'canonical'];
+        return [
+            'name',
+            'description',
+            'content',
+            'meta_title',
+            'meta_keyword',
+            'meta_description',
+            'canonical'
+        ];
     }
 
 

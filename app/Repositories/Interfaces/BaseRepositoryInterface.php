@@ -29,9 +29,9 @@ interface BaseRepositoryInterface
         array $condition = [],
         int $perPage = 1,
         array $extend = [],
-        array $join = [],
-        array $relations = [],
         array $orderBy = ['id', 'DESC'],
+        array $join = [],
+        array $relations = []
     );
     public function updateByWhereIn(string $whereInField = '', array $whereIn = [], array $payload = []);
     public function createPivot($model, array $payload = [], string $relation = '');

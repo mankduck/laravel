@@ -26,10 +26,9 @@ class BaseRepository implements BaseRepositoryInterface
         array $condition = [],
         int $perPage = 1,
         array $extend = [],
-        array $join = [],
-        array $relations = [],
         array $orderBy = ['id', 'DESC'],
-        array $where = []
+        array $join = [],
+        array $relations = []
     ) {
 
         $query = $this->model->select($column)->where(function ($query) use ($condition) {
@@ -40,7 +39,7 @@ class BaseRepository implements BaseRepositoryInterface
                 $query->where('publish', '=', $condition['publish']);
             }
 
-            if(isset($condition['where']) && count($condition['where'])){
+            if (isset($condition['where']) && count($condition['where'])) {
                 foreach ($condition['where'] as $key => $val) {
                     $query->where($val[0], $val[1], $val[2]);
                 }
