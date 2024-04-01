@@ -70,39 +70,39 @@ class PostService extends BaseService implements PostServiceInterface
         return $postCatalogues;
     }
 
-    // public function create($request)
-    // {
-    //     DB::beginTransaction();
-    //     try {
-    //         $payload = $request->only($this->payload());
-    //         $payload['user_id'] = Auth::id();
-    //         $payload['album'] = json_encode($payload['album']);
-    //         $postCatalogue = $this->postRepository->create($payload);
-    //         // echo $postCatalogues->id;die;
-    //         if ($postCatalogue->id > 0) {
-    //             $payloadLanguage = $request->only($this->payloadLanguage());
-    //             $payloadLanguage['canonical'] = Str::slug($payloadLanguage['canonical']);
-    //             $payloadLanguage['language_id'] = $this->language;
-    //             $payloadLanguage['post_catalogue_id'] = $postCatalogue->id;
+    public function create($request)
+    {
+        DB::beginTransaction();
+        try {
+            $payload = $request->only($this->payload());
+            $payload['user_id'] = Auth::id();
+            $payload['album'] = json_encode($payload['album']);
+            $postCatalogue = $this->postRepository->create($payload);
+            // echo $postCatalogues->id;die;
+            if ($postCatalogue->id > 0) {
+                $payloadLanguage = $request->only($this->payloadLanguage());
+                $payloadLanguage['canonical'] = Str::slug($payloadLanguage['canonical']);
+                $payloadLanguage['language_id'] = $this->language;
+                $payloadLanguage['post_catalogue_id'] = $postCatalogue->id;
 
-    //             $language = $this->postRepository->createLanguagePivot($postCatalogue, $payloadLanguage);
-    //             // dd($language);
-    //         }
+                $language = $this->postRepository->createLanguagePivot($postCatalogue, $payloadLanguage);
+                // dd($language);
+            }
 
-    //         $this->nestedset->Get('level ASC, order ASC');
-    //         $this->nestedset->Recursive(0, $this->nestedset->Set());
-    //         $this->nestedset->Action();
+            $this->nestedset->Get('level ASC, order ASC');
+            $this->nestedset->Recursive(0, $this->nestedset->Set());
+            $this->nestedset->Action();
 
-    //         DB::commit();
-    //         return true;
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         // Log::error($e->getMessage());
-    //         echo $e->getMessage();
-    //         die();
-    //         return false;
-    //     }
-    // }
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Log::error($e->getMessage());
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+    }
 
 
     // public function update($id, $request)
