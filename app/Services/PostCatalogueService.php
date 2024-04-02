@@ -280,6 +280,7 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
             'post_catalogues.publish',
             'post_catalogues.image',
             'post_catalogues.level',
+            'post_catalogues.order',
             'tb2.name',
             'tb2.canonical',
         ];
