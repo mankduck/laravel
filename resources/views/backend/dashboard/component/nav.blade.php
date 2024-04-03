@@ -13,7 +13,7 @@
             <li>
                 <div class="uk-flex uk-flex-middle">
                     @foreach ($languages as $key => $val)
-                        <a href=""
+                        <a href="{{ route('language.switch', $val->id) }}"
                             class="image img-cover language-item {{ $val->current == 1 ? 'active' : '' }}"><img
                                 src="{{ $val->image }}" alt=""></a>
                     @endforeach

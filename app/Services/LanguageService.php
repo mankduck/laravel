@@ -139,9 +139,36 @@ class LanguageService implements LanguageServiceInterface
         }
     }
 
-    // public function switch($id){
+    public function switch ($id)
+    {
+        DB::beginTransaction();
+        try {
+            $language = $this->languageRepository->update($id, ['current' => 1]);
+            $payload = ['current' => 0];
+            $where = [
+                ['id', '!=', $id],
+            ];
+            $this->languageRepository->updateByWhere($where, $payload);
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Log::error($e->getMessage());
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+    }
+
+
+
+
+
+    // public function switch ($id)
+    // {
     //     DB::beginTransaction();
-    //     try{
+    //     try {
     //         $language = $this->languageRepository->update($id, ['current' => 1]);
     //         $payload = ['current' => 0];
     //         $where = [
@@ -151,10 +178,11 @@ class LanguageService implements LanguageServiceInterface
 
     //         DB::commit();
     //         return true;
-    //     }catch(\Exception $e ){
+    //     } catch (\Exception $e) {
     //         DB::rollBack();
     //         // Log::error($e->getMessage());
-    //         echo $e->getMessage();die();
+    //         echo $e->getMessage();
+    //         die();
     //         return false;
     //     }
 

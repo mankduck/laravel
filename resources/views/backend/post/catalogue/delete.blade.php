@@ -1,6 +1,5 @@
 @extends('backend.dashboard.layout')
 @section('adminContent')
-
     @include('backend.dashboard.component.breadcrumb', ['title' => $config['seo']['delete']['title']])
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -14,4 +13,5 @@
     <form action="{{ route('post.catalogue.destroy', $postCatalogue->id) }}" method="post" class="box">
         @include('backend.dashboard.component.destroy', ['model' => $postCatalogue ?? null])
     </form>
+
 @endsection

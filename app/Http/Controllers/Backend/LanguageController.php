@@ -132,14 +132,16 @@ class LanguageController extends Controller
         ];
     }
 
-    // public function swicthBackendLanguage($id){
-    //     $language = $this->languageRepository->findById($id);
-    //     if($this->languageService->switch($id)){
-    //         session(['app_locale' => $language->canonical]);
-    //         \App::setLocale($language->canonical);
-    //     }
-    //     return redirect()->back();
-    // }
+    public function swicthBackendLanguage($id)
+    {
+        $language = $this->languageRepository->findById($id);
+        // dd($language);
+        if ($this->languageService->switch($id)) {
+            session(['app_locale' => $language->canonical]);
+            \App::setLocale($language->canonical);
+        }
+        return redirect()->back();
+    }
 
     // public function translate($id = 0, $languageId = 0, $model = ''){
     //     $repositoryInstance = $this->respositoryInstance($model);

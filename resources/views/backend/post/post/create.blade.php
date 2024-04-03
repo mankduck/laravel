@@ -1,6 +1,5 @@
 @extends('backend.dashboard.layout')
 @section('adminContent')
-
     @include('backend.dashboard.component.breadcrumb', [
         'title' => $config['seo'][$config['method']]['title'],
     ])
@@ -39,5 +38,6 @@
             @include('backend.dashboard.component.button')
         </div>
     </form>
+
 
 @endsection

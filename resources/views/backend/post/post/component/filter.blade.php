@@ -16,7 +16,7 @@
                     </select>
                     @include('backend.dashboard.component.keyword')
                     <a href="{{ route('post.create') }}" class="btn btn-danger"><i
-                            class="fa fa-plus mr5"></i>{{ config('apps.post.create.title') }}</a>
+                            class="fa fa-plus mr5"></i>{{ __('messages.post.create.title') }}</a>
                 </div>
             </div>
         </div>

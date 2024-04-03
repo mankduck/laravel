@@ -1,14 +1,13 @@
 <div class="ibox">
     <div class="ibox-title">
         <div class="uk-flex uk-flex-middle uk-flex-space-between">
-            <h5>Album ảnh</h5>
-            <div class="upload-album"><a href="" class="upload-picture">Chọn hình</a></div>
+            <h5>{{ __('messages.album.heading') }}</h5>
+            <div class="upload-album"><a href="" class="upload-picture">{{ __('messages.album.image') }}</a></div>
         </div>
     </div>
     <div class="ibox-content">
         @php
             $album = !empty($model->album) ? json_decode($model->album) : [];
-            // dd($model->album);
             $gallery = isset($album) && count($album) ? $album : old('album');
         @endphp
         <div class="row">
@@ -25,7 +24,7 @@
                                 </svg>
                             </a>
                         </div>
-                        <div class="small-text">Sử dụng nút chọn hình hoặc click vào đây để thêm hình ảnh</div>
+                        <div class="small-text">{{ __('messages.album.notice') }}</div>
                     </div>
                 @endif
 
@@ -44,7 +43,6 @@
                                 </li>
                             @endforeach
                         @endif
-                        {{-- <input type="hidden" name="album[]"> --}}
                     </ul>
                 </div>
 

@@ -6,10 +6,8 @@
             <div class="panel-head">
                 <div class="panel-title">Thông tin chung</div>
                 <div class="panel-description">
-                    <p>Thông tin chung <span class="text-danger">{{ $model->name }}</span></p>
-                    <p>Bạn đang muốn xóa ngôn ngữ có tên là:
-                        Lưu ý: Không thể khôi phục dữ liệu sau khi xóa. Hãy chắc chắn bạn muốn thực hiện chức năng này
-                    </p>
+                    <p>{{ __('messages.generalTitle') }} <span class="text-danger">{{ $model->name }}</span></p>
+                    <p>{{ __('messages.generalDescription') }}</p>
                 </div>
             </div>
         </div>
@@ -19,7 +17,7 @@
                     <div class="row mb15">
                         <div class="col-lg-12">
                             <div class="form-row">
-                                <label for="" class="control-label text-left">Tiêu đề
+                                <label for="" class="control-label text-left">{{ __('messages.tableName') }}
                                     <span class="text-danger">(*)</span></label>
                                 <input type="text" name="name" value="{{ old('name', $model->name ?? '') }}"
                                     class="form-control" placeholder="" autocomplete="off" readonly>
@@ -33,6 +31,6 @@
 
     <div class="text-right mb15">
         <button class="btn btn-danger" type="submit" name="send"
-            value="send">Xóa dữ liệu</button>
+            value="send">{{ __('messages.deleteButton') }}</button>
     </div>
 </div>
