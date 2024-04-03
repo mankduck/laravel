@@ -50,7 +50,7 @@ class PostCatalogueController extends Controller
             ],
             'model' => 'PostCatalogue',
         ];
-        $config['seo'] = config('apps.postcatalogue');
+        $config['seo'] = __('messages.postCatalogue');
         return view(
             'backend.post.catalogue.index',
             compact(
@@ -64,7 +64,7 @@ class PostCatalogueController extends Controller
     {
         // $this->authorize('modules', 'language.create');
         $config = $this->configData();
-        $config['seo'] = config('apps.postcatalogue');
+        $config['seo'] = __('messages.postCatalogue');
         $config['method'] = 'create';
         $dropdown = $this->nestedset->Dropdown();
         $config['model'] = 'PostCatalogue';
@@ -91,7 +91,7 @@ class PostCatalogueController extends Controller
         $postCatalogue = $this->postCatalogueRepository->getPostCatalogueById($id, $this->language);
         // dd($postCatalogue);
         $config = $this->configData();
-        $config['seo'] = config('apps.postcatalogue');
+        $config['seo'] = __('messages.postCatalogue');
         $config['method'] = 'edit';
         $dropdown = $this->nestedset->Dropdown();
         $album = json_decode($postCatalogue->album);
@@ -119,7 +119,7 @@ class PostCatalogueController extends Controller
     public function delete($id)
     {
         // $this->authorize('modules', 'language.delete');
-        $config['seo'] = config('apps.postcatalogue');
+        $config['seo'] = __('messages.postCatalogue');
         $postCatalogue = $this->postCatalogueRepository->getPostCatalogueById($id, $this->language);
         return view(
             'backend.post.catalogue.delete',

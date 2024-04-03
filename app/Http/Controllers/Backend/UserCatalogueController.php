@@ -42,7 +42,7 @@ class UserCatalogueController extends Controller
             ],
             'model' => 'UserCatalogue',
         ];
-        $config['seo'] = config('apps.usercatalogue');
+        $config['seo'] = __('messages.userCatalogue');
         return view(
             'backend.user.catalogue.index',
             compact(
@@ -55,7 +55,7 @@ class UserCatalogueController extends Controller
     public function create()
     {
         // $this->authorize('modules', 'user.catalogue.create');
-        $config['seo'] = config('apps.usercatalogue');
+        $config['seo'] = __('messages.userCatalogue');
         $config['method'] = 'create';
         return view(
             'backend.user.catalogue.create',
@@ -77,7 +77,7 @@ class UserCatalogueController extends Controller
     {
         // $this->authorize('modules', 'user.catalogue.update');
         $userCatalogue = $this->userCatalogueRepository->findById($id);
-        $config['seo'] = config('apps.usercatalogue');
+        $config['seo'] = __('messages.userCatalogue');
         $config['method'] = 'edit';
         return view(
             'backend.user.catalogue.create',
@@ -99,7 +99,7 @@ class UserCatalogueController extends Controller
     public function delete($id)
     {
         // $this->authorize('modules', 'user.catalogue.destroy');
-        $config['seo'] = config('apps.usercatalogue');
+        $config['seo'] = __('messages.userCatalogue');
         $userCatalogue = $this->userCatalogueRepository->findById($id);
         return view(
             'backend.user.catalogue.delete',

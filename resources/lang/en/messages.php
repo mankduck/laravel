@@ -1,4 +1,4 @@
-<?php  
+<?php
 return [
     'postCatalogue' => [
         'index' => [
@@ -13,7 +13,7 @@ return [
         ],
         'delete' => [
             'title' => 'Delete Post Group'
-        ],    
+        ],
     ],
     'post' => [
         'index' => [
@@ -46,7 +46,7 @@ return [
         ],
         'permission' => [
             'title' => 'Update Permissions'
-        ],  
+        ],
     ],
     'permission' => [
         'index' => [
@@ -61,7 +61,7 @@ return [
         ],
         'delete' => [
             'title' => 'Delete Permission'
-        ],   
+        ],
     ],
     'parent' => 'Choose parent category',
     'parentNotice' => 'Choose Root if there is no parent category',
@@ -89,6 +89,14 @@ return [
     'tableName' => 'Title',
     'tableOrder' => 'Order',
     'tableGroup' => 'Display Group:',
+    'tableUserAddress' => 'Address',
+    'tableUserPhone' => 'Phone',
+    'tableUserEmail' => 'Email',
+    'tableUserFullName' => 'Fullname',
+    'tableUserGroup' => 'User group',
+    'tableGrUserDes' => 'Description',
+    'tableGrUserName' => 'User group name',
+    'tableGrUserNumber' => 'Number of member',
     'deleteButton' => 'Delete data',
     'tableHeading' => 'General Information',
     'save' => 'Save',

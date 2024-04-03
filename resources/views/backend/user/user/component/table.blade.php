@@ -4,13 +4,13 @@
             <th>
                 <input type="checkbox" value="" id="checkAll" class="input-checkbox">
             </th>
-            <th>Họ Tên</th>
-            <th>Email</th>
-            <th>Số điện thoại</th>
-            <th>Địa chỉ</th>
-            <th class="text-center">Nhóm thành viên</th>
-            <th class="text-center">Tình Trạng</th>
-            <th class="text-center">Thao tác</th>
+            <th>{{ __('messages.tableUserFullName') }}</th>
+            <th>{{ __('messages.tableUserEmail') }}</th>
+            <th>{{ __('messages.tableUserPhone') }}</th>
+            <th>{{ __('messages.tableUserAddress') }}</th>
+            <th class="text-center">{{ __('messages.tableUserGroup') }}</th>
+            <th class="text-center">{{ __('messages.tableStatus') }}</th>
+            <th class="text-center">{{ __('messages.tableAction') }}</th>
         </tr>
     </thead>
     <tbody>

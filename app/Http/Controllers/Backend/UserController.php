@@ -44,7 +44,7 @@ class UserController extends Controller
 
         $users = $this->userService->paginate($request);
         // dd($users);
-        $config['seo'] = config('apps.user');
+        $config['seo'] = __('messages.user');
 
         return view('backend.user.user.index', compact('config', 'users'));
     }
@@ -54,7 +54,7 @@ class UserController extends Controller
         // $this->authorize('modules', 'user.create');
         $provinces = $this->provinceRepository->all();
         $config = $this->config();
-        $config['seo'] = config('apps.user');
+        $config['seo'] = __('messages.user');
         $config['method'] = 'create';
         return view(
             'backend.user.user.create',
@@ -79,7 +79,7 @@ class UserController extends Controller
         $user = $this->userRepository->findById($id);
         $provinces = $this->provinceRepository->all();
         $config = $this->config();
-        $config['seo'] = config('apps.user');
+        $config['seo'] = __('messages.user');
         $config['method'] = 'edit';
         return view(
             'backend.user.user.create',
@@ -102,7 +102,7 @@ class UserController extends Controller
     public function delete($id)
     {
         // $this->authorize('modules', 'user.destroy');
-        $config['seo'] = config('apps.user');
+        $config['seo'] = __('messages.user');
         $user = $this->userRepository->findById($id);
         return view(
             'backend.user.user.delete',

@@ -110,6 +110,21 @@ return [
             'title' => 'Xóa bài viết'
         ],
     ],
+    'user' => [
+        'index' => [
+            'title' => 'Quản lý thành viên',
+            'table' => 'Danh sách thành viên'
+        ],
+        'create' => [
+            'title' => 'Thêm mới thành viên'
+        ],
+        'edit' => [
+            'title' => 'Cập nhật thành viên'
+        ],
+        'delete' => [
+            'title' => 'Xóa thành viên'
+        ]
+    ],
     'userCatalogue' => [
         'index' => [
             'title' => 'Quản lý nhóm thành viên',
@@ -179,13 +194,21 @@ return [
     'seoMetaTitle' => 'Tiêu đề SEO',
     'seoMetaKeyword' => 'Từ khóa SEO',
     'seoMetaDescription' => 'Mô tả SEO',
-    'canonical' => 'Đường dẫn',
+    'canonical' => 'Đường Dẫn',
     'character' => 'Ký tự',
     'tableStatus' => 'Tình Trạng',
-    'tableAction' => 'Thao tác',
-    'tableName' => 'Tiêu đề',
-    'tableOrder' => 'Sắp xếp',
-    'tableGroup' => 'Nhóm hiển thị:',
+    'tableAction' => 'Thao Tác',
+    'tableName' => 'Tiêu Đề',
+    'tableOrder' => 'Sắp Xếp',
+    'tableGroup' => 'Nhóm Hiển Thị:',
+    'tableUserAddress' => 'Địa Chỉ',
+    'tableUserPhone' => 'Số Điện Thoại',
+    'tableUserEmail' => 'Email',
+    'tableUserFullName' => 'Họ Và Tên',
+    'tableUserGroup' => 'Nhóm Thành Viên',
+    'tableGrUserDes' => 'Mô Tả',
+    'tableGrUserName' => 'Tên Nhóm Thành Viên',
+    'tableGrUserNumber' => 'Số Thành Viên',
     'deleteButton' => 'Xóa dữ liệu',
     'tableHeading' => 'Thông tin chung',
     'save' => 'Lưu lại',

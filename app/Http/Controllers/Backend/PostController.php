@@ -50,7 +50,7 @@ class PostController extends Controller
             ],
             'model' => 'Post',
         ];
-        $config['seo'] = config('apps.post');
+        $config['seo'] = __('messages.post');
         $dropdown = $this->nestedset->Dropdown();
         // dd($language);
         return view(
@@ -67,7 +67,7 @@ class PostController extends Controller
     {
         // $this->authorize('modules', 'language.create');
         $config = $this->configData();
-        $config['seo'] = config('apps.post');
+        $config['seo'] = __('messages.post');
         $config['method'] = 'create';
         $dropdown = $this->nestedset->Dropdown();
         $config['model'] = 'Post';
@@ -94,7 +94,7 @@ class PostController extends Controller
         $post = $this->postRepository->getPostById($id, $this->language);
         // dd($post);
         $config = $this->configData();
-        $config['seo'] = config('apps.post');
+        $config['seo'] = __('messages.post');
         $config['method'] = 'edit';
         $dropdown = $this->nestedset->Dropdown();
         // dd($dropdown);
@@ -124,7 +124,7 @@ class PostController extends Controller
     public function delete($id)
     {
         // $this->authorize('modules', 'language.delete');
-        $config['seo'] = config('apps.post');
+        $config['seo'] = __('messages.post');
         $post = $this->postRepository->getPostById($id, $this->language);
         return view(
             'backend.post.post.delete',
