@@ -53,21 +53,25 @@ class PostService extends BaseService implements PostServiceInterface
             ['tb2.language_id', '=', $this->language]
         ];
 
+
+
         $perPage = $request->integer('perpage');
         $posts = $this->postRepository->pagination(
             $this->paginateSelect(),
             $condition,
             $perPage,
-            ['path' => 'post.index'],
+            ['path' => 'post.index', 'groupBy' => $this->paginateSelect()],
             [
                 'posts.id',
                 'DESC'
             ],
 
             [
-                ['post_language as tb2', 'tb2.post_id', '=', 'posts.id']
+                ['post_language as tb2', 'tb2.post_id', '=', 'posts.id'],
+                ['post_catalogue_post as tb3', 'posts.id', '=', 'tb3.post_id']
             ],
-            ['post_catalogues']
+            ['post_catalogues'],
+            $this->whereRaw($request)
         );
         // dd($posts);
 
@@ -78,36 +82,11 @@ class PostService extends BaseService implements PostServiceInterface
     {
         DB::beginTransaction();
         try {
-            $payload = $request->only($this->payload());
-            $payload['user_id'] = Auth::id();
-
-
-            $payload['album'] = (isset($payload['album']) && !empty($payload['album'])) ? json_encode($payload['album']) : '';
-            // dd($payload);
-
-            $post = $this->postRepository->create($payload);
-            // echo $posts->id;die;
+            $post = $this->createForPost($request);
             if ($post->id > 0) {
-                $payloadLanguage = $request->only($this->payloadLanguage());
-                // dd($payloadLanguage);
-                $payloadLanguage['canonical'] = Str::slug($payloadLanguage['canonical']);
-                $payloadLanguage['language_id'] = $this->language;
-                $payloadLanguage['post_id'] = $post->id;
-
-                $language = $this->postRepository->createPivot($post, $payloadLanguage, 'languages');
-                // dd($language);
-
-
-                $catalogue = $this->catalogue($request);
-                // dd($catalogue);
-                $post->post_catalogues()->sync($catalogue);
-
+                $this->updateLanguageForPost($post, $request);
+                $this->updateCatalogueForPost($post, $request);
             }
-
-            // $this->nestedset->Get('level ASC, order ASC');
-            // $this->nestedset->Recursive(0, $this->nestedset->Set());
-            // $this->nestedset->Action();
-
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -125,26 +104,9 @@ class PostService extends BaseService implements PostServiceInterface
         DB::beginTransaction();
         try {
             $post = $this->postRepository->findById($id);
-            $payload = $request->only($this->payload());
-            $payload['album'] = (isset($payload['album']) && !empty($payload['album'])) ? json_encode($payload['album']) : '';
-            $flag = $this->postRepository->update($id, $payload);
-            // dd($flag);
-            if ($flag == TRUE) {
-                $payloadLanguage = $request->only($this->payloadLanguage());
-                $payloadLanguage['canonical'] = Str::slug($payloadLanguage['canonical']);
-                $payloadLanguage['language_id'] = $this->language;
-                $payloadLanguage['post_id'] = $post->id;
-                $post->languages()->detach([$payloadLanguage['language_id'], $id]);
-                // dd($payloadLanguage); 
-                $response = $this->postRepository->createPivot($post, $payloadLanguage, 'languages');
-
-                $catalogue = $this->catalogue($request);
-                // dd($catalogue);
-                $post->post_catalogues()->sync($catalogue);
-                // $this->nestedset->Get('level ASC', 'order ASC');
-                // $this->nestedset->Recursive(0, $this->nestedset->Set());
-                // $this->nestedset->Action();
-
+            if ($this->uploadPost($post, $request)) {
+                $this->updateLanguageForPost($post, $request);
+                $this->updateCatalogueForPost($post, $request);
             }
 
 
@@ -163,12 +125,7 @@ class PostService extends BaseService implements PostServiceInterface
     {
         DB::beginTransaction();
         try {
-            $post = $this->postRepository->delete($id);
-
-            $this->nestedset->Get('level ASC', 'order ASC');
-            $this->nestedset->Recursive(0, $this->nestedset->Set());
-            $this->nestedset->Action();
-
+            $post = $this->postRepository->delete($id); //Soft Delete
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -180,10 +137,58 @@ class PostService extends BaseService implements PostServiceInterface
         }
     }
 
+
+    private function createForPost($request)
+    {
+        $payload = $request->only($this->payload());
+        $payload['album'] = $this->formatAlbum($request);
+        $payload['user_id'] = Auth::id();
+        $post = $this->postRepository->create($payload);
+        return $post;
+    }
+
+
+    private function uploadPost($post, $request)
+    {
+        $payload = $request->only($this->payload());
+        $payload['album'] = $this->formatAlbum($request);
+        return $this->postRepository->update($post->id, $payload);
+    }
+
+    private function formatAlbum($request)
+    {
+        return ($request->input('album') && !empty($request->input('album'))) ? json_encode($request->input('album')) : '';
+    }
+
+
+    private function updateLanguageForPost($post, $request)
+    {
+        $payload = $request->only($this->payloadLanguage());
+        $payload = $this->formatLanguagePayload($payload, $post->id);
+        $post->languages()->detach([$this->language, $post->id]);
+        return $this->postRepository->createPivot($post, $payload, 'languages');
+    }
+
+    private function formatLanguagePayload($payload, $postId)
+    {
+        $payload['canonical'] = Str::slug($payload['canonical']);
+        $payload['language_id'] = $this->language;
+        $payload['post_id'] = $postId;
+        return $payload;
+    }
+
+
+    private function updateCatalogueForPost($post, $request)
+    {
+        $post->post_catalogues()->sync($this->catalogue($request));
+    }
+
     private function catalogue($request)
     {
         // dd($request);
-        return array_unique(array_merge($request->input('catalogue'), [$request->post_catalogue_id]));
+        if ($request->input('catalogue') != null) {
+            return array_unique(array_merge($request->input('catalogue'), [$request->post_catalogue_id]));
+        }
     }
 
     public function updateStatus($post = [])
@@ -222,6 +227,23 @@ class PostService extends BaseService implements PostServiceInterface
             die();
             return false;
         }
+    }
+
+
+    private function whereRaw($request)
+    {
+        $rawCondition = [];
+        if ($request->integer('post_catalogue_id') > 0) {
+            $rawCondition['whereRaw'] = [
+                [
+                    'tb3.post_catalogue_id IN (
+                        SELECT id FROM post_catalogues WHERE lft >= (SELECT lft FROM post_catalogues as pc WHERE pc.id = ?) AND rgt <= (SELECT rgt FROM post_catalogues as pc WHERE pc.id = ?)
+                    )',
+                    [$request->integer('post_catalogue_id'), $request->integer('post_catalogue_id')],
+                ]
+            ];
+        }
+        return $rawCondition;
     }
 
     // public function switch($id){

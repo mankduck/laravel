@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backend;
 
 use App\Classes\Nestedsetbie;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DeletePostRequest;
 use Illuminate\Http\Request;
 
 use App\Services\Interfaces\PostServiceInterface as PostService;
@@ -37,6 +36,7 @@ class PostController extends Controller
     {
         // $this->authorize('modules', 'language.index');
         $posts = $this->postService->paginate($request);
+        // dd($posts);
 
         $config = [
             'js' => [
@@ -51,11 +51,13 @@ class PostController extends Controller
             'model' => 'Post',
         ];
         $config['seo'] = config('apps.post');
+        $dropdown = $this->nestedset->Dropdown();
         return view(
             'backend.post.post.index',
             compact(
                 'config',
-                'posts'
+                'posts',
+                'dropdown'
             )
         );
     }
@@ -132,7 +134,7 @@ class PostController extends Controller
         );
     }
 
-    public function destroy($id, DeletePostRequest $request)
+    public function destroy($id)
     {
         if ($this->postService->destroy($id)) {
             return redirect()->route('post.index')->with('success', 'Xóa bản ghi thành công');
@@ -158,9 +160,10 @@ class PostController extends Controller
         ];
     }
 
-    private function catalogue($post){
+    private function catalogue($post)
+    {
         foreach ($post as $key => $val) {
-            
+
         }
     }
 

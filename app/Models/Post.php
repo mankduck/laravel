@@ -10,7 +10,7 @@ use App\Traits\QueryScopes;
 
 class Post extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, QueryScopes;
 
     protected $fillable = [
         'image',
@@ -24,23 +24,24 @@ class Post extends Model
 
     protected $table = 'posts';
 
-    public function languages(){
-        return $this->belongsToMany(Language::class, 'post_language' , 'post_id', 'language_id')
-        ->withPivot(
-            'name',
-            'canonical',
-            'meta_title',
-            'meta_keyword',
-            'meta_description',
-            'description',
-            'content'
-        )->withTimestamps();
+    public function languages()
+    {
+        return $this->belongsToMany(Language::class, 'post_language', 'post_id', 'language_id')
+            ->withPivot(
+                'name',
+                'canonical',
+                'meta_title',
+                'meta_keyword',
+                'meta_description',
+                'description',
+                'content'
+            )->withTimestamps();
     }
 
-    public function post_catalogues(){
-        return $this->belongsToMany(PostCatalogue::class, 'post_catalogue_post' , 'post_id', 'post_catalogue_id');
+    public function post_catalogues()
+    {
+        return $this->belongsToMany(PostCatalogue::class, 'post_catalogue_post', 'post_id', 'post_catalogue_id');
     }
-
 
 
 }

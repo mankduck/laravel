@@ -10,7 +10,7 @@ use App\Traits\QueryScopes;
 
 class PostCatalogue extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, QueryScopes;
 
     protected $fillable = [
         'parent_id',

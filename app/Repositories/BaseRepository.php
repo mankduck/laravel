@@ -28,47 +28,24 @@ class BaseRepository implements BaseRepositoryInterface
         array $extend = [],
         array $orderBy = ['id', 'DESC'],
         array $join = [],
-        array $relations = []
+        array $relations = [],
+        array $rawQuery = []
+
     ) {
-
-        $query = $this->model->select($column)->where(function ($query) use ($condition) {
-            if (isset($condition['keyword']) && !empty($condition['keyword'])) {
-                $query->where('name', 'LIKE', '%' . $condition['keyword'] . '%');
-            }
-            if (isset($condition['publish']) && $condition['publish'] != 0) {
-                $query->where('publish', '=', $condition['publish']);
-            }
-
-            if (isset($condition['where']) && count($condition['where'])) {
-                foreach ($condition['where'] as $key => $val) {
-                    $query->where($val[0], $val[1], $val[2]);
-                }
-            }
-            return $query;
-        });
-
-        if (isset($relations) && !empty($relations)) {
-            foreach ($relations as $relation) {
-                $query->withCount($relation);
-            }
-        }
-
-        if (isset($join) && is_array($join) && count($join)) {
-            // dd($join);
-            foreach ($join as $key => $val) {
-                $query->join($val[0], $val[1], $val[2], $val[3]);
-            }
-        }
-
-        if (isset($orderBy)) {
-            $query->orderBy($orderBy[0], $orderBy[1]);
-        }
-
-        // dd($orderBy);
-
-        return $query->paginate($perPage)
+        $query = $this->model->select($column);
+        return $query
+            ->keyword($condition['keyword'] ?? null)
+            ->publish($condition['publish'] ?? null)
+            ->relationCount($relations ?? null)
+            ->CustomWhere($condition['where'] ?? null)
+            ->customWhereRaw($rawQuery['whereRaw'] ?? null)
+            ->customJoin($join ?? null)
+            ->customGroupBy($extend['groupBy'] ?? null)
+            ->customOrderBy($orderBy ?? null)
+            ->paginate($perPage)
             ->withQueryString()->withPath(env('APP_URL') . $extend['path']);
     }
+
 
     // public function pagination(
     //     array $column = ['*'],

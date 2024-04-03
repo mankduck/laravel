@@ -9,7 +9,7 @@ use App\Traits\QueryScopes;
 
 class Language extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, QueryScopes;
 
     protected $fillable = [
         'name',
