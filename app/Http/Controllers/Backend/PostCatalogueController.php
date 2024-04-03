@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Classes\Nestedsetbie;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeletePostCatalogueRequest;
+use App\Models\Language;
 use Illuminate\Http\Request;
 
 use App\Services\Interfaces\PostCatalogueServiceInterface as PostCatalogueService;
@@ -17,26 +18,41 @@ class PostCatalogueController extends Controller
 {
     protected $postCatalogueService;
     protected $postCatalogueRepository;
+    protected $nestedset;
     protected $language;
 
     public function __construct(
         PostCatalogueService $postCatalogueService,
         PostCatalogueRepository $postCatalogueRepository
     ) {
+        $this->middleware(function ($request, $next) {
+            $locale = app()->getLocale();
+            $language = Language::where('canonical', $locale)->first();
+            $this->language = $language->id;
+            $this->initialize();
+            return $next($request);
+        });
+
+
         $this->postCatalogueService = $postCatalogueService;
         $this->postCatalogueRepository = $postCatalogueRepository;
+    }
+
+    private function initialize()
+    {
         $this->nestedset = new Nestedsetbie([
             'table' => 'post_catalogues',
             'foreignkey' => 'post_catalogue_id',
-            'language_id' => 1,
+            'language_id' => $this->language,
         ]);
-        $this->language = $this->currentLanguage();
     }
+
+
 
     public function index(Request $request)
     {
         // $this->authorize('modules', 'language.index');
-        $postCatalogues = $this->postCatalogueService->paginate($request);
+        $postCatalogues = $this->postCatalogueService->paginate($request, $this->language);
 
         $config = [
             'js' => [
@@ -79,7 +95,7 @@ class PostCatalogueController extends Controller
 
     public function store(StorePostCatalogueRequest $request)
     {
-        if ($this->postCatalogueService->create($request)) {
+        if ($this->postCatalogueService->create($request, $this->language)) {
             return redirect()->route('post.catalogue.index')->with('success', 'Thêm mới bản ghi thành công');
         }
         return redirect()->route('post.catalogue.index')->with('error', 'Thêm mới bản ghi không thành công. Hãy thử lại');
@@ -110,7 +126,7 @@ class PostCatalogueController extends Controller
 
     public function update($id, UpdatePostCatalogueRequest $request)
     {
-        if ($this->postCatalogueService->update($id, $request)) {
+        if ($this->postCatalogueService->update($id, $request, $this->language)) {
             return redirect()->route('post.catalogue.index')->with('success', 'Cập nhật bản ghi thành công');
         }
         return redirect()->route('post.catalogue.index')->with('error', 'Cập nhật bản ghi không thành công. Hãy thử lại');
@@ -132,7 +148,7 @@ class PostCatalogueController extends Controller
 
     public function destroy($id, DeletePostCatalogueRequest $request)
     {
-        if ($this->postCatalogueService->destroy($id)) {
+        if ($this->postCatalogueService->destroy($id, $this->language)) {
             return redirect()->route('post.catalogue.index')->with('success', 'Xóa bản ghi thành công');
         }
         return redirect()->route('post.catalogue.index')->with('error', 'Xóa bản ghi không thành công. Hãy thử lại');

@@ -109,7 +109,7 @@ class BaseRepository implements BaseRepositoryInterface
         return $this->findById($id)->forceDelete();
     }
 
-    public function forceDeleteByCondition(array $condition = [])
+    public function deleteByCondition(array $condition = [])
     {
         $query = $this->model->newQuery();
         foreach ($condition as $key => $val) {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Classes\Nestedsetbie;
 use App\Http\Controllers\Controller;
+use App\Models\Language;
 use Illuminate\Http\Request;
 
 use App\Services\Interfaces\PostServiceInterface as PostService;
@@ -22,20 +23,35 @@ class PostController extends Controller
         PostService $postService,
         PostRepository $postRepository,
     ) {
+        $this->middleware(function ($request, $next) {
+            $locale = app()->getLocale(); // vn en cn
+            $language = Language::where('canonical', $locale)->first();
+            $this->language = $language->id;
+            $this->initialize();
+            return $next($request);
+        });
+
         $this->postService = $postService;
         $this->postRepository = $postRepository;
+        $this->initialize();
+
+    }
+
+    private function initialize()
+    {
         $this->nestedset = new Nestedsetbie([
             'table' => 'post_catalogues',
             'foreignkey' => 'post_catalogue_id',
-            'language_id' => 1,
+            'language_id' => $this->language,
         ]);
-        $this->language = $this->currentLanguage();
     }
+
+
 
     public function index(Request $request)
     {
         // $this->authorize('modules', 'language.index');
-        $posts = $this->postService->paginate($request);
+        $posts = $this->postService->paginate($request, $this->language);
         // dd($posts);
 
         $config = [
@@ -82,7 +98,7 @@ class PostController extends Controller
 
     public function store(StorePostRequest $request)
     {
-        if ($this->postService->create($request)) {
+        if ($this->postService->create($request, $this->language)) {
             return redirect()->route('post.index')->with('success', 'Thêm mới bản ghi thành công');
         }
         return redirect()->route('post.index')->with('error', 'Thêm mới bản ghi không thành công. Hãy thử lại');

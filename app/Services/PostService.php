@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Services\Interfaces\PostServiceInterface;
 use App\Services\Interfaces\BaseServiceInterface;
 use App\Repositories\Interfaces\PostRepositoryInterface as PostRepository;
-// use App\Repositories\Interfaces\RouterRepositoryInterface as RouterRepository;
+use App\Repositories\Interfaces\RouterRepositoryInterface as RouterRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -22,70 +22,62 @@ use App\Classes\Nestedsetbie;
 class PostService extends BaseService implements PostServiceInterface
 {
     protected $postRepository;
-    protected $nestedset;
-
-    protected $language;
     protected $routerRepository;
-
 
     public function __construct(
         PostRepository $postRepository,
-        // RouterRepository $routerRepository,
+        RouterRepository $routerRepository,
     ) {
-        $this->language = $this->currentLanguage();
         $this->postRepository = $postRepository;
-        $this->nestedset = new Nestedsetbie([
-            'table' => 'post_catalogues',
-            'foreignkey' => 'post_catalogue_id',
-            'language_id' => $this->language,
-        ]);
-        // $this->routerRepository = $routerRepository;
+        $this->routerRepository = $routerRepository;
+        $this->controllerName = 'PostController';
     }
 
-
-
-    public function paginate($request)
+    public function paginate($request, $languageId)
     {
-
-        $condition['keyword'] = addslashes($request->input('keyword'));
-        $condition['publish'] = $request->integer('publish');
-        $condition['where'] = [
-            ['tb2.language_id', '=', $this->language]
+        $perPage = $request->integer('perpage');
+        $condition = [
+            'keyword' => ($request->input('keyword')) ? addslashes($request->input('keyword')) : '',
+            'publish' => $request->integer('publish'),
+            'where' => [
+                ['tb2.language_id', '=', $languageId],
+            ],
+        ];
+        $paginationConfig = [
+            'path' => 'post.index',
+            'groupBy' => $this->paginateSelect()
+        ];
+        $orderBy = ['posts.id', 'DESC'];
+        $relations = ['post_catalogues'];
+        $rawQuery = $this->whereRaw($request, $languageId);
+        // dd($rawQuery);
+        $joins = [
+            ['post_language as tb2', 'tb2.post_id', '=', 'posts.id'],
+            ['post_catalogue_post as tb3', 'posts.id', '=', 'tb3.post_id'],
         ];
 
-
-
-        $perPage = $request->integer('perpage');
         $posts = $this->postRepository->pagination(
             $this->paginateSelect(),
             $condition,
             $perPage,
-            ['path' => 'post.index', 'groupBy' => $this->paginateSelect()],
-            [
-                'posts.id',
-                'DESC'
-            ],
-
-            [
-                ['post_language as tb2', 'tb2.post_id', '=', 'posts.id'],
-                ['post_catalogue_post as tb3', 'posts.id', '=', 'tb3.post_id']
-            ],
-            ['post_catalogues'],
-            $this->whereRaw($request)
+            $paginationConfig,
+            $orderBy,
+            $joins,
+            $relations,
+            $rawQuery
         );
-        // dd($posts);
-
         return $posts;
     }
 
-    public function create($request)
+    public function create($request, $languageId)
     {
         DB::beginTransaction();
         try {
-            $post = $this->createForPost($request);
+            $post = $this->createPost($request);
             if ($post->id > 0) {
-                $this->updateLanguageForPost($post, $request);
+                $this->updateLanguageForPost($post, $request, $languageId);
                 $this->updateCatalogueForPost($post, $request);
+                $this->createRouter($post, $request, $this->controllerName, $languageId);
             }
             DB::commit();
             return true;
@@ -98,18 +90,21 @@ class PostService extends BaseService implements PostServiceInterface
         }
     }
 
-
-    public function update($id, $request)
+    public function update($id, $request, $languageId)
     {
         DB::beginTransaction();
         try {
             $post = $this->postRepository->findById($id);
             if ($this->uploadPost($post, $request)) {
-                $this->updateLanguageForPost($post, $request);
+                $this->updateLanguageForPost($post, $request, $languageId);
                 $this->updateCatalogueForPost($post, $request);
+                $this->updateRouter(
+                    $post,
+                    $request,
+                    $this->controllerName,
+                    $languageId
+                );
             }
-
-
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -125,28 +120,29 @@ class PostService extends BaseService implements PostServiceInterface
     {
         DB::beginTransaction();
         try {
-            $post = $this->postRepository->delete($id); //Soft Delete
+            $post = $this->postRepository->delete($id);
+            $this->routerRepository->deleteByCondition([
+                ['module_id', '=', $id],
+                ['controllers', '=', 'App\Http\Controllers\Frontend\PostController'],
+            ]);
             DB::commit();
             return true;
         } catch (\Exception $e) {
             DB::rollBack();
             // Log::error($e->getMessage());
-            echo $e->getMessage();
-            die();
+            // echo $e->getMessage();die();
             return false;
         }
     }
 
-
-    private function createForPost($request)
+    private function createPost($request)
     {
         $payload = $request->only($this->payload());
-        $payload['album'] = $this->formatAlbum($request);
         $payload['user_id'] = Auth::id();
+        $payload['album'] = $this->formatAlbum($request);
         $post = $this->postRepository->create($payload);
         return $post;
     }
-
 
     private function uploadPost($post, $request)
     {
@@ -155,40 +151,34 @@ class PostService extends BaseService implements PostServiceInterface
         return $this->postRepository->update($post->id, $payload);
     }
 
-    private function formatAlbum($request)
-    {
-        return ($request->input('album') && !empty($request->input('album'))) ? json_encode($request->input('album')) : '';
-    }
-
-
-    private function updateLanguageForPost($post, $request)
+    private function updateLanguageForPost($post, $request, $languageId)
     {
         $payload = $request->only($this->payloadLanguage());
-        $payload = $this->formatLanguagePayload($payload, $post->id);
+        $payload = $this->formatLanguagePayload($payload, $post->id, $languageId);
         $post->languages()->detach([$this->language, $post->id]);
         return $this->postRepository->createPivot($post, $payload, 'languages');
     }
-
-    private function formatLanguagePayload($payload, $postId)
-    {
-        $payload['canonical'] = Str::slug($payload['canonical']);
-        $payload['language_id'] = $this->language;
-        $payload['post_id'] = $postId;
-        return $payload;
-    }
-
 
     private function updateCatalogueForPost($post, $request)
     {
         $post->post_catalogues()->sync($this->catalogue($request));
     }
 
+    private function formatLanguagePayload($payload, $postId, $languageId)
+    {
+        $payload['canonical'] = Str::slug($payload['canonical']);
+        $payload['language_id'] = $languageId;
+        $payload['post_id'] = $postId;
+        return $payload;
+    }
+
+
     private function catalogue($request)
     {
-        // dd($request);
         if ($request->input('catalogue') != null) {
             return array_unique(array_merge($request->input('catalogue'), [$request->post_catalogue_id]));
         }
+        return [$request->post_catalogue_id];
     }
 
     public function updateStatus($post = [])
