@@ -89,12 +89,15 @@ class PostController extends Controller
     {
         // $this->authorize('modules', 'language.update');
         $post = $this->postRepository->getPostById($id, $this->language);
-        // dd($Post);
+        // dd($post);
         $config = $this->configData();
         $config['seo'] = config('apps.post');
         $config['method'] = 'edit';
         $dropdown = $this->nestedset->Dropdown();
+        // dd($dropdown);
         $album = json_decode($post->album);
+        // dd($album);
+        $catalogue = $this->catalogue($post);
         $config['model'] = 'Post';
         return view(
             'backend.post.post.create',
@@ -153,6 +156,12 @@ class PostController extends Controller
             ]
 
         ];
+    }
+
+    private function catalogue($post){
+        foreach ($post as $key => $val) {
+            
+        }
     }
 
     // public function swicthBackendLanguage($id){

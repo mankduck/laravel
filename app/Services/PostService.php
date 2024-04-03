@@ -66,7 +66,8 @@ class PostService extends BaseService implements PostServiceInterface
 
             [
                 ['post_language as tb2', 'tb2.post_id', '=', 'posts.id']
-            ]
+            ],
+            ['post_catalogues']
         );
         // dd($posts);
 
@@ -79,7 +80,9 @@ class PostService extends BaseService implements PostServiceInterface
         try {
             $payload = $request->only($this->payload());
             $payload['user_id'] = Auth::id();
-            $payload['album'] = json_encode($payload['album']);
+
+
+            $payload['album'] = (isset($payload['album']) && !empty($payload['album'])) ? json_encode($payload['album']) : '';
             // dd($payload);
 
             $post = $this->postRepository->create($payload);
@@ -123,18 +126,24 @@ class PostService extends BaseService implements PostServiceInterface
         try {
             $post = $this->postRepository->findById($id);
             $payload = $request->only($this->payload());
-            $payload['album'] = json_encode($payload['album']);
+            $payload['album'] = (isset($payload['album']) && !empty($payload['album'])) ? json_encode($payload['album']) : '';
             $flag = $this->postRepository->update($id, $payload);
+            // dd($flag);
             if ($flag == TRUE) {
                 $payloadLanguage = $request->only($this->payloadLanguage());
+                $payloadLanguage['canonical'] = Str::slug($payloadLanguage['canonical']);
                 $payloadLanguage['language_id'] = $this->language;
-                $payloadLanguage['post_catalogue_id'] = $id;
+                $payloadLanguage['post_id'] = $post->id;
                 $post->languages()->detach([$payloadLanguage['language_id'], $id]);
                 // dd($payloadLanguage); 
-                $response = $this->postRepository->createLanguagePivot($post, $payloadLanguage);
-                $this->nestedset->Get('level ASC', 'order ASC');
-                $this->nestedset->Recursive(0, $this->nestedset->Set());
-                $this->nestedset->Action();
+                $response = $this->postRepository->createPivot($post, $payloadLanguage, 'languages');
+
+                $catalogue = $this->catalogue($request);
+                // dd($catalogue);
+                $post->post_catalogues()->sync($catalogue);
+                // $this->nestedset->Get('level ASC', 'order ASC');
+                // $this->nestedset->Recursive(0, $this->nestedset->Set());
+                // $this->nestedset->Action();
 
             }
 
@@ -295,7 +304,6 @@ class PostService extends BaseService implements PostServiceInterface
             'posts.id',
             'posts.publish',
             'posts.image',
-            'posts.level',
             'posts.order',
             'tb2.name',
             'tb2.canonical',

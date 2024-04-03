@@ -24,7 +24,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
     {
         return $this->model->select([
             'posts.id',
-            'posts.parent_id',
+            'posts.post_catalogue_id',
             'posts.image',
             'posts.icon',
             'posts.album',
@@ -39,6 +39,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
             'tb2.canonical',
         ])
             ->join('post_language as tb2', 'tb2.post_id', '=', 'posts.id')
+            ->with('post_catalogues')
             ->where('tb2.language_id', '=', $language_id)
             ->findOrFail($id);
     }

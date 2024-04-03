@@ -30,8 +30,10 @@
                     <label class="control-label">Chọn danh mục phụ (nếu có)</label>
                     <select multiple name="catalogue[]" class="form-control setupSelect2" id="">
                         @foreach ($dropdown as $key => $val)
-                            <option @if (is_array(old('catalogue', isset($post->catalogue) ? $post->catalogue : [])) &&
-                                    in_array($key, old('catalogue', isset($post->catalogue) ? $post->catalogue : []))) selected @endif value="{{ $key }}">
+                            <option @if (is_array(old('catalogue', isset($catalogue) && count($catalogue) ? $catalogue : [])) &&
+                                    isset($post->post_catalogue_id) &&
+                                    $key !== $post->post_catalogue_id &&
+                                    in_array($key, old('catalogue', isset($catalogue) ? $catalogue : []))) selected @endif value="{{ $key }}">
                                 {{ $val }}</option>
                         @endforeach
                     </select>

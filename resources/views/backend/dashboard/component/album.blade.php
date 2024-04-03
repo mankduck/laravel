@@ -8,6 +8,7 @@
     <div class="ibox-content">
         @php
             $album = !empty($model->album) ? json_decode($model->album) : [];
+            // dd($model->album);
             $gallery = isset($album) && count($album) ? $album : old('album');
         @endphp
         <div class="row">
@@ -43,6 +44,7 @@
                                 </li>
                             @endforeach
                         @endif
+                        {{-- <input type="hidden" name="album[]"> --}}
                     </ul>
                 </div>
 

@@ -28,7 +28,7 @@
                             @include('backend.dashboard.component.content', ['model' => $post ?? null])
                         </div>
                     </div>
-                    @include('backend.dashboard.component.album')
+                    @include('backend.dashboard.component.album', ['model' => $post ?? null])
                     @include('backend.dashboard.component.seo', ['model' => $post ?? null])
                 </div>
                 <div class="col-lg-3">
