@@ -17,7 +17,7 @@
                 <div class="col-lg-9">
                     <div class="ibox">
                         <div class="ibox-title">
-                            <h5>Thêm mới nhóm bài viết</h5>
+                            <h5>{{ __('messages.tableHeading') }}</h5>
                         </div>
                         <div class="ibox-content">
                             @include('backend.dashboard.component.content', [
