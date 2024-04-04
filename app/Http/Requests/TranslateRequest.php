@@ -22,22 +22,22 @@ class TranslateRequest extends FormRequest
      */
     public function rules(): array
     {
-        
+
         return [
             'translate_name' => 'required',
             'translate_canonical' => [
                 'required',
-                function ($attribute, $value, $fail){
+                function ($attribute, $value, $fail) {
                     $option = $this->input('option');
                     $exist = DB::table('routers')
                         ->where('canonical', $value)
-                        ->where('language_id', '<>',$option['languageId'])
+                        ->where('language_id', '<>', $option['languageId'])
                         ->where('id', '<>', $option['id'])
-                    ->exists();
+                        ->exists();
 
                     // dd($exist);
-
-                    if($exist){
+        
+                    if ($exist) {
                         $fail('Đường dẫn đã tồn tại. Hãy chọn đường dẫn khác');
                     }
                 }
@@ -49,8 +49,8 @@ class TranslateRequest extends FormRequest
     {
         return [
             'translate_name.required' => 'Bạn chưa nhập vào tên ngôn ngữ.',
-            'translate_canonical.required' => 'Bạn chưa nhập vào từ khóa của ngôn ngữ.',
-            'translate_canonical.unique' => 'Từ khóa đã tồn tại hãy chọn từ khóa khác'
+            'translate_canonical.required' => 'Bạn chưa nhập vào đường dẫn của ngôn ngữ.',
+            'translate_canonical.unique' => 'Đường dẫn đã tồn tại hãy chọn đường dẫn khác'
         ];
     }
 }

@@ -26,7 +26,7 @@ class LanguageController extends Controller
 
     public function index(Request $request)
     {
-        $this->authorize('modules', 'language.index');
+        // $this->authorize('modules', 'language.index');
         $languages = $this->languageService->paginate($request);
 
         $config = [
@@ -53,7 +53,7 @@ class LanguageController extends Controller
 
     public function create()
     {
-        $this->authorize('modules', 'language.create');
+        // $this->authorize('modules', 'language.create');
         $config = $this->configData();
         $config['seo'] = config('apps.language');
         $config['method'] = 'create';
@@ -76,7 +76,7 @@ class LanguageController extends Controller
 
     public function edit($id)
     {
-        $this->authorize('modules', 'language.edit');
+        // $this->authorize('modules', 'language.edit');
         $language = $this->languageRepository->findById($id);
         $config = $this->configData();
         $config['seo'] = config('apps.language');
@@ -101,7 +101,7 @@ class LanguageController extends Controller
 
     public function delete($id)
     {
-        $this->authorize('modules', 'language.delete');
+        // $this->authorize('modules', 'language.delete');
         $config['seo'] = config('apps.language');
         $language = $this->languageRepository->findById($id);
         return view(
@@ -143,60 +143,65 @@ class LanguageController extends Controller
         return redirect()->back();
     }
 
-    // public function translate($id = 0, $languageId = 0, $model = ''){
-    //     $repositoryInstance = $this->respositoryInstance($model);
-    //     $languageInstance = $this->respositoryInstance('Language');
-    //     $currentLanguage = $languageInstance->findByCondition([
-    //         ['canonical' , '=', session('app_locale')]
-    //     ]);
-    //     $method = 'get'.$model.'ById';
+    public function translate($id = 0, $languageId = 0, $model = '')
+    {
+        $repositoryInstance = $this->respositoryInstance($model);
+        // dd($repositoryInstance);
+        $languageInstance = $this->respositoryInstance('Language');
+        $currentLanguage = $languageInstance->findByCondition([
+            ['canonical', '=', session('app_locale')]
+        ]);
+        $method = 'get' . $model . 'ById';
 
-    //     $object = $repositoryInstance->{$method}($id, $currentLanguage->id);
-    //     $objectTransate = $repositoryInstance->{$method}($id, $languageId);
+        $object = $repositoryInstance->{$method}($id, $currentLanguage->id);
 
-    //     $this->authorize('modules', 'language.translate');
-    //     $config = [
-    //         'js' => [
-    //             'backend/plugins/ckeditor/ckeditor.js',
-    //             'backend/plugins/ckfinder_2/ckfinder.js',
-    //             'backend/library/finder.js',
-    //             'backend/library/seo.js',
-    //             'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js'
-    //         ],
-    //         'css' => [
-    //             'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css'
-    //         ]
-    //     ];
-    //     $option = [
-    //         'id' => $id,
-    //         'languageId' => $languageId,
-    //         'model' => $model,
-    //     ];
-    //     $config['seo'] = config('apps.language');
-    //     $template = 'backend.language.translate';
-    //     return view('backend.dashboard.layout', compact(
-    //         'template',
-    //         'config',
-    //         'object',
-    //         'objectTransate',
-    //         'option',
-    //     ));
-    // }
+        $objectTransate = $repositoryInstance->{$method}($id, $languageId);
 
-    // public function storeTranslate(TranslateRequest $request){
-    //     $option = $request->input('option');
-    //     if($this->languageService->saveTranslate($option, $request)){
-    //         return redirect()->back()->with('success', 'Cập nhật bản ghi thành công');
-    //     }
-    //     return redirect()->back()->with('error','Có vấn đề xảy ra, Hãy Thử lại');
-    // }
+        // $this->authorize('modules', 'language.translate');
+        $config = [
+            'js' => [
+                'backend/plugins/ckeditor/ckeditor.js',
+                'backend/plugins/ckfinder_2/ckfinder.js',
+                'backend/library/finder.js',
+                'backend/library/seo.js',
+                'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js'
+            ],
+            'css' => [
+                'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css'
+            ]
+        ];
+        $option = [
+            'id' => $id,
+            'languageId' => $languageId,
+            'model' => $model,
+        ];
+        $config['seo'] = config('apps.language');
+        return view(
+            'backend.language.translate',
+            compact(
+                'config',
+                'object',
+                'objectTransate',
+                'option',
+            )
+        );
+    }
 
-    // private function respositoryInstance($model){
-    //     $repositoryNamespace = '\App\Repositories\\' . ucfirst($model) . 'Repository';
-    //     if (class_exists($repositoryNamespace)) {
-    //         $repositoryInstance = app($repositoryNamespace);
-    //     }
-    //     return $repositoryInstance ?? null;
-    // }
+    public function storeTranslate(TranslateRequest $request){
+        $option = $request->input('option');
+        if($this->languageService->saveTranslate($option, $request)){
+            return redirect()->back()->with('success', 'Cập nhật bản ghi thành công');
+        }
+        return redirect()->back()->with('error','Có vấn đề xảy ra, Hãy Thử lại');
+    }
+
+    private function respositoryInstance($model)
+    {
+        $repositoryNamespace = '\App\Repositories\\' . ucfirst($model) . 'Repository';
+        if (class_exists($repositoryNamespace)) {
+            $repositoryInstance = app($repositoryNamespace);
+        }
+        return $repositoryInstance ?? null;
+    }
 
 }

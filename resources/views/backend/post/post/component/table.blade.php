@@ -5,7 +5,8 @@
                 <input type="checkbox" value="" id="checkAll" class="input-checkbox">
             </th>
             <th>{{ __('messages.tableName') }}</th>
-            {{-- @include('backend.dashboard.component.languageTh') --}}
+
+            @include('backend.dashboard.component.languageTh')
             <th style="width:80px;" class="text-center">{{ __('messages.tableOrder') }}</th>
             <th class="text-center" style="width:100px;">{{ __('messages.tableStatus') }}</th>
             <th class="text-center" style="width:100px;">{{ __('messages.tableAction') }}</th>
@@ -38,10 +39,10 @@
                             </div>
                         </div>
                     </td>
-                    {{-- @include('backend.dashboard.component.languageTd', [
+                    @include('backend.dashboard.component.languageTd', [
                         'model' => $post,
                         'modeling' => 'Post',
-                    ]) --}}
+                    ])
                     <td>
                         <input type="text" name="order" value="{{ $post->order }}"
                             class="form-control sort-order text-right" data-id="{{ $post->id }}"

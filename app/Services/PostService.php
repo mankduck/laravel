@@ -121,7 +121,7 @@ class PostService extends BaseService implements PostServiceInterface
         DB::beginTransaction();
         try {
             $post = $this->postRepository->delete($id);
-            $this->routerRepository->deleteByCondition([
+            $this->routerRepository->forceDeleteByCondition([
                 ['module_id', '=', $id],
                 ['controllers', '=', 'App\Http\Controllers\Frontend\PostController'],
             ]);
@@ -220,18 +220,24 @@ class PostService extends BaseService implements PostServiceInterface
     }
 
 
-    private function whereRaw($request)
+    private function whereRaw($request, $languageId)
     {
         $rawCondition = [];
         if ($request->integer('post_catalogue_id') > 0) {
             $rawCondition['whereRaw'] = [
                 [
                     'tb3.post_catalogue_id IN (
-                        SELECT id FROM post_catalogues WHERE lft >= (SELECT lft FROM post_catalogues as pc WHERE pc.id = ?) AND rgt <= (SELECT rgt FROM post_catalogues as pc WHERE pc.id = ?)
+                        SELECT id
+                        FROM post_catalogues
+                        JOIN post_catalogue_language ON post_catalogues.id = post_catalogue_language.post_catalogue_id
+                        WHERE lft >= (SELECT lft FROM post_catalogues as pc WHERE pc.id = ?)
+                        AND rgt <= (SELECT rgt FROM post_catalogues as pc WHERE pc.id = ?)
+                        AND post_catalogue_language.language_id = ' . $languageId . '
                     )',
-                    [$request->integer('post_catalogue_id'), $request->integer('post_catalogue_id')],
+                    [$request->integer('post_catalogue_id'), $request->integer('post_catalogue_id')]
                 ]
             ];
+
         }
         return $rawCondition;
     }

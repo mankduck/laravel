@@ -26,5 +26,5 @@ interface BaseRepositoryInterface
     );
     public function updateByWhereIn(string $whereInField = '', array $whereIn = [], array $payload = []);
     public function createPivot($model, array $payload = [], string $relation = '');
-    public function deleteByCondition(array $condition = []);
+    public function forceDeleteByCondition(array $condition = []);
 }

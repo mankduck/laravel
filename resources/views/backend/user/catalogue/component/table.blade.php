@@ -44,4 +44,4 @@
         @endif
     </tbody>
 </table>
-{{-- {{  $userCatalogues->links('pagination::bootstrap-4') }} --}}
+{{ $userCatalogues->links('pagination::bootstrap-4') }}

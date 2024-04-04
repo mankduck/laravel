@@ -10,7 +10,11 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    protected function currentLanguage(){
-        return 1;
+    protected $language;
+
+    public function __construct()
+    {
+
     }
+
 }
