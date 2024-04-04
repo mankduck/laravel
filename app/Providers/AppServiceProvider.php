@@ -29,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
 
         'App\Repositories\Interfaces\RouterRepositoryInterface' => 'App\Repositories\RouterRepository',
 
+        'App\Services\Interfaces\PermissionServiceInterface' => 'App\Services\PermissionService',
+        'App\Repositories\Interfaces\PermissionRepositoryInterface' => 'App\Repositories\PermissionRepository',
+
+
     ];
     /**
      * Register any application services.

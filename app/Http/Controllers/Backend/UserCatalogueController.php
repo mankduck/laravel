@@ -19,16 +19,16 @@ class UserCatalogueController extends Controller
     public function __construct(
         UserCatalogueService $userCatalogueService,
         UserCatalogueRepository $userCatalogueRepository,
-        // PermissionRepository $permissionRepository
+        PermissionRepository $permissionRepository
     ) {
         $this->userCatalogueService = $userCatalogueService;
         $this->userCatalogueRepository = $userCatalogueRepository;
-        // $this->permissionRepository = $permissionRepository;
+        $this->permissionRepository = $permissionRepository;
     }
 
     public function index(Request $request)
     {
-        // $this->authorize('modules', 'user.catalogue.index');
+        $this->authorize('modules', 'user.catalogue.index');
         $userCatalogues = $this->userCatalogueService->paginate($request);
         $config = [
             'js' => [
@@ -54,7 +54,7 @@ class UserCatalogueController extends Controller
 
     public function create()
     {
-        // $this->authorize('modules', 'user.catalogue.create');
+        $this->authorize('modules', 'user.catalogue.create');
         $config['seo'] = __('messages.userCatalogue');
         $config['method'] = 'create';
         return view(
@@ -75,7 +75,7 @@ class UserCatalogueController extends Controller
 
     public function edit($id)
     {
-        // $this->authorize('modules', 'user.catalogue.update');
+        $this->authorize('modules', 'user.catalogue.edit');
         $userCatalogue = $this->userCatalogueRepository->findById($id);
         $config['seo'] = __('messages.userCatalogue');
         $config['method'] = 'edit';
@@ -98,7 +98,7 @@ class UserCatalogueController extends Controller
 
     public function delete($id)
     {
-        // $this->authorize('modules', 'user.catalogue.destroy');
+        $this->authorize('modules', 'user.catalogue.delete');
         $config['seo'] = __('messages.userCatalogue');
         $userCatalogue = $this->userCatalogueRepository->findById($id);
         return view(
@@ -118,26 +118,29 @@ class UserCatalogueController extends Controller
         return redirect()->route('user.catalogue.index')->with('error', 'Xóa bản ghi không thành công. Hãy thử lại');
     }
 
-    // public function permission(){
-    //     $this->authorize('modules', 'user.catalogue.permission');
-    //     $userCatalogues = $this->userCatalogueRepository->all(['permissions']);
+    public function permission()
+    {
+        $this->authorize('modules', 'user.catalogue.permission');
+        $userCatalogues = $this->userCatalogueRepository->all();
 
-    //     $permissions = $this->permissionRepository->all();
-    //     $config['seo'] = __('messages.userCatalogue');
-    //     $template = 'backend.user.catalogue.permission';
-    //     return view('backend.dashboard.layout', compact(
-    //         'template',
-    //         'userCatalogues',
-    //         'permissions',
-    //         'config',
-    //     ));
-    // }
+        $permissions = $this->permissionRepository->all();
+        $config['seo'] = __('messages.userCatalogue');
+        return view(
+            'backend.user.catalogue.permission',
+            compact(
+                'userCatalogues',
+                'permissions',
+                'config',
+            )
+        );
+    }
 
-    // public function updatePermission(Request $request){
-    //     if($this->userCatalogueService->setPermission($request)){
-    //         return redirect()->route('user.catalogue.index')->with('success','Cập nhật quyền thành công');
-    //     }
-    //     return redirect()->route('user.catalogue.index')->with('error','Có vấn đề xảy ra, Hãy thử lại');
-    // }
+    public function updatePermission(Request $request)
+    {
+        if ($this->userCatalogueService->setPermission($request)) {
+            return redirect()->route('user.catalogue.index')->with('success', 'Cập nhật quyền thành công');
+        }
+        return redirect()->route('user.catalogue.index')->with('error', 'Có vấn đề xảy ra, Hãy thử lại');
+    }
 
 }

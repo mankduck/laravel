@@ -1,10 +1,10 @@
-<?php   
+<?php
 return [
     'module' => [
         [
             'title' => 'QL sản phẩm',
             'icon' => 'fa fa-cube',
-            'name' => ['product','attribute'],
+            'name' => ['product', 'attribute'],
             'subModule' => [
                 [
                     'title' => 'QL Nhóm sản phẩm',
@@ -43,7 +43,7 @@ return [
         [
             'title' => 'QL Nhóm Thành Viên',
             'icon' => 'fa fa-user',
-            'name' => ['user','permission'],
+            'name' => ['user', 'permission'],
             'subModule' => [
                 [
                     'title' => 'QL Nhóm Thành Viên',
@@ -62,7 +62,7 @@ return [
         [
             'title' => 'Cấu hình chung',
             'icon' => 'fa fa-file',
-            'name' => ['language','generate'],
+            'name' => ['language', 'generate'],
             'subModule' => [
                 [
                     'title' => 'QL Ngôn ngữ',
@@ -72,7 +72,7 @@ return [
                     'title' => 'QL Module',
                     'route' => 'generate/index'
                 ],
-                
+
             ]
         ]
     ],

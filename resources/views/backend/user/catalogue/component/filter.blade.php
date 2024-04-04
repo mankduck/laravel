@@ -1,5 +1,3 @@
-
-
 <form action="{{ route('user.catalogue.index') }}">
     <div class="filter-wrapper">
         <div class="uk-flex uk-flex-middle uk-flex-space-between">
@@ -11,8 +9,12 @@
                         $postCatalogueId = request('post_catalogue_id') ?: old('post_catalogue_id');
                     @endphp --}}
                     @include('backend.dashboard.component.keyword')
-                    <a href="{{ route('post.create') }}" class="btn btn-danger"><i
-                            class="fa fa-plus mr5"></i>{{ __('messages.userCatalogue.create.title') }}</a>
+                    <div class="uk-flex uk-flex-middle">
+                        <a href="{{ route('user.catalogue.permission') }}" class="btn btn-warning mr10"><i
+                                class="fa fa-key mr5"></i>Phân Quyền</a>
+                        <a href="{{ route('user.catalogue.create') }}" class="btn btn-danger"><i
+                                class="fa fa-plus mr5"></i>{{ __('messages.userCatalogue.create.title') }}</a>
+                    </div>
                 </div>
             </div>
         </div>

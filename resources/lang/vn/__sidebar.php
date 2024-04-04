@@ -1,4 +1,4 @@
-<?php   
+<?php
 return [
     'postCatalogue' => [
         'index' => [
@@ -47,7 +47,7 @@ return [
         'permission' => [
             'title' => 'Cập nhật quyền'
         ],
-        
+
     ],
     'permission' => [
         'index' => [
@@ -63,7 +63,7 @@ return [
         'delete' => [
             'title' => 'Xóa Quyền'
         ],
-        
+
     ],
     'generate' => [
         'index' => [
@@ -117,7 +117,7 @@ return [
     'follow' => [
         '1' => 'Follow',
         '2' => 'Nofollow',
-        
+
     ],
     'album' => [
         'heading' => 'Album Ảnh',
@@ -127,5 +127,5 @@ return [
     'generalTitle' => 'Thông tin chung',
     'generalDescription' => 'Bạn đang muốn xóa ngôn ngữ có tên là:
     Lưu ý: Không thể khôi phục dữ liệu sau khi xóa. Hãy chắc chắn bạn muốn thực hiện chức năng này'
-   
+
 ];

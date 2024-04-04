@@ -50,7 +50,7 @@ class PostController extends Controller
 
     public function index(Request $request)
     {
-        // $this->authorize('modules', 'language.index');
+        $this->authorize('modules', 'post.index');
         $posts = $this->postService->paginate($request, $this->language);
         // dd($posts);
 
@@ -81,7 +81,7 @@ class PostController extends Controller
 
     public function create()
     {
-        // $this->authorize('modules', 'language.create');
+        $this->authorize('modules', 'post.create');
         $config = $this->configData();
         $config['seo'] = __('messages.post');
         $config['method'] = 'create';
@@ -106,7 +106,7 @@ class PostController extends Controller
 
     public function edit($id)
     {
-        // $this->authorize('modules', 'language.update');
+        $this->authorize('modules', 'post.edit');
         $post = $this->postRepository->getPostById($id, $this->language);
         // dd($post);
         $config = $this->configData();
@@ -139,7 +139,7 @@ class PostController extends Controller
 
     public function delete($id)
     {
-        // $this->authorize('modules', 'language.delete');
+        $this->authorize('modules', 'post.delete');
         $config['seo'] = __('messages.post');
         $post = $this->postRepository->getPostById($id, $this->language);
         return view(

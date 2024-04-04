@@ -47,31 +47,6 @@ class BaseRepository implements BaseRepositoryInterface
     }
 
 
-    // public function pagination(
-    //     array $column = ['*'],
-    //     array $condition = [],
-    //     int $perPage = 1,
-    //     array $extend = [],
-    //     array $orderBy = ['id', 'DESC'],
-    //     array $join = [],
-    //     array $relations = [],
-    //     array $rawQuery = []
-
-    // ) {
-    //     $query = $this->model->select($column);
-    //     return $query
-    //         ->keyword($condition['keyword'] ?? null)
-    //         ->publish($condition['publish'] ?? null)
-    //         ->relationCount($relations ?? null)
-    //         ->CustomWhere($condition['where'] ?? null)
-    //         ->customWhereRaw($rawQuery['whereRaw'] ?? null)
-    //         ->customJoin($join ?? null)
-    //         ->customGroupBy($extend['groupBy'] ?? null)
-    //         ->customOrderBy($orderBy ?? null)
-    //         ->paginate($perPage)
-    //         ->withQueryString()->withPath(env('APP_URL') . $extend['path']);
-    // }
-
     public function create(array $payload = [])
     {
         $model = $this->model->create($payload);
