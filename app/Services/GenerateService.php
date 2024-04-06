@@ -56,8 +56,6 @@ class GenerateService implements GenerateServiceInterface
                 $rule = $this->makeRule($request);
             }
             $route = $this->makeRoute($request);
-            dd($database);
-            die;
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -73,7 +71,9 @@ class GenerateService implements GenerateServiceInterface
     {
         try {
             $payload = $request->only('schema', 'name', 'module_type');
-            $module = $this->convertModuleNameToTableName($payload['name']); //produc
+            $module = $this->convertModuleNameToTableName($payload['name']);
+            // dd($module);
+            // die;
             $moduleExtract = explode('_', $module);
             $this->makeMainTable($request, $module, $payload);
             if ($payload['module_type'] !== 'difference') {
@@ -98,6 +98,7 @@ class GenerateService implements GenerateServiceInterface
         $tableName = $module . '_catalogue_' . $moduleExtract[0];
         $schema = $this->relationSchema($tableName, $module);
         $migrationRelationFile = $this->createMigrationFile($schema, $tableName);
+        // dd($migrationRelationFile);
         $migrationRelationFileName = date('Y_m_d_His', time() + 10) . '_create_' . $tableName . '_table.php';
         $migrationRelationPath = database_path('migrations/' . $migrationRelationFileName);
         FILE::put($migrationRelationPath, $migrationRelationFile);
@@ -107,10 +108,17 @@ class GenerateService implements GenerateServiceInterface
     {
         $foreignKey = $module . '_id';
         $pivotTableName = $module . '_language';
+
         $pivotSchema = $this->pivotSchema($module);
+
+
+
         $dropPivotTable = $module . '_language';
 
+
         $migrationPivot = $this->createMigrationFile($pivotSchema, $dropPivotTable);
+
+        // dd($migrationPivot);
 
         $migrationPivotFileName = date('Y_m_d_His', time() + 10) . '_create_' . $pivotTableName . '_table.php';
         $migrationPivotPath = database_path('migrations/' . $migrationPivotFileName);
@@ -119,44 +127,45 @@ class GenerateService implements GenerateServiceInterface
 
     private function makeMainTable($request, $module, $payload)
     {
-        $moduleExtract = explode('_', $module); //product
+        $moduleExtract = explode('_', $module);
         $tableName = $module . 's';
         $migrationFileName = date('Y_m_d_His') . '_create_' . $tableName . '_table.php';
         $migrationPath = database_path('migrations/' . $migrationFileName);
         $migrationTemplate = $this->createMigrationFile($payload['schema'], $tableName);
+        dd($migrationTemplate);
         FILE::put($migrationPath, $migrationTemplate);
     }
 
     private function relationSchema($tableName = '', $module = '')
     {
         $schema = <<<SCHEMA
-        Schema::create('{$tableName}', function (Blueprint \$table) {
-            \$table->unsignedBigInteger('{$module}_catalogue_id');
-            \$table->unsignedBigInteger('{$module}_id');
-            \$table->foreign('{$module}_catalogue_id')->references('id')->on('{$module}_catalogues')->onDelete('cascade');
-            \$table->foreign('{$module}_id')->references('id')->on('{$module}s')->onDelete('cascade');
-        });
-        SCHEMA;
+Schema::create('{$tableName}', function (Blueprint \$table) {
+    \$table->unsignedBigInteger('{$module}_catalogue_id');
+    \$table->unsignedBigInteger('{$module}_id');
+    \$table->foreign('{$module}_catalogue_id')->references('id')->on('{$module}_catalogues')->onDelete('cascade');
+    \$table->foreign('{$module}_id')->references('id')->on('{$module}s')->onDelete('cascade');
+});
+SCHEMA;
         return $schema;
     }
 
     private function pivotSchema($module)
     {
         $pivotSchema = <<<SCHEMA
-        Schema::create('{$module}_language', function (Blueprint \$table) {
-            \$table->unsignedBigInteger('{$module}_id');
-            \$table->unsignedBigInteger('language_id');
-            \$table->foreign('{$module}_id')->references('id')->on('{$module}s')->onDelete('cascade');
-            \$table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
-            \$table->string('name');
-            \$table->text('description')->nullable();
-            \$table->longText('content')->nullable();
-            \$table->string('meta_title')->nullable();
-            \$table->string('meta_keyword')->nullable();
-            \$table->text('meta_description')->nullable();
-            \$table->string('canonical')->nullable();
-            \$table->timestamps();
-        });       
+Schema::create('{$module}_language', function (Blueprint \$table) {
+    \$table->unsignedBigInteger('{$module}_id');
+    \$table->unsignedBigInteger('language_id');
+    \$table->foreign('{$module}_id')->references('id')->on('{$module}s')->onDelete('cascade');
+    \$table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
+    \$table->string('name');
+    \$table->text('description')->nullable();
+    \$table->longText('content')->nullable();
+    \$table->string('meta_title')->nullable();
+    \$table->string('meta_keyword')->nullable();
+    \$table->text('meta_description')->nullable();
+    \$table->string('canonical')->nullable();
+    \$table->timestamps();
+});       
 SCHEMA;
         return $pivotSchema;
     }
@@ -166,31 +175,31 @@ SCHEMA;
     {
 
         $migrationTemplate = <<<MIGRATION
-        <?php
+<?php
 
-        use Illuminate\Database\Migrations\Migration;
-        use Illuminate\Database\Schema\Blueprint;
-        use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-        return new class extends Migration 
-        {
-            /**
-             * Run the migrations.
-             */
-            public function up()
-            {
-                {$schema}
-            }
-        
-            /**
-             * Reverse the migrations.
-             */
-            public function down()
-            {
-                Schema::dropIfExists('{$dropTable}');
-            }
-        };
-        MIGRATION;
+return new class extends Migration 
+{
+    /**
+     * Run the migrations.
+     */
+    public function up()
+    {
+        {$schema};
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down()
+    {
+        Schema::dropIfExists('{$dropTable}');
+    }
+};
+MIGRATION;
         return $migrationTemplate;
     }
     private function convertModuleNameToTableName($name)

@@ -24,7 +24,7 @@ class GenerateController extends Controller
 
     public function index(Request $request)
     {
-        // $this->authorize('modules', 'generate.index');
+        $this->authorize('modules', 'generate.index');
         $generates = $this->generateService->paginate($request);
 
         $config = [
@@ -50,7 +50,7 @@ class GenerateController extends Controller
 
     public function create()
     {
-        // $this->authorize('modules', 'generate.create');
+        $this->authorize('modules', 'generate.create');
         $config = $this->configData();
         $config['seo'] = __('messages.generate');
         $config['method'] = 'create';
@@ -73,7 +73,7 @@ class GenerateController extends Controller
 
     public function edit($id)
     {
-        // $this->authorize('modules', 'generate.edit');
+        $this->authorize('modules', 'generate.edit');
         $generate = $this->generateRepository->findById($id);
         $config = $this->configData();
         $config['seo'] = __('messages.generate');
@@ -98,7 +98,7 @@ class GenerateController extends Controller
 
     public function delete($id)
     {
-        // $this->authorize('modules', 'generate.delete');
+        $this->authorize('modules', 'generate.delete');
         $config['seo'] = __('messages.generate');
         $generate = $this->generateRepository->findById($id);
         return view(

@@ -34,6 +34,18 @@ class AppServiceProvider extends ServiceProvider
 
         'App\Services\Interfaces\GenerateServiceInterface' => 'App\Services\GenerateService',
         'App\Repositories\Interfaces\GenerateRepositoryInterface' => 'App\Repositories\GenerateRepository',
+
+        'App\Services\Interfaces\ProductServiceInterface' => 'App\Services\ProductService',
+        'App\Repositories\Interfaces\ProductRepositoryInterface' => 'App\Repositories\ProductRepository',
+
+        'App\Services\Interfaces\ProductCatalogueServiceInterface' => 'App\Services\ProductCatalogueService',
+        'App\Repositories\Interfaces\ProductCatalogueRepositoryInterface' => 'App\Repositories\ProductCatalogueRepository',
+
+        'App\Services\Interfaces\AttributeServiceInterface' => 'App\Services\AttributeService',
+        'App\Repositories\Interfaces\AttributeRepositoryInterface' => 'App\Repositories\AttributeRepository',
+
+        'App\Services\Interfaces\AttributeCatalogueServiceInterface' => 'App\Services\AttributeCatalogueService',
+        'App\Repositories\Interfaces\AttributeCatalogueRepositoryInterface' => 'App\Repositories\AttributeCatalogueRepository',
     ];
     /**
      * Register any application services.
