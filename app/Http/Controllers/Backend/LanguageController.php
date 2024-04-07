@@ -148,12 +148,15 @@ class LanguageController extends Controller
         $repositoryInstance = $this->respositoryInstance($model);
         // dd($repositoryInstance);
         $languageInstance = $this->respositoryInstance('Language');
+        
         $currentLanguage = $languageInstance->findByCondition([
             ['canonical', '=', session('app_locale')]
         ]);
+        // dd($currentLanguage);
         $method = 'get' . $model . 'ById';
 
         $object = $repositoryInstance->{$method}($id, $currentLanguage->id);
+
 
         $objectTransate = $repositoryInstance->{$method}($id, $languageId);
 
@@ -187,12 +190,13 @@ class LanguageController extends Controller
         );
     }
 
-    public function storeTranslate(TranslateRequest $request){
+    public function storeTranslate(TranslateRequest $request)
+    {
         $option = $request->input('option');
-        if($this->languageService->saveTranslate($option, $request)){
+        if ($this->languageService->saveTranslate($option, $request)) {
             return redirect()->back()->with('success', 'Cập nhật bản ghi thành công');
         }
-        return redirect()->back()->with('error','Có vấn đề xảy ra, Hãy Thử lại');
+        return redirect()->back()->with('error', 'Có vấn đề xảy ra, Hãy Thử lại');
     }
 
     private function respositoryInstance($model)

@@ -21,17 +21,18 @@ class AttributeService extends BaseService implements AttributeServiceInterface
 {
     protected $attributeRepository;
     protected $routerRepository;
-    
+
     public function __construct(
         AttributeRepository $attributeRepository,
         RouterRepository $routerRepository,
-    ){
+    ) {
         $this->attributeRepository = $attributeRepository;
         $this->routerRepository = $routerRepository;
         $this->controllerName = 'AttributeController';
     }
 
-    public function paginate($request, $languageId){
+    public function paginate($request, $languageId)
+    {
         $perPage = $request->integer('perpage');
         $condition = [
             'keyword' => addslashes($request->input('keyword')),
@@ -41,7 +42,7 @@ class AttributeService extends BaseService implements AttributeServiceInterface
             ],
         ];
         $paginationConfig = [
-            'path' => 'attribute.index', 
+            'path' => 'attribute.index',
             'groupBy' => $this->paginateSelect()
         ];
         $orderBy = ['attributes.id', 'DESC'];
@@ -54,66 +55,74 @@ class AttributeService extends BaseService implements AttributeServiceInterface
         ];
 
         $attributes = $this->attributeRepository->pagination(
-            $this->paginateSelect(), 
-            $condition, 
+            $this->paginateSelect(),
+            $condition,
             $perPage,
-            $paginationConfig,  
+            $paginationConfig,
             $orderBy,
-            $joins,  
+            $joins,
             $relations,
             $rawQuery
-        ); 
+        );
         return $attributes;
     }
 
-    public function create($request, $languageId){
+    public function create($request, $languageId)
+    {
         DB::beginTransaction();
-        try{
+        try {
             $attribute = $this->createAttribute($request);
-            if($attribute->id > 0){
+            if ($attribute->id > 0) {
                 $this->updateLanguageForAttribute($attribute, $request, $languageId);
                 $this->updateCatalogueForAttribute($attribute, $request);
                 $this->createRouter($attribute, $request, $this->controllerName, $languageId);
             }
             DB::commit();
             return true;
-        }catch(\Exception $e ){
+        } catch (\Exception $e) {
             DB::rollBack();
             // Log::error($e->getMessage());
-            echo $e->getMessage();die();
+            echo $e->getMessage();
+            die();
             return false;
         }
     }
 
-    public function update($id, $request, $languageId){
+    public function update($id, $request, $languageId)
+    {
         DB::beginTransaction();
-        try{
+        try {
             $attribute = $this->attributeRepository->findById($id);
-            if($this->uploadAttribute($attribute, $request)){
+            if ($this->uploadAttribute($attribute, $request)) {
                 $this->updateLanguageForAttribute($attribute, $request, $languageId);
                 $this->updateCatalogueForAttribute($attribute, $request);
                 $this->updateRouter(
-                    $attribute, $request, $this->controllerName, $languageId
+                    $attribute,
+                    $request,
+                    $this->controllerName,
+                    $languageId
                 );
             }
             DB::commit();
             return true;
-        }catch(\Exception $e ){
+        } catch (\Exception $e) {
             DB::rollBack();
             // Log::error($e->getMessage());
-            echo $e->getMessage();die();
+            echo $e->getMessage();
+            die();
             return false;
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         DB::beginTransaction();
-        try{
+        try {
             $attribute = $this->attributeRepository->delete($id);
-            
+
             DB::commit();
             return true;
-        }catch(\Exception $e ){
+        } catch (\Exception $e) {
             DB::rollBack();
             // Log::error($e->getMessage());
             // echo $e->getMessage();die();
@@ -121,7 +130,8 @@ class AttributeService extends BaseService implements AttributeServiceInterface
         }
     }
 
-    private function createAttribute($request){
+    private function createAttribute($request)
+    {
         $payload = $request->only($this->payload());
         $payload['user_id'] = Auth::id();
         $payload['album'] = $this->formatAlbum($request);
@@ -129,76 +139,86 @@ class AttributeService extends BaseService implements AttributeServiceInterface
         return $attribute;
     }
 
-    private function uploadAttribute($attribute, $request){
+    private function uploadAttribute($attribute, $request)
+    {
         $payload = $request->only($this->payload());
         $payload['album'] = $this->formatAlbum($request);
         return $this->attributeRepository->update($attribute->id, $payload);
     }
 
-    private function updateLanguageForAttribute($attribute, $request, $languageId){
+    private function updateLanguageForAttribute($attribute, $request, $languageId)
+    {
         $payload = $request->only($this->payloadLanguage());
         $payload = $this->formatLanguagePayload($payload, $attribute->id, $languageId);
         $attribute->languages()->detach([$this->language, $attribute->id]);
         return $this->attributeRepository->createPivot($attribute, $payload, 'languages');
     }
 
-    private function updateCatalogueForAttribute($attribute, $request){
+    private function updateCatalogueForAttribute($attribute, $request)
+    {
         $attribute->attribute_catalogues()->sync($this->catalogue($request));
     }
 
-    private function formatLanguagePayload($payload, $attributeId, $languageId){
+    private function formatLanguagePayload($payload, $attributeId, $languageId)
+    {
         $payload['canonical'] = Str::slug($payload['canonical']);
-        $payload['language_id'] =  $languageId;
+        $payload['language_id'] = $languageId;
         $payload['attribute_id'] = $attributeId;
         return $payload;
     }
 
 
-    private function catalogue($request){
-        if($request->input('catalogue') != null){
+    private function catalogue($request)
+    {
+        if ($request->input('catalogue') != null) {
             return array_unique(array_merge($request->input('catalogue'), [$request->attribute_catalogue_id]));
         }
         return [$request->attribute_catalogue_id];
     }
-    
-    public function updateStatus($post = []){
+
+    public function updateStatus($post = [])
+    {
         DB::beginTransaction();
-        try{
-            $payload[$post['field']] = (($post['value'] == 1)?2:1);
+        try {
+            $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
             $post = $this->attributeRepository->update($post['modelId'], $payload);
             // $this->changeUserStatus($post, $payload[$post['field']]);
 
             DB::commit();
             return true;
-        }catch(\Exception $e ){
+        } catch (\Exception $e) {
             DB::rollBack();
             // Log::error($e->getMessage());
-            echo $e->getMessage();die();
+            echo $e->getMessage();
+            die();
             return false;
         }
     }
 
-    public function updateStatusAll($post){
+    public function updateStatusAll($post)
+    {
         DB::beginTransaction();
-        try{
+        try {
             $payload[$post['field']] = $post['value'];
             $flag = $this->attributeRepository->updateByWhereIn('id', $post['id'], $payload);
             // $this->changeUserStatus($post, $post['value']);
 
             DB::commit();
             return true;
-        }catch(\Exception $e ){
+        } catch (\Exception $e) {
             DB::rollBack();
             // Log::error($e->getMessage());
-            echo $e->getMessage();die();
+            echo $e->getMessage();
+            die();
             return false;
         }
     }
 
-    private function whereRaw($request, $languageId){
+    private function whereRaw($request, $languageId)
+    {
         $rawCondition = [];
-        if($request->integer('attribute_catalogue_id') > 0){
-            $rawCondition['whereRaw'] =  [
+        if ($request->integer('attribute_catalogue_id') > 0) {
+            $rawCondition['whereRaw'] = [
                 [
                     'tb3.attribute_catalogue_id IN (
                         SELECT id
@@ -206,28 +226,30 @@ class AttributeService extends BaseService implements AttributeServiceInterface
                         JOIN attribute_catalogue_language ON attribute_catalogues.id = attribute_catalogue_language.attribute_catalogue_id
                         WHERE lft >= (SELECT lft FROM attribute_catalogues as pc WHERE pc.id = ?)
                         AND rgt <= (SELECT rgt FROM attribute_catalogues as pc WHERE pc.id = ?)
-                        AND attribute_catalogue_language.language_id = '.$languageId.'
+                        AND attribute_catalogue_language.language_id = ' . $languageId . '
                     )',
                     [$request->integer('attribute_catalogue_id'), $request->integer('attribute_catalogue_id')]
                 ]
             ];
-            
+
         }
         return $rawCondition;
     }
 
-    private function paginateSelect(){
+    private function paginateSelect()
+    {
         return [
-            'attributes.id', 
+            'attributes.id',
             'attributes.publish',
             'attributes.image',
             'attributes.order',
-            'tb2.name', 
+            'tb2.name',
             'tb2.canonical',
         ];
     }
 
-    private function payload(){
+    private function payload()
+    {
         return [
             'follow',
             'publish',
@@ -237,7 +259,8 @@ class AttributeService extends BaseService implements AttributeServiceInterface
         ];
     }
 
-    private function payloadLanguage(){
+    private function payloadLanguage()
+    {
         return [
             'name',
             'description',

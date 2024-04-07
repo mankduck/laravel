@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Services\Interfaces\ProductServiceInterface as ProductService;
 use App\Repositories\Interfaces\ProductRepositoryInterface as ProductRepository;
-// use App\Repositories\Interfaces\AttributeCatalogueRepositoryInterface as AttributeCatalogueRepository;
+use App\Repositories\Interfaces\AttributeCatalogueRepositoryInterface as AttributeCatalogueRepository;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Requests\DeleteProductRequest;
@@ -20,12 +20,12 @@ class ProductController extends Controller
     protected $productRepository;
     protected $languageRepository;
     protected $language;
-    // protected $attributeCatalogue;
+    protected $attributeCatalogue;
 
     public function __construct(
         ProductService $productService,
         ProductRepository $productRepository,
-        // AttributeCatalogueRepository $attributeCatalogue,
+        AttributeCatalogueRepository $attributeCatalogue,
     ) {
         $this->middleware(function ($request, $next) {
             $locale = app()->getLocale(); // vn en cn
@@ -37,7 +37,7 @@ class ProductController extends Controller
 
         $this->productService = $productService;
         $this->productRepository = $productRepository;
-        // $this->attributeCatalogue = $attributeCatalogue;
+        $this->attributeCatalogue = $attributeCatalogue;
         $this->initialize();
 
     }
@@ -83,7 +83,7 @@ class ProductController extends Controller
     {
         // $this->authorize('modules', 'product.create');
 
-        // $attributeCatalogue = $this->attributeCatalogue->getAll($this->language);
+        $attributeCatalogue = $this->attributeCatalogue->getAll($this->language);
         $config = $this->configData();
         $config['seo'] = __('messages.product');
         $config['method'] = 'create';
@@ -93,7 +93,7 @@ class ProductController extends Controller
             compact(
                 'dropdown',
                 'config',
-                // 'attributeCatalogue',
+                'attributeCatalogue',
             )
         );
     }
@@ -165,6 +165,7 @@ class ProductController extends Controller
                 'backend/library/finder.js',
                 'backend/library/seo.js',
                 'backend/library/variant.js',
+                'backend/library/library.js',
                 'backend/js/plugins/switchery/switchery.js',
                 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
                 'backend/plugins/nice-select/js/jquery.nice-select.min.js'
