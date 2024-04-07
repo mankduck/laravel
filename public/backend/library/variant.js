@@ -137,7 +137,7 @@
         for (let j = 0; j < attributes.length; j++) {
             html = html + '<tr class="variant-row">'
             html = html + '<td>'
-            html = html + '<span class="image img-cover"><img src="https://daks2k3a4ib2z.cloudfront.net/6343da4ea0e69336d8375527/6343da5f04a965c89988b149_1665391198377-image16-p-500.jpg" alt=""></span>'
+            html = html + '<span class="image img-cover"><img src="https://daks2k3a4ib2z.cloudfront.net/6343da4ea0e69336d8375527/6343da5f04a965c89988b149_1665391198377-image16-p-500.jpg" alt="" class="imageSrc"></span>'
             html = html + '</td>'
 
             let attributeArray = []
@@ -159,13 +159,13 @@
             html = html + '<td class="td-price">-</td>'
             html = html + '<td class="td-sku">-</td>'
             html = html + '<td class="hidden td-variant">'
-            html = html + '<input type="text" name="variant[quantity][]" class="variant-quantity">'
-            html = html + '<input type="text" name="variant[price][]" class="variant-price">'
-            html = html + '<input type="text" name="variant[sku][]" class="variant-sku">'
-            html = html + '<input type="text" name="variant[barcode][]" class="variant-barcode">'
-            html = html + '<input type="text" name="variant[file_name][]" class="variant-filename">'
-            html = html + '<input type="text" name="variant[file_url][]" class="variant-fileurl">'
-            html = html + '<input type="text" name="variant[album][]" class="variant-album">'
+            html = html + '<input type="text" name="variant[quantity][]" class="variant_quantity">'
+            html = html + '<input type="text" name="variant[price][]" class="variant_price">'
+            html = html + '<input type="text" name="variant[sku][]" class="variant_sku">'
+            html = html + '<input type="text" name="variant[barcode][]" class="variant_barcode">'
+            html = html + '<input type="text" name="variant[file_name][]" class="variant_filename">'
+            html = html + '<input type="text" name="variant[file_url][]" class="variant_fileurl">'
+            html = html + '<input type="text" name="variant[album][]" class="variant_album">'
             html = html + '<input type="text" name="attribute[name][]" value="' + attributeString + '">'
             html = html + '<input type="text" name="attribute[id][]" value="' + attributeId + '">'
             html = html + '</td >'
@@ -319,11 +319,20 @@
     HT.updateVariant = () => {
         $(document).on('click', '.variant-row', function () {
             let _this = $(this)
-            let updateVariantBox = HT.updateVariantHtml()
+
+            let variantData = {}
+
+            _this.find(".td-variant input[type=text][class^='variant_']").each(function () {
+                let className = $(this).attr('class')
+                variantData[className] = $(this).val()
+            })
+
+
+            let updateVariantBox = HT.updateVariantHtml(variantData)
             if ($('.updateVariantTr').length == 0) {
                 _this.after(updateVariantBox)
+                HT.switchery()
             }
-            HT.switchery()
         })
     }
 
@@ -334,7 +343,31 @@
     }
 
 
-    HT.updateVariantHtml = () => {
+    HT.variantAlbumList = (album) => {
+        let html = ''
+        if (album.length && album[0] !== '') {
+            for (let i = 0; i < album.length; i++) {
+                html = html + '<li class="ui-state-default">'
+                html = html + '<div class="thumb">'
+                html = html + '<span class="span image img-scaledown">'
+                html = html + '<img src="' + album[i] + '" alt="' + album[i] + '">'
+                html = html + '<input type="hidden" name="variantAlbum[]" value="' + album[i] + '">'
+                html = html + '</span>'
+                html = html + '<button class="variant-delete-image">'
+                html = html + '<i class="fa fa-trash"></i>'
+                html = html + '</button>'
+                html = html + '</div>'
+                html = html + '</li>'
+            }
+        }
+        return html
+
+    }
+
+
+    HT.updateVariantHtml = (variantData) => {
+        let variantAlbum = variantData.variant_album.split(', ')
+        let variantAlbumItem = HT.variantAlbumList(variantAlbum)
         let html = ''
         html = html + '<tr class="updateVariantTr">'
         html = html + '<td colspan="6">'
@@ -351,10 +384,10 @@
         html = html + '</div>'
         html = html + '</div>'
         html = html + '<div class="ibox-content">'
-        html = html + '<div class="click-to-upload-variant">'
+        html = html + '<div class="click-to-upload-variant" ' + ((variantAlbum.length > 0 && variantAlbum[0] !== '') ? 'hidden' : '') + '>'
         html = html + '<div class="icon">'
         html = html + '<a type="button" class="upload-variant-picture">'
-        html = html + '<svg style="width:80px;height:80px;fill: #d3dbe2;margin-bottom: 10px;" xmlns = "http://www.w3.org/2000/svg" viewBox = "0 0 80 80" > '
+        html = html + '<svg style="width:80px;height:80px;fill: #d3dbe2;margin-bottom: 10px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" > '
         html = html + '<path d="M80 57.6l-4-18.7v-23.9c0-1.1-.9-2-2-2h-3.5l-1.1-5.4c-.3-1.1-1.4-1.8-2.4-1.6l-32.6 7h-27.4c-1.1 0-2 .9-2 2v4.3l-3.4.7c-1.1.2-1.8 1.3-1.5 2.4l5 23.4v20.2c0 1.1.9 2 2 2h2.7l.9 4.4c.2.9 1 1.6 2 1.6h.4l27.9-6h33c1.1 0 2-.9 2-2v-5.5l2.4-.5c1.1-.2 1.8-1.3 1.6-2.4zm-75-21.5l-3-14.1 3-.6v14.7zm62.4-28.1l1.1 5h-24.5l23.4-5zm-54.8 64l-.8-4h19.6l-18.8 4zm37.7-6h-43.3v-51h67v51h-23.7zm25.7-7.5v-9.9l2 9.4-2 .5zm-52-21.5c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5zm0-8c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm-13-10v43h59v-43h-59zm57 2v24.1l-12.8-12.8c-3-3-7.9-3-11 0l-13.3 13.2-.1-.1c-1.1-1.1-2.5-1.7-4.1-1.7-1.5 0-3 .6-4.1 1.7l-9.6 9.8v-34.2h55zm-55 39v-2l11.1-11.2c1.4-1.4 3.9-1.4 5.3 0l9.7 9.7c-5.2 1.3-9 2.4-9.4 2.5l-3.7 1h-13zm55 0h-34.2c7.1-2 23.2-5.9 33-5.9l1.2-.1v6zm-1.3-7.9c-7.2 0-17.4 2-25.3 3.9l-9.1-9.1 13.3-13.3c2.2-2.2 5.9-2.2 8.1 0l14.3 14.3v4.1l-1.3.1z">'
         html = html + '</path>'
         html = html + '</svg>'
@@ -363,29 +396,29 @@
         html = html + '<div class="small-text">Sử dụng nút chọn hình để thêm mới hình ảnh'
         html = html + '</div>'
         html = html + '</div>'
-        html = html + '<ul class="upload-variant-list hidden sortui ui-sortable clearfix " id="sortable2"></ul>'
+        html = html + '<ul class="upload-variant-list ' + ((variantAlbumItem.length) ? '' : 'hidden') + ' sortui ui-sortable clearfix " id="sortable2">' + variantAlbumItem + '</ul>'
         html = html + '<div class="row mt20 uk-flex uk-flex-middle">'
         html = html + '<div class="col-lg-2 uk-flex uk-flex-middle">'
         html = html + '<label for="" class="mr10">Tồn kho</label>'
-        html = html + '<input type="checkbox" class="js-switch" data-target="variantQuantity">'
+        html = html + '<input type="checkbox" class="js-switch" ' + ((variantData.variant_quantity !== '') ? 'checked' : '') + ' data-target="variantQuantity">'
         html = html + '</div>'
         html = html + '<div class="col-lg-10">'
         html = html + '<div class="row">'
         html = html + '<div class="col-lg-3">'
         html = html + '<label for="" class="control-label">Số lượng</label>'
-        html = html + '<input type="text" disabled name="variant_quantity" value="0" class="form-control int disabled" > '
+        html = html + '<input type="text" ' + ((variantData.variant_quantity == '') ? 'disabled' : '') + ' name="variant_quantity" value="' + variantData.variant_quantity + '" class="form-control int ' + ((variantData.variant_quantity == '') ? 'disabled' : '') + '" > '
         html = html + '</div>'
         html = html + '<div class="col-lg-3">'
         html = html + '<label for="" class="control-label">SKU</label>'
-        html = html + '<input type="text" name="variant_sku" value="" class="form-control text-right">'
+        html = html + '<input type="text" name="variant_sku" value="' + variantData.variant_sku + '" class="form-control text-right">'
         html = html + '</div>'
         html = html + '<div class="col-lg-3">'
         html = html + '<label for="" class="control-label">Giá</label>'
-        html = html + '<input type="text" name="variant_price" value="0" class="form-control int">'
+        html = html + '<input type="text" name="variant_price" value="' + HT.addCommas(variantData.variant_price) + '" class="form-control int">'
         html = html + '</div>'
         html = html + '<div class="col-lg-3">'
         html = html + '<label for="" class="control-label">Barcode</label>'
-        html = html + '<input type="text" name="variant_barcode" value="" class="form-control text-right">'
+        html = html + '<input type="text" name="variant_barcode" value="' + variantData.variant_barcode + '" class="form-control text-right">'
         html = html + '</div>'
         html = html + '</div>'
         html = html + '</div>'
@@ -393,17 +426,17 @@
         html = html + '<div class="row mt20 uk-flex uk-flex-middle">'
         html = html + '<div class="col-lg-2 uk-flex uk-flex-middle">'
         html = html + '<label for="" class="mr10">QL File</label>'
-        html = html + '<input type="checkbox" class="js-switch" data-target="disabled">'
+        html = html + '<input type="checkbox" class="js-switch" data-target="disabled" ' + ((variantData.variant_filename !== '') ? 'checked' : '') + '>'
         html = html + '</div>'
         html = html + '<div class="col-lg-10">'
         html = html + '<div class="row">'
         html = html + '<div class="col-lg-6">'
         html = html + '<label for="" class="control-label">Tên File</label>'
-        html = html + '<input type="text" disabled name="variant_file_name" value="" class="form-control disabled" >'
+        html = html + '<input type="text" ' + ((variantData.variant_filename == '') ? 'disabled' : '') + ' name="variant_file_name" value="' + variantData.variant_filename + '" class="form-control ' + ((variantData.variant_filename == '') ? 'disabled' : '') + '" >'
         html = html + '</div>'
         html = html + '<div class="col-lg-6">'
         html = html + '<label for="" class="control-label">Đường dẫn</label>'
-        html = html + '<input type="text" disabled name="variant_file_url" value="" class="form-control disabled" > '
+        html = html + '<input type="text" ' + ((variantData.variant_fileurl == '') ? 'disabled' : '') + ' name="variant_file_url" value="' + variantData.variant_fileurl + '" class="form-control ' + ((variantData.variant_fileurl == '') ? 'disabled' : '') + '" > '
         html = html + '</div>'
         html = html + '</div>'
         html = html + '</div>'
@@ -427,6 +460,19 @@
         $('.updateVariantTr').remove()
     }
 
+
+    HT.addCommas = (nStr) => {
+        nStr = String(nStr);
+        nStr = nStr.replace(/\./gi, "");
+        let str = '';
+        for (let i = nStr.length; i > 0; i -= 3) {
+            let a = ((i - 3) < 0) ? 0 : (i - 3);
+            str = nStr.slice(a, i) + '.' + str;
+        }
+        str = str.slice(0, str.length - 1);
+        return str;
+    }
+
     HT.saveVariantUpdate = () => {
         $(document).on('click', '.saveUpdateVariant', function () {
 
@@ -443,11 +489,28 @@
             }
 
             $.each(variant, function (index, value) {
-                $('.variant-' + index).val(value)
+                $('.updateVariantTr').prev().find('.variant_' + index).val(value)
             })
 
+            HT.previewVariantTr(variant)
             HT.closeUpdateVariantBox()
         })
+    }
+
+
+    HT.previewVariantTr = (variant) => {
+        let option = {
+            'quantity': variant.quantity,
+            'price': variant.price,
+            'sku': variant.sku,
+        }
+
+        $.each(option, function (index, value) {
+            $('.updateVariantTr').prev().find('.td-' + index).html(value)
+        })
+
+
+        $('.updateVariantTr').prev().find('.imageSrc').attr('src', variant.album[0])
     }
 
 

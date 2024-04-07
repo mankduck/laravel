@@ -27,6 +27,10 @@ table .image {
     display: block;
 }
 
+.updateVariant .image{
+    height: 150px !important;
+}
+
 .img-cover img {
     width: 100%;
     height: 100%;
