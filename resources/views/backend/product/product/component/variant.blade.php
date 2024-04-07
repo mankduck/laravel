@@ -48,7 +48,7 @@
 
             </table>
         </div>
-
+{{-- 
         <tr>
             <td colspan="6">
                 <div class="updateVariant ibox">
@@ -129,7 +129,7 @@
                     </div>
                 </div>
             </td>
-        </tr>
+        </tr> --}}
 
     </div>
 </div>
