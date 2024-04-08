@@ -20,6 +20,8 @@
             $(document).on('click', '.add-variant', function () {
                 let html = HT.renderVariantItem(attributeCatalogue)
                 $('.variant-body').append(html)
+                $('.variantTable thead').html('')
+                $('.variantTable tbody').html('')
                 HT.checkMaxAttributeGroup(attributeCatalogue);
                 HT.disabledAttributeCatalogueChoose();
             })
@@ -110,11 +112,108 @@
         variants = variants.reduce(
             (a, b) => a.flatMap(d => b.map(e => ({ ...d, ...e })))
         )
+        HT.createTableHeader(attributeTitle)
+        let trClass = []
+        attributes.forEach((item, index) => {
+            let row = HT.createVariantRow(item, variants[index])
+            let classModified = 'tr-variant-' + Object.values(variants[index]).join(', ').replace(/, /g, '-')
 
-        let html = HT.renderTableHtml(attributes, attributeTitle, variants);
-        $('table.variantTable').html(html)
+            trClass.push(classModified)
+            if (!$('table.variantTable tbody tr').hasClass(classModified)) {
+                $('table.variantTable tbody').append(row)
+            }
+        });
+
+        $('table.variantTable tbody tr').each(function () {
+            const row = $(this)
+            const rowClasses = row.attr('class')
+            if (rowClasses) {
+                const rowClassArray = rowClasses.split(' ')
+                let shouldRemove = false
+                rowClassArray.forEach(rowClass => {
+                    if (rowClass == 'variant-row') {
+                        return
+                    } else if (!trClass.includes(rowClass)) {
+                        shouldRemove = true
+                    }
+                })
+
+                if (shouldRemove) {
+                    row.remove()
+                }
+            }
+        })
+
+        // let html = HT.renderTableHtml(attributes, attributeTitle, variants);
+        // $('table.variantTable').html(html)
 
     }
+
+    HT.createTableHeader = (attributeTitle) => {
+        let thead = $('table.variantTable thead')
+        let row = $('<tr>')
+        row.append($('<td>').text('Hình Ảnh'))
+        for (let i = 0; i < attributeTitle.length; i++) {
+            row.append($('<td>').text(attributeTitle[i]))
+        }
+
+        row.append($('<td>').text('Số Lượng'))
+        row.append($('<td>').text('Giá Tiền'))
+        row.append($('<td>').text('SKU'))
+
+        thead.html(row)
+        return thead
+    }
+
+    HT.createVariantRow = (attributeItem, variantItem) => {
+        let attributeString = Object.values(attributeItem).join(', ')
+        let attributeId = Object.values(variantItem).join(', ')
+        let classModified = attributeId.replace(/, /g, '-')
+        let row = $('<tr>').addClass('variant-row tr-variant-' + classModified)
+        let td
+
+        td = $('<td>').append(
+            $('<span>').addClass('image img-cover').append(
+                $('<img>').attr('src', 'https://daks2k3a4ib2z.cloudfront.net/6343da4ea0e69336d8375527/6343da5f04a965c89988b149_1665391198377-image16-p-500.jpg').addClass('imageSrc')
+            )
+        )
+
+        row.append(td)
+        Object.values(attributeItem).forEach(value => {
+            td = $('<td>').text(value)
+            row.append(td)
+        })
+
+        td = $('<td>').addClass('hidden td-variant')
+
+        let inputHiddenFields = [
+            { name: 'variant[quantity][]', class: 'variant_quantity' },
+            { name: 'variant[price][]', class: 'variant_price' },
+            { name: 'variant[sku][]', class: 'variant_sku' },
+            { name: 'variant[barcode][]', class: 'variant_barcode' },
+            { name: 'variant[file_name][]', class: 'variant_filename' },
+            { name: 'variant[file_url][]', class: 'variant_fileurl' },
+            { name: 'variant[album][]', class: 'variant_album' },
+            { name: 'attribute[name][]', value: attributeString },
+            { name: 'attribute[id][]', class: attributeId },
+        ]
+
+        $.each(inputHiddenFields, function (_, field) {
+            let input = $('<input>').attr('type', 'text').attr('name', field.name).addClass(field.class)
+            if (field.value) {
+                input.val(field.value)
+            }
+            td.append(input)
+        })
+
+        row.append($('<td>').addClass('td-quantity').text('-'))
+            .append($('<td>').addClass('td-price').text('-'))
+            .append($('<td>').addClass('td-sku').text('-'))
+            .append(td)
+
+        return row
+    }
+
 
     HT.renderTableHtml = (attributes, attributeTitle, variants) => {
         let html = ''
@@ -251,6 +350,7 @@
             let _this = $(this)
             _this.parents('.variant-item').remove()
             HT.checkMaxAttributeGroup(attributeCatalogue)
+            HT.createVariant()
         })
     }
 
@@ -515,6 +615,7 @@
 
 
     $(document).ready(function () {
+        HT.setupProductVariant()
         HT.addVariant()
         HT.niceSelect()
         HT.chooseVariantGroup()

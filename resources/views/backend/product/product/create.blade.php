@@ -17,10 +17,10 @@
                             <h5>{{ __('messages.tableHeading') }}</h5>
                         </div>
                         <div class="ibox-content">
-                            @include('backend.dashboard.component.content', ['model' => $product ?? null])
+                            {{-- @include('backend.dashboard.component.content', ['model' => $product ?? null]) --}}
                         </div>
                     </div>
-                    @include('backend.dashboard.component.album', ['model' => $product ?? null])
+                    {{-- @include('backend.dashboard.component.album', ['model' => $product ?? null]) --}}
                     @include('backend.product.product.component.variant')
                     @include('backend.dashboard.component.seo', ['model' => $product ?? null])
                 </div>
@@ -28,7 +28,7 @@
                     @include('backend.product.product.component.aside')
                 </div>
             </div>
-            @include('backend.dashboard.component.button')
+            {{-- @include('backend.dashboard.component.button') --}}
         </div>
     </form>
 @endsection

@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div class="variant-wrapper ">
+        <div class="variant-wrapper hidden">
             <div class="row variant-container">
                 <div class="col-lg-3">
                     <div class="attribute-title">Chọn thuộc tính</div>
@@ -45,7 +45,8 @@
     <div class="ibox-content">
         <div class="table-responsive">
             <table class="table table-striped variantTable">
-
+                <thead></thead>
+                <tbody></tbody>
             </table>
         </div>
 {{-- 
