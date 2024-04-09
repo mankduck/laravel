@@ -16,14 +16,16 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function __construct(
         Product $model
-    ){
+    ) {
         $this->model = $model;
     }
 
-    
 
-    public function getProductById(int $id = 0, $language_id = 0){
-        return $this->model->select([
+
+    public function getProductById(int $id = 0, $language_id = 0)
+    {
+        return $this->model->select(
+            [
                 'products.id',
                 'products.product_catalogue_id',
                 'products.image',
@@ -34,6 +36,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 'products.price',
                 'products.code',
                 'products.made_in',
+                'products.attributeCatalogue',
+                'products.attribute',
+                'products.variant',
                 'tb2.name',
                 'tb2.description',
                 'tb2.content',
@@ -43,10 +48,23 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 'tb2.canonical',
             ]
         )
-        ->join('product_language as tb2', 'tb2.product_id', '=','products.id')
-        ->with('product_catalogues')
-        ->where('tb2.language_id', '=', $language_id)
-        ->find($id);
+            ->join('product_language as tb2', 'tb2.product_id', '=', 'products.id')
+            ->with([
+                'product_catalogues',
+                'product_variants' => function ($query) use ($language_id) {
+                    $query->with([
+                        'attributes' => function ($query) use ($language_id) {
+                            $query->with([
+                                'attribute_language' => function ($query) use ($language_id) {
+                                    $query->where('language_id', '=', $language_id);
+                                }
+                            ]);
+                        }
+                    ]);
+                }
+            ])
+            ->where('tb2.language_id', '=', $language_id)
+            ->find($id);
     }
 
 }

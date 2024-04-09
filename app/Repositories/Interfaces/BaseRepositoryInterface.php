@@ -11,6 +11,7 @@ interface BaseRepositoryInterface
     public function all(array $relation);
     public function findById(int $id);
     public function create(array $payload);
+    public function createBatch(array $payload = []);
     public function update(int $id = 0, array $payload = []);
     public function delete(int $id = 0);
 

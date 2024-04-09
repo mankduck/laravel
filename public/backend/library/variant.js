@@ -10,10 +10,10 @@
                 let price = $('input[name=price]').val()
                 let code = $('input[name=code]').val()
 
-                // if (price == '' || code == '') {
-                //     alert('Bạn cần nhập giá và mã sản phẩm để sử dụng chức năng này!')
-                //     return false
-                // }
+                if (price == '' || code == '') {
+                    alert('Bạn cần nhập giá và mã sản phẩm để sử dụng chức năng này!')
+                    return false
+                }
 
                 if (_this.siblings('input:checked').length == 0) {
                     $('.variant-wrapper').removeClass('hidden')
@@ -186,6 +186,7 @@
                 $('<img>').attr('src', 'https://daks2k3a4ib2z.cloudfront.net/6343da4ea0e69336d8375527/6343da5f04a965c89988b149_1665391198377-image16-p-500.jpg').addClass('imageSrc')
             )
         )
+        console.log(attributeId)
 
         row.append(td)
         Object.values(attributeItem).forEach(value => {
@@ -207,7 +208,7 @@
             { name: 'variant[file_url][]', class: 'variant_fileurl' },
             { name: 'variant[album][]', class: 'variant_album' },
             { name: 'productVariant[name][]', value: attributeString },
-            { name: 'productVariant[id][]', class: attributeId },
+            { name: 'productVariant[id][]', value: attributeId },
         ]
 
         $.each(inputHiddenFields, function (_, field) {
@@ -319,7 +320,6 @@
     HT.browseVariantServerAlbum = () => {
         var type = 'Images';
         var finder = new CKFinder();
-
         finder.resourceType = type;
         finder.selectActionFunction = function (fileUrl, data, allFiles) {
             let html = '';
@@ -335,7 +335,6 @@
                 html += '</div>'
                 html += '</li>'
             }
-
             $('.click-to-upload-variant').addClass('hidden')
             $('#sortable2').append(html)
             $('.upload-variant-list').removeClass('hidden')
@@ -369,15 +368,11 @@
     HT.updateVariant = () => {
         $(document).on('click', '.variant-row', function () {
             let _this = $(this)
-
             let variantData = {}
-
             _this.find(".td-variant input[type=text][class^='variant_']").each(function () {
                 let className = $(this).attr('class')
                 variantData[className] = $(this).val()
             })
-
-
             let updateVariantBox = HT.updateVariantHtml(variantData)
             if ($('.updateVariantTr').length == 0) {
                 _this.after(updateVariantBox)
@@ -525,7 +520,6 @@
 
     HT.saveVariantUpdate = () => {
         $(document).on('click', '.saveUpdateVariant', function () {
-
             let variant = {
                 'quantity': $('input[name=variant_quantity]').val(),
                 'sku': $('input[name=variant_sku]').val(),
@@ -537,11 +531,9 @@
                     return $(this).val()
                 }).get(),
             }
-
             $.each(variant, function (index, value) {
                 $('.updateVariantTr').prev().find('.variant_' + index).val(value)
             })
-
             HT.previewVariantTr(variant)
             HT.closeUpdateVariantBox()
         })
@@ -554,25 +546,20 @@
             'price': variant.price,
             'sku': variant.sku,
         }
-
         $.each(option, function (index, value) {
             $('.updateVariantTr').prev().find('.td-' + index).html(value)
         })
-
-
         $('.updateVariantTr').prev().find('.imageSrc').attr('src', variant.album[0])
     }
 
 
-    HT.setupSelectMultiple = () => {
+    HT.setupSelectMultiple = (callback) => {
         if ($('.selectVariant').length) {
+            let count = $('.selectVariant').length
             $('.selectVariant').each(function () {
                 let _this = $(this)
                 let attributeCatalogueId = _this.attr('data-catid')
-
                 if (attribute != '') {
-
-                    console.log(attribute)
                     $.get('ajax/attribute/loadAttribute', {
                         attribute: attribute,
                         attributeCatalogueId: attributeCatalogueId
@@ -583,13 +570,43 @@
                                 _this.append(option).trigger('change')
                             }
                         }
-
+                        if (--count === 0) {
+                            callback()
+                        }
                     })
                 }
-
                 HT.getSelect2(_this)
             })
         }
+    }
+
+
+    HT.productVariant = () => {
+        variant = JSON.parse(atob(variant))
+        console.log(variant)
+        $('.variant-row').each(function (index, value) {
+            let _this = $(this)
+            let inputHiddenFields = [
+                { name: 'variant[quantity][]', class: 'variant_quantity', value: variant.quantity[index] },
+                { name: 'variant[sku][]', class: 'variant_sku', value: variant.sku[index] },
+                { name: 'variant[price][]', class: 'variant_price', value: variant.price[index] },
+                { name: 'variant[barcode][]', class: 'variant_barcode', value: variant.barcode[index] },
+                { name: 'variant[file_name][]', class: 'variant_filename', value: variant.file_name[index] },
+                { name: 'variant[file_url][]', class: 'variant_fileurl', value: variant.file_url[index] },
+                { name: 'variant[album][]', class: 'variant_album', value: variant.album[index] },
+            ]
+            for (let i = 0; i < inputHiddenFields.length; i++) {
+                _this.find('.' + inputHiddenFields[i].class).val((inputHiddenFields[i].value) ? inputHiddenFields[i].value : 0)
+            }
+
+            let album = variant.album[index]
+            let variantImage = (album) ? album.split(',')[0] : 'https://daks2k3a4ib2z.cloudfront.net/6343da4ea0e69336d8375527/6343da5f04a965c89988b149_1665391198377-image16-p-500.jpg'
+            _this.find('.imageSrc').attr('src', variantImage)
+            _this.find('.td-quantity').html(HT.addCommas(variant.quantity[index]))
+            _this.find('.td-sku').html(variant.sku[index])
+            _this.find('.td-price').html(HT.addCommas(variant.price[index]))
+
+        })
     }
 
 
@@ -606,7 +623,11 @@
         HT.updateVariant()
         HT.cancelVariantUpdate()
         HT.saveVariantUpdate()
-        HT.setupSelectMultiple()
+        HT.setupSelectMultiple(
+            () => {
+                HT.productVariant()
+            }
+        )
     });
 
 })(jQuery);

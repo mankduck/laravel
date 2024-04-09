@@ -11,7 +11,8 @@ class AttributeLanguage extends Model
 
     protected $table = 'attribute_language';
 
-    public function attributes(){
+    public function attributes()
+    {
         return $this->belongsTo(Attribute::class, 'attribute_id');
     }
 
