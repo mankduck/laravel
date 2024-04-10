@@ -72,6 +72,10 @@ return [
                     'title' => 'QL Module',
                     'route' => 'generate/index'
                 ],
+                [
+                    'title' => 'Cấu hình hệ thống',
+                    'route' => 'system/index'
+                ],
 
             ]
         ]

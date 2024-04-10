@@ -95,6 +95,14 @@ return [
             'title' => 'Xóa nhóm bài viết'
         ],
     ],
+    'system' => [
+        'index' => [
+            'title' => 'Cấu hình hệ thống'
+        ],
+        'create' => [
+            'title' => 'Cài đặt thông tin cấu hình hệ thống'
+        ]
+    ],
     'post' => [
         'index' => [
             'title' => 'Quản lý bài viết',

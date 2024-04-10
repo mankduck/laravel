@@ -52,6 +52,9 @@ class AppServiceProvider extends ServiceProvider
         'App\Repositories\Interfaces\ProductVariantLanguageRepositoryInterface' => 'App\Repositories\ProductVariantLanguageRepository',
 
         'App\Repositories\Interfaces\ProductVariantAttributeRepositoryInterface' => 'App\Repositories\ProductVariantAttributeRepository',
+
+        'App\Services\Interfaces\SystemServiceInterface' => 'App\Services\SystemService',
+        'App\Repositories\Interfaces\SystemRepositoryInterface' => 'App\Repositories\SystemRepository',
     ];
     /**
      * Register any application services.
