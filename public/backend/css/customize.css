@@ -547,3 +547,37 @@ a {
     height: 25px;
     margin-right: 10px;
 }
+
+.menuContainer .select2-container {
+    width: 100% !important;
+}
+
+.mb10 {
+    margin-bottom: 10px !important;
+}
+
+#accordion .panel-title {
+    font-size: 13px;
+    margin: 0 !important;
+}
+
+
+#accordion {
+    margin-bottom: 0 !important;
+}
+
+.m0 {
+    margin: 0 !important;
+}
+
+.m-item label {
+    margin: 0;
+    font-weight: normal;
+    color: blue;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.m-item {
+    margin-bottom: 10px;
+}

@@ -60,6 +60,21 @@ return [
             ]
         ],
         [
+            'title' => 'QL Menu',
+            'icon' => 'fa fa-bar',
+            'name' => ['menu'],
+            'subModule' => [
+                [
+                    'title' => 'Cài Đặt Menu',
+                    'route' => 'menu/index'
+                ],
+                [
+                    'title' => 'QL Menu',
+                    'route' => 'menu/index'
+                ]
+            ]
+        ],
+        [
             'title' => 'Cấu hình chung',
             'icon' => 'fa fa-file',
             'name' => ['language', 'generate'],

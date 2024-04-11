@@ -9,8 +9,6 @@ use App\Repositories\Interfaces\RouterRepositoryInterface as RouterRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Classes\Nestedsetbie;

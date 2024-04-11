@@ -103,6 +103,15 @@ return [
             'title' => 'Cài đặt thông tin cấu hình hệ thống'
         ]
     ],
+    'menu' => [
+        'index' => [
+            'title' => 'Quản lý Menu',
+            'table' => 'Danh sách Menu'
+        ],
+        'create' => [
+            'title' => 'Cài đặt thông tin Menu'
+        ]
+    ],
     'post' => [
         'index' => [
             'title' => 'Quản lý bài viết',
