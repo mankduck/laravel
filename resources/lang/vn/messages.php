@@ -109,7 +109,11 @@ return [
             'table' => 'Danh sách Menu'
         ],
         'create' => [
-            'title' => 'Cài đặt thông tin Menu'
+            'title' => 'Cài đặt thông tin Menu',
+            'children' =>'cập nhật Menu con cho mục '
+        ],
+        'show' => [
+            'title' => 'Danh sách Menu'
         ]
     ],
     'post' => [

@@ -117,12 +117,14 @@ class BaseRepository implements BaseRepositoryInterface
         return $this->model->select($column)->with($relation)->findOrFail($modelId);
     }
 
-    public function findByCondition($condition = [], $flag = false)
+    public function findByCondition($condition = [], $flag = false, $relation = [])
     {
         $query = $this->model->newQuery();
         foreach ($condition as $key => $val) {
             $query->where($val[0], $val[1], $val[2]);
         }
+
+        $query->with($relation);
         return ($flag == false) ? $query->first() : $query->get();
     }
 

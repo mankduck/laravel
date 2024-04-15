@@ -153,7 +153,7 @@ class PostService extends BaseService implements PostServiceInterface
     {
         $payload = $request->only($this->payloadLanguage());
         $payload = $this->formatLanguagePayload($payload, $post->id, $languageId);
-        $post->languages()->detach([$this->language, $post->id]);
+        $post->languages()->detach([$languageId, $post->id]);
         return $this->postRepository->createPivot($post, $payload, 'languages');
     }
 
@@ -177,44 +177,6 @@ class PostService extends BaseService implements PostServiceInterface
             return array_unique(array_merge($request->input('catalogue'), [$request->post_catalogue_id]));
         }
         return [$request->post_catalogue_id];
-    }
-
-    public function updateStatus($post = [])
-    {
-        DB::beginTransaction();
-        try {
-            $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
-            $language = $this->postRepository->update($post['modelId'], $payload);
-            // $this->changeUserStatus($post, $payload[$post['field']]);
-
-            DB::commit();
-            return true;
-        } catch (\Exception $e) {
-            DB::rollBack();
-            // Log::error($e->getMessage());
-            echo $e->getMessage();
-            die();
-            return false;
-        }
-    }
-
-    public function updateStatusAll($post)
-    {
-        DB::beginTransaction();
-        try {
-            $payload[$post['field']] = $post['value'];
-            $flag = $this->postRepository->updateByWhereIn('id', $post['id'], $payload);
-            // $this->changeUserStatus($post, $post['value']);
-
-            DB::commit();
-            return true;
-        } catch (\Exception $e) {
-            DB::rollBack();
-            // Log::error($e->getMessage());
-            echo $e->getMessage();
-            die();
-            return false;
-        }
     }
 
 

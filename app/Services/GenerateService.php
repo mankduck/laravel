@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\File;
  * Class GenerateService
  * @package App\Services
  */
-class GenerateService implements GenerateServiceInterface
+class GenerateService  extends BaseService implements GenerateServiceInterface
 {
     protected $generateRepository;
 

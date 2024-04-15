@@ -76,9 +76,14 @@
         let $a = $('<a>').addClass('delete-menu')
         let $i = $('<i>').addClass('fa fa-times')
 
+        let $input = $('<input>').addClass('hidden').attr('name', 'menu[id][]').attr('value', 0)
+
+
+
         $a.append($i)
         $removeRow.append($a)
         $removeCol.append($removeRow)
+        $removeCol.append($input)
         $row.append($removeCol)
 
         return $row
@@ -252,6 +257,46 @@
     }
 
 
+    HT.setupNesable = () => {
+        if ($('#nestable2').length) {
+            $('#nestable2').nestable({
+                group: 1
+            }).on('change', updateOutput);
+        }
+    }
+
+
+    HT.updateNesableOutput = () => {
+        var updateOutput = function (e) {
+            var list = e.length ? e : $(e.target),
+                output = list.data('output');
+            if (window.JSON) {
+                output.val(window.JSON.stringify(list.nestable('serialize'))); //, null, 2));
+            } else {
+                output.val('JSON browser support required for this demo.');
+            }
+        };
+    }
+
+
+    HT.runUpdateNesableOutput = () => {
+        updateOutput($('#nestable2').data('output', $('#nestable2-output')));
+    }
+
+    HT.expandAndCollapse = () => {
+        $('#nestable-menu').on('click', function (e) {
+            var target = $(e.target),
+                action = target.data('action');
+            if (action === 'expand-all') {
+                $('.dd').nestable('expandAll');
+            }
+            if (action === 'collapse-all') {
+                $('.dd').nestable('collapseAll');
+            }
+        });
+    }
+
+
 
     $(document).ready(function () {
         HT.createMenuCatalogue()
@@ -261,6 +306,9 @@
         HT.chooseMenu()
         HT.getPaginationMenu()
         HT.searchMenu()
+        HT.setupNesable()
+        HT.runUpdateNesableOutput()
+        HT.expandAndCollapse()
     });
 
 

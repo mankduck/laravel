@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class StoreMenuRequest extends FormRequest
+class StoreChildrenRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +22,6 @@ class StoreMenuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'menu_catalogue_id' => 'gt:0',
             'menu.name' => [
                 'required'
             ]
@@ -34,7 +32,6 @@ class StoreMenuRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'menu_catalogue_id.gt' => 'Bạn chưa chọn vị trí menu.',
             'menu.name.required' => 'Bạn phải tạo ít nhất 1 menu'
         ];
     }

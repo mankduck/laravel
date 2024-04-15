@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreChildrenRequest;
 use App\Models\Language;
 use App\Repositories\Interfaces\MenuCatalogueRepositoryInterface as MenuCatalogueRepository;
+use App\Services\Interfaces\MenuCatalogueServiceInterface as MenuCatalogueService;
 use Illuminate\Http\Request;
 
 use App\Services\Interfaces\MenuServiceInterface as MenuService;
@@ -16,11 +18,14 @@ use App\Http\Requests\UpdateMenuRequest;
 class MenuController extends Controller
 {
     protected $menuService;
+    protected $menuCatalogueService;
+
     protected $menuRepository;
     protected $menuCatalogueRepository;
 
     public function __construct(
         MenuService $menuService,
+        MenuCatalogueService $menuCatalogueService,
         MenuRepository $menuRepository,
         MenuCatalogueRepository $menuCatalogueRepository
     ) {
@@ -32,6 +37,7 @@ class MenuController extends Controller
         });
 
         $this->menuService = $menuService;
+        $this->menuCatalogueService = $menuCatalogueService;
         $this->menuRepository = $menuRepository;
         $this->menuCatalogueRepository = $menuCatalogueRepository;
     }
@@ -47,14 +53,14 @@ class MenuController extends Controller
                 'backend/css/plugins/switchery/switchery.css',
                 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css'
             ],
-            'model' => 'Menu'
+            'model' => 'MenuCatalogue'
         ];
 
-        $menus = $this->menuService->paginate($request, $this->language);
+        $menuCatalogues = $this->menuCatalogueService->paginate($request, $this->language);
         // dd($menus);
         $config['seo'] = __('messages.menu');
 
-        return view('backend.menu.menu.index', compact('config', 'menus'));
+        return view('backend.menu.menu.index', compact('config', 'menuCatalogues'));
     }
 
     public function create()
@@ -83,18 +89,25 @@ class MenuController extends Controller
 
     public function edit($id)
     {
-        $this->authorize('modules', 'menu.edit');
-        $menu = $this->menuRepository->findById($id);
-        $provinces = $this->provinceRepository->all();
+        // $this->authorize('modules', 'menu.edit');
+        $language = $this->language;
+        $menus = $this->menuRepository->findByCondition([
+            ['menu_catalogue_id', '=', $id]
+        ], TRUE, [
+            'languages' => function ($query) use ($language) {
+                $query->where('language_id', $language);
+            }
+        ]);
+        // dd($menus);
+        // $provinces = $this->provinceRepository->all();
         $config = $this->config();
         $config['seo'] = __('messages.menu');
-        $config['method'] = 'edit';
+        $config['method'] = 'show';
         return view(
-            'backend.menu.menu.create',
+            'backend.menu.menu.show',
             compact(
                 'config',
-                'provinces',
-                'menu',
+                'menus'
             )
         );
     }
@@ -130,12 +143,48 @@ class MenuController extends Controller
     }
 
 
+    public function children($id)
+    {
+        $language = $this->language;
+        $menu = $this->menuRepository->findById($id, ['*'], [
+            'languages' => function ($query) use ($language) {
+                $query->where('language_id', $language);
+            }
+        ]);
+
+        $menuList = $this->menuService->getAndConvertMenu($menu, $language);
+        // dd($menuList);
+        $config = $this->config();
+        $config['seo'] = __('messages.menu');
+        $config['method'] = 'children';
+        return view(
+            'backend.menu.menu.children',
+            compact(
+                'config',
+                'menu',
+                'menuList'
+            )
+        );
+    }
+
+
+    public function saveChildren(StoreChildrenRequest $request, $id)
+    {
+        $menu = $this->menuRepository->findById($id);
+        if ($this->menuService->saveChildren($request, $this->language, $menu)) {
+            return redirect()->route('menu.index')->with('success', 'Thêm mới bản ghi thành công');
+        }
+        return redirect()->route('menu.index')->with('error', 'Thêm mới bản ghi không thành công. Hãy thử lại');
+    }
+
+
 
     private function config()
     {
         return [
 
             'js' => [
+                'backend/js/plugins/nestable/jquery.nestable.js',
                 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
                 'backend/library/menu.js',
                 'backend/plugins/ckfinder_2/ckfinder.js',

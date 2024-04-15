@@ -82,12 +82,6 @@ class BaseService implements BaseServiceInterface
         $this->routerRepository->create($router);
     }
 
-    // public function createRouter($model, $request, $controllerName)
-    // {
-    //     $router = $this->formatRouterPayload($model, $request, $controllerName);
-    //     $this->routerRepository->create($router);
-    // }
-
 
 
     public function updateRouter($model, $request, $controllerName, $languageId)
@@ -102,17 +96,44 @@ class BaseService implements BaseServiceInterface
         return $res;
     }
 
-    // public function updateRouter($model, $request, $controllerName)
-    // {
-    //     $payload = $this->formatRouterPayload($model, $request, $controllerName);
-    //     $condition = [
-    //         ['module_id', '=', $model->id],
-    //         ['controllers', '=', 'App\Http\Controllers\Frontend\\' . $controllerName],
-    //     ];
-    //     $router = $this->routerRepository->findByCondition($condition);
-    //     $res = $this->routerRepository->update($router->id, $payload);
-    //     return $res;
-    // }
+    public function updateStatus($post = [])
+    {
+        DB::beginTransaction();
+        try {
+            $model = lcfirst($post['model']) . 'Repository';
+            $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
+            $language = $this->{$model}->update($post['modelId'], $payload);
+            // $this->changeUserStatus($post, $payload[$post['field']]);
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Log::error($e->getMessage());
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+    }
 
 
+    public function updateStatusAll($post)
+    {
+        DB::beginTransaction();
+        try {
+            $model = lcfirst($post['model']) . 'Repository';
+            $payload[$post['field']] = $post['value'];
+            $flag = $this->{$model}->updateByWhereIn('id', $post['id'], $payload);
+            // $this->changeUserStatus($post, $post['value']);
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Log::error($e->getMessage());
+            echo $e->getMessage();
+            die();
+            return false;
+        }
+    }
 }

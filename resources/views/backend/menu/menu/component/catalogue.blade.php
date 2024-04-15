@@ -31,7 +31,7 @@
                         @endif
                     </div>
                     <div class="col-lg-6">
-                        <select name="menu_type" class="setupSelect2" id="">
+                        <select name="type" class="setupSelect2" id="">
                             <option value="">[Chọn kiểu Menu]</option>
                             @foreach (__('module.type') as $key => $val)
                                 <option value="{{ $key }}">{{ $val }}</option>

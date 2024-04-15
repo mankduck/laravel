@@ -41,11 +41,13 @@
                                     <form action="" method="get" data-model="{{ $key }}"
                                         classs="search-model">
                                         <div class="form-row">
-                                            <input type="text" name="keyword" autocomplete="off" class="form-control search-menu"
-                                                id="" placeholder="Nhập 2 kí tự để tìm kiếm...">
+                                            <input type="text" name="keyword" autocomplete="off"
+                                                class="form-control search-menu" id=""
+                                                placeholder="Nhập 2 kí tự để tìm kiếm...">
                                         </div>
                                     </form>
                                     <div class="menu-list mt20">
+
                                     </div>
                                 </div>
                             </div>
@@ -74,14 +76,40 @@
                 </div>
 
                 <div class="hr-line-dashed" style="margin: 10px 0;"></div>
+                @php
+                    $menu = old('menu', $menuList ?? null);
+                @endphp
                 <div class="menu-wrapper">
-                    <div class="notification text-center">
+                    <div class="notification text-center {{ (is_array($menu) && count($menu)) ? 'hidden' : '' }}">
                         <h4 style="font-weight:500; font-size:16px; color:#000;">Danh sách liên kết này không có bất kì
                             đường dẫn nào</h4>
                         <p style="color:#555; margin-top:10px;">Hãy nhấn vào <span style="color: blue;">"Thêm đường
                                 dẫn"</span> để bắt đầu
                             thêm</p>
                     </div>
+                    @if (is_array($menu) && count($menu))
+                        @foreach ($menu['name'] as $key => $val)
+                            <div class="row mb10 menu-item">
+                                <div class="col-lg-4">
+                                    <input type="text" value="{{ $val }}" class="form-control"
+                                        name="menu[name][]">
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="text" value="{{ $menu['canonical'][$key] }}" class="form-control"
+                                        name="menu[canonical][]">
+                                </div>
+                                <div class="col-lg-2"><input type="text" value="{{ $menu['order'][$key] }}"
+                                        class="form-control int text-right" name="menu[order][]">
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-row text-center"><a class="delete-menu"><i
+                                                class="fa fa-times"></i></a></div>
+                                    <input type="text" name="menu['id'][]" class="hidden"
+                                        value="{{ $menu['id'][$key] }}" id="">
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
         </div>
