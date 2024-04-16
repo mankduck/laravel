@@ -153,6 +153,8 @@ class MenuController extends Controller
         ]);
 
         $menuList = $this->menuService->getAndConvertMenu($menu, $language);
+
+        $
         // dd($menuList);
         $config = $this->config();
         $config['seo'] = __('messages.menu');
@@ -172,9 +174,9 @@ class MenuController extends Controller
     {
         $menu = $this->menuRepository->findById($id);
         if ($this->menuService->saveChildren($request, $this->language, $menu)) {
-            return redirect()->route('menu.index')->with('success', 'Thêm mới bản ghi thành công');
+            return redirect()->route('menu.edit', ['id' => $menu->menu_catalogue_id])->with('success', 'Thêm mới bản ghi thành công');
         }
-        return redirect()->route('menu.index')->with('error', 'Thêm mới bản ghi không thành công. Hãy thử lại');
+        return redirect()->route('menu.edit', ['id' => $menu->menu_catalogue_id])->with('error', 'Thêm mới bản ghi không thành công. Hãy thử lại');
     }
 
 

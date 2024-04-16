@@ -46,4 +46,9 @@ class MenuController extends Controller
             'message' => 'Có vấn đề xảy ra, hãy thử lại!',
         ]);
     }
+
+    public function drag(Request $request)
+    {
+        $post = json_decode($request->input('json'));
+    }
 }

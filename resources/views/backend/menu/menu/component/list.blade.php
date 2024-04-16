@@ -104,7 +104,7 @@
                                 <div class="col-lg-2">
                                     <div class="form-row text-center"><a class="delete-menu"><i
                                                 class="fa fa-times"></i></a></div>
-                                    <input type="text" name="menu['id'][]" class="hidden"
+                                    <input type="text" name="menu[id][]" class="hidden"
                                         value="{{ $menu['id'][$key] }}" id="">
                                 </div>
                             </div>

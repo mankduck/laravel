@@ -27,48 +27,14 @@
                         </div>
                     </div>
                     <div class="ibox-content">
+                        @php
+                            $menus = recursive($menus);
+                            $menuString = recursive_menu($menus);
+                        @endphp
                         @if (count($menus))
                             <div class="dd" id="nestable2">
                                 <ol class="dd-list">
-                                    @foreach ($menus as $key => $val)
-                                        @php
-                                            $languageMenu = $val->languages->first();
-                                        @endphp
-                                        <li class="dd-item" data-id="{{ $val->id }}">
-                                            <div class="dd-handle">
-
-                                                <span class="label label-info"><i class="fa fa-cog"></i></span>
-                                                {{ $languageMenu->pivot->name }}
-                                            </div>
-                                            <a href="{{ route('menu.children', $val->id) }}" class="create-children-id">
-                                                Quản
-                                                lý menu con </a>
-                                            <ol class="dd-list">
-                                                <li class="dd-item" data-id="2">
-                                                    <div class="dd-handle">
-                                                        <span class="pull-right"> 12:00 pm </span>
-                                                        <span class="label label-info"><i class="fa fa-cog"></i></span>
-                                                        Vivamus
-                                                        vestibulum nulla nec ante.
-                                                    </div>
-                                                </li>
-                                                <li class="dd-item" data-id="3">
-                                                    <div class="dd-handle">
-                                                        <span class="pull-right"> 11:00 pm </span>
-                                                        <span class="label label-info"><i class="fa fa-cog"></i></span> Nunc
-                                                        dignissim risus id metus.
-                                                    </div>
-                                                </li>
-                                                <li class="dd-item" data-id="4">
-                                                    <div class="dd-handle">
-                                                        <span class="pull-right"> 11:00 pm </span>
-                                                        <span class="label label-info"><i class="fa fa-cog"></i></span>
-                                                        Vestibulum commodo
-                                                    </div>
-                                                </li>
-                                            </ol>
-                                        </li>
-                                    @endforeach
+                                    {!! $menuString !!}
                                 </ol>
                             </div>
                         @endif

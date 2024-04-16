@@ -97,21 +97,17 @@ class MenuService extends BaseService implements MenuServiceInterface
         try {
 
             $payload = $request->only('menu');
-            // dd($payload);
+            // dd($payload);   
             if (count($payload['menu']['name'])) {
                 foreach ($payload['menu']['name'] as $key => $val) {
                     $menuId = $payload['menu']['id'][$key];
-
                     $menuArray = [
                         'menu_catalogue_id' => $menu->menu_catalogue_id,
                         'parent_id' => $menu->id,
                         'order' => $payload['menu']['order'][$key],
                         'user_id' => Auth::id(),
                     ];
-
                     $menu = ($menuId == 0) ? $this->menuRepository->create($menuArray) : $this->menuRepository->update($menuId, $menuArray);
-
-
                     if ($menu->id > 0) {
                         $menu->languages()->detach([$languageId, $menu->id]);
                         $payloadLanguage = [
@@ -120,10 +116,9 @@ class MenuService extends BaseService implements MenuServiceInterface
                             'canonical' => $payload['menu']['canonical'][$key]
                         ];
                         $this->menuRepository->createPivot($menu, $payloadLanguage, 'languages');
+
                     }
                 }
-                // dd($menu);
-
                 $this->initialize($languageId);
                 $this->nestedset();
             }
