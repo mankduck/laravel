@@ -125,9 +125,9 @@ if (!function_exists('recursive_menu')) {
                 $itemUrl = route('menu.children', ['id' => $itemId]);
 
 
-                $html .= "<li class='dd-item' data-id='$itemId''>";
+                $html .= "<li class='dd-item' data-id='$itemId'>";
                 $html .= "<div class='dd-handle'>";
-                $html .= "<span class='label label-info><i class='fa fa-cog></i></span> $itemName";
+                $html .= "<span class='label label-info'><i class='fa fa-cog'></i></span> $itemName";
                 $html .= "</div>";
                 $html .= "<a href='$itemUrl' class='create-children-id'> Quản lý menu con </a>";
 

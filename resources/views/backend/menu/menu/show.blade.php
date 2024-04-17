@@ -7,6 +7,17 @@
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-4">
+                <div class="text-center uk-flex uk-flex-middle mb20">
+                    @foreach ($languages as $language)
+                        @if (session('app_locale') === $language->canonical)
+                            @continue
+                        @endif
+                        <a class="image img-cover system-flag"
+                            href="{{ route('menu.translate', ['languageId' => $language->id]) }}"><img
+                                src="{{ $language->image }}" alt=""></a>
+                    @endforeach
+                </div>
+
                 <div class="panel-header">Danh sách Menu</div>
                 <div class="panel-body">
                     <p>Danh sách Menu giúp bạn dễ dàng kiểm soát được bố cục menu. Bạn có thể thêm hoặc cập nhật menu bằng
@@ -22,11 +33,12 @@
                 <div class="ibox">
                     <div class="ibox-title">
                         <div class="uk-flex uk-flex-middle uk-flex-space-between">
-                            <h5>Menu chính</h5>
-                            <a href="" class="custom-button">Cập nhật Menu</a>
+                            <h5>{{ $menuCatalogue->name }}</h5>
+                            <a href="{{ route('menu.editMenu', ['id' => $id]) }}" class="custom-button">Cập nhật Menu cấp
+                                1</a>
                         </div>
                     </div>
-                    <div class="ibox-content">
+                    <div class="ibox-content" id="dataCatalogue" data-catalogueId="{{ $id }}">
                         @php
                             $menus = recursive($menus);
                             $menuString = recursive_menu($menus);

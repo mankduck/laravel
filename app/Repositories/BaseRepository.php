@@ -92,6 +92,7 @@ class BaseRepository implements BaseRepositoryInterface
         return $this->findById($id)->delete();
     }
 
+
     public function forceDelete(int $id = 0)
     {
         return $this->findById($id)->forceDelete();
@@ -119,7 +120,7 @@ class BaseRepository implements BaseRepositoryInterface
         return $this->model->select($column)->with($relation)->findOrFail($modelId);
     }
 
-    public function findByCondition($condition = [], $flag = false, $relation = [])
+    public function findByCondition($condition = [], $flag = false, $relation = [], array $orderBy = ['id', 'desc'])
     {
         $query = $this->model->newQuery();
         foreach ($condition as $key => $val) {
@@ -127,6 +128,7 @@ class BaseRepository implements BaseRepositoryInterface
         }
 
         $query->with($relation);
+        $query->orderBy($orderBy[0], $orderBy[1]);
         return ($flag == false) ? $query->first() : $query->get();
     }
 

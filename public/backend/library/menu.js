@@ -268,14 +268,15 @@
 
     HT.updateNesableOutput = (e) => {
         var list = $(e.currentTarget),
-            output = $(list.data('output'))
+            output = $(list.data('output'))     //Lấy element dựa trên selector từ data output
 
         let json = window.JSON.stringify(list.nestable('serialize'))
 
         if (json.length) {
             let option = {
                 json: json,
-                '_token': _token
+                menu_catalogue_id: $('#dataCatalogue').attr('data-catalogueId'),
+                _token: _token
             }
 
             $.ajax({
@@ -284,7 +285,7 @@
                 data: option,
                 dataType: 'json',
                 success: function (res) {
-                    
+
                 },
                 beforeSend: function () {
 

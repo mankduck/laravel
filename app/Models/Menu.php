@@ -20,6 +20,7 @@ class Menu extends Model
         'album',
         'publish',
         'follow',
+        'order',
         'user_id',
     ];
     protected $table = 'menus';

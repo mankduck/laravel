@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Classes\Nestedsetbie;
+use App\Repositories\Interfaces\MenuCatalogueRepositoryInterface as MenuCatalogueRepository;
 use App\Services\Interfaces\MenuServiceInterface;
 use App\Services\BaseService;
 use App\Repositories\Interfaces\MenuRepositoryInterface as MenuRepository;
@@ -17,12 +18,15 @@ use Illuminate\Support\Facades\Auth;
 class MenuService extends BaseService implements MenuServiceInterface
 {
     protected $menuRepository;
+    protected $menuCatalogueRepository;
     protected $nestedset;
 
     public function __construct(
         MenuRepository $menuRepository,
+        MenuCatalogueRepository $menuCatalogueRepository,
     ) {
         $this->menuRepository = $menuRepository;
+        $this->menuCatalogueRepository = $menuCatalogueRepository;
         $this->controllerName = 'MenuController';
     }
 
@@ -42,25 +46,40 @@ class MenuService extends BaseService implements MenuServiceInterface
         return [];
     }
 
-    public function create($request, $languageId)
+    public function save($request, $languageId)
     {
         DB::beginTransaction();
         try {
 
-            $payload = $request->only('menu', 'menu_catalogue_id', 'type');
+            $payload = $request->only('menu', 'menu_catalogue_id');
             $menuArray = [];
             if (isset($payload['menu']['name'])) {
                 foreach ($payload['menu']['name'] as $key => $val) {
+                    $menuId = $payload['menu']['id'][$key];
                     $menuArray = [
 
                         'menu_catalogue_id' => $payload['menu_catalogue_id'],
-                        'type' => $payload['type'],
                         'order' => $payload['menu']['order'][$key],
                         'user_id' => Auth::id(),
                     ];
 
+                    if ($menuId == 0) {
+                        $menu = $this->menuRepository->create($menuArray);
+                    } else {
+                        $menu = $this->menuRepository->update($menuId, $menuArray);
+
+                        if ($menu->rgt - $menu->lft > 1) {
+                            $this->menuRepository->updateByWhere(
+                                [
+                                    ['lft', '>', $menu->lft],
+                                    ['rgt', '<', $menu->rgt],
+                                ],
+                                ['menu_catalogue_id' => $payload['menu_catalogue_id']],
+                            );
+                        }
+                    }
+
                     // dd($menuArray);
-                    $menu = $this->menuRepository->create($menuArray);
                     if ($menu->id > 0) {
                         $menu->languages()->detach([$languageId, $menu->id]);
                         $payloadLanguage = [
@@ -136,37 +155,34 @@ class MenuService extends BaseService implements MenuServiceInterface
         }
     }
 
-    public function update($id, $request, $languageId)
+
+    public function dragUpdate(array $json = [], int $menuCatalogueId = 0, int $languageId = 1, $parentId = 0)
     {
-        DB::beginTransaction();
-        try {
-            $menu = $this->menuRepository->findById($id);
-            if ($this->uploadMenu($menu, $request)) {
-                $this->updateLanguageForMenu($menu, $request, $languageId);
-                $this->updateCatalogueForMenu($menu, $request);
-                $this->updateRouter(
-                    $menu,
-                    $request,
-                    $this->controllerName,
-                    $languageId
-                );
+        if (count($json)) {
+            foreach ($json as $key => $val) {
+                $update = [
+                    'order' => count($json) - $key,
+                    'parent_id' => $parentId,
+                ];
+                $menu = $this->menuRepository->update($val['id'], $update);
+                if (isset($val['children']) && count($val['children'])) {
+                    $this->dragUpdate($val['children'], $menuCatalogueId, $languageId, $val['id']);
+                }
             }
-            DB::commit();
-            return true;
-        } catch (\Exception $e) {
-            DB::rollBack();
-            // Log::error($e->getMessage());
-            echo $e->getMessage();
-            die();
-            return false;
         }
+        $this->initialize($languageId);
+        $this->nestedset();
     }
 
     public function destroy($id)
     {
         DB::beginTransaction();
         try {
-            $menu = $this->menuRepository->delete($id);
+            $this->menuRepository->forceDeleteByCondition([
+                ['menu_catalogue_id', '=', $id]
+            ]);
+
+            $this->menuCatalogueRepository->forceDelete($id);
 
             DB::commit();
             return true;
@@ -181,9 +197,6 @@ class MenuService extends BaseService implements MenuServiceInterface
 
     public function getAndConvertMenu($menu = null, $language = 1): array
     {
-
-
-
         $menuList = $this->menuRepository->findByCondition([
             ['parent_id', '=', $menu->id]
         ], TRUE, [
@@ -191,7 +204,12 @@ class MenuService extends BaseService implements MenuServiceInterface
                 $query->where('language_id', $language);
             }
         ]);
+        return $this->convertMenu($menuList);
+    }
 
+
+    public function convertMenu($menuList = null)
+    {
         $temp = [];
         $fields = ['name', 'canonical', 'order', 'id'];
         if (count($menuList)) {
@@ -206,47 +224,8 @@ class MenuService extends BaseService implements MenuServiceInterface
                 }
             }
         }
-
         return $temp;
+
     }
-
-
-    private function paginateSelect()
-    {
-        return [
-            'menus.id',
-            'menus.publish',
-            'menus.image',
-            'menus.order',
-            'tb2.name',
-            'tb2.canonical',
-        ];
-    }
-
-    private function payload()
-    {
-        return [
-            'menu_catalogue_id',
-            'follow',
-            'publish',
-            'image',
-            'album',
-            'menu_catalogue_id',
-        ];
-    }
-
-    private function payloadLanguage()
-    {
-        return [
-            'name',
-            'description',
-            'content',
-            'meta_title',
-            'meta_keyword',
-            'meta_description',
-            'canonical'
-        ];
-    }
-
 
 }

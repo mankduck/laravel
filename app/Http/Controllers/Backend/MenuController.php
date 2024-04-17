@@ -63,6 +63,7 @@ class MenuController extends Controller
         return view('backend.menu.menu.index', compact('config', 'menuCatalogues'));
     }
 
+
     public function create()
     {
         // $this->authorize('modules', 'menu.create');
@@ -81,11 +82,13 @@ class MenuController extends Controller
 
     public function store(StoreMenuRequest $request)
     {
-        if ($this->menuService->create($request, $this->language)) {
-            return redirect()->route('menu.index')->with('success', 'Thêm mới bản ghi thành công');
+        if ($this->menuService->save($request, $this->language)) {
+            $menuCatalogueId = $request->input('menu_catalogue_id');
+            return redirect()->route('menu.edit', ['id' => $menuCatalogueId])->with('success', 'Thêm mới bản ghi thành công');
         }
         return redirect()->route('menu.index')->with('error', 'Thêm mới bản ghi không thành công. Hãy thử lại');
     }
+
 
     public function edit($id)
     {
@@ -97,9 +100,9 @@ class MenuController extends Controller
             'languages' => function ($query) use ($language) {
                 $query->where('language_id', $language);
             }
-        ]);
+        ], ['order', 'DESC']);
         // dd($menus);
-        // $provinces = $this->provinceRepository->all();
+        $menuCatalogue = $this->menuCatalogueRepository->findById($id);
         $config = $this->config();
         $config['seo'] = __('messages.menu');
         $config['method'] = 'show';
@@ -107,40 +110,45 @@ class MenuController extends Controller
             'backend.menu.menu.show',
             compact(
                 'config',
-                'menus'
+                'menus',
+                'id',
+                'menuCatalogue'
             )
         );
     }
 
-    public function update($id, UpdateMenuRequest $request)
-    {
-        if ($this->menuService->update($id, $request)) {
-            return redirect()->route('menu.index')->with('success', 'Cập nhật bản ghi thành công');
-        }
-        return redirect()->route('menu.index')->with('error', 'Cập nhật bản ghi không thành công. Hãy thử lại');
-    }
 
-    public function delete($id)
+    public function editMenu($id)
     {
-        $this->authorize('modules', 'menu.delete');
+        $language = $this->language;
+        $menus = $this->menuRepository->findByCondition([
+            ['menu_catalogue_id', '=', $id],
+            ['parent_id', '=', 0]
+        ], TRUE, [
+            'languages' => function ($query) use ($language) {
+                $query->where('language_id', $language);
+            }
+        ], ['order', 'DESC']);
+        $menuList = $this->menuService->convertMenu($menus);
+        $menuCatalogues = $this->menuCatalogueRepository->all();
+        $menuCatalogue = $this->menuCatalogueRepository->findById($id);
+
+        $config = $this->config();
         $config['seo'] = __('messages.menu');
-        $menu = $this->menuRepository->findById($id);
+        $config['method'] = 'update';
         return view(
-            'backend.menu.menu.delete',
+            'backend.menu.menu.create',
             compact(
-                'menu',
                 'config',
+                'menuList',
+                'menuCatalogues',
+                'menuCatalogue',
+                'id'
             )
         );
     }
 
-    public function destroy($id)
-    {
-        if ($this->menuService->destroy($id)) {
-            return redirect()->route('menu.index')->with('success', 'Xóa bản ghi thành công');
-        }
-        return redirect()->route('menu.index')->with('error', 'Xóa bản ghi không thành công. Hãy thử lại');
-    }
+
 
 
     public function children($id)
@@ -154,7 +162,6 @@ class MenuController extends Controller
 
         $menuList = $this->menuService->getAndConvertMenu($menu, $language);
 
-        $
         // dd($menuList);
         $config = $this->config();
         $config['seo'] = __('messages.menu');
@@ -164,7 +171,7 @@ class MenuController extends Controller
             compact(
                 'config',
                 'menu',
-                'menuList'
+                'menuList',
             )
         );
     }
@@ -177,6 +184,31 @@ class MenuController extends Controller
             return redirect()->route('menu.edit', ['id' => $menu->menu_catalogue_id])->with('success', 'Thêm mới bản ghi thành công');
         }
         return redirect()->route('menu.edit', ['id' => $menu->menu_catalogue_id])->with('error', 'Thêm mới bản ghi không thành công. Hãy thử lại');
+    }
+
+
+
+
+    public function delete($id)
+    {
+        // $this->authorize('modules', 'menu.delete');
+        $config['seo'] = __('messages.menu');
+        $menuCatalogue = $this->menuCatalogueRepository->findById($id);
+        return view(
+            'backend.menu.menu.delete',
+            compact(
+                'menuCatalogue',
+                'config',
+            )
+        );
+    }
+
+    public function destroy($id)
+    {
+        if ($this->menuService->destroy($id)) {
+            return redirect()->route('menu.index')->with('success', 'Xóa bản ghi thành công');
+        }
+        return redirect()->route('menu.index')->with('error', 'Xóa bản ghi không thành công. Hãy thử lại');
     }
 
 
