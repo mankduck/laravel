@@ -1,5 +1,6 @@
 @extends('backend.dashboard.layout')
 @section('adminContent')
+
     @include('backend.dashboard.component.breadcrumb', [
         'title' => $config['seo'][$config['method']]['title'],
     ])
@@ -9,11 +10,14 @@
             <div class="col-lg-4">
                 <div class="text-center uk-flex uk-flex-middle mb20">
                     @foreach ($languages as $language)
-                        @if (session('app_locale') === $language->canonical)
+                    @php
+                        $url = (session('app_locale') === $language->canonical) ? route('menu.edit', ['id' => $id]) : route('menu.translate', ['languageId' => $language->id, 'id' => $id]);
+                    @endphp
+                        {{-- @if (session('app_locale') === $language->canonical)
                             @continue
-                        @endif
+                        @endif --}}
                         <a class="image img-cover system-flag"
-                            href="{{ route('menu.translate', ['languageId' => $language->id]) }}"><img
+                            href="{{ $url }}"><img
                                 src="{{ $language->image }}" alt=""></a>
                     @endforeach
                 </div>

@@ -582,9 +582,19 @@ a {
     margin-bottom: 10px;
 }
 
-.create-children-id{
+.create-children-id {
     position: absolute;
     top: 11px;
     right: 11px;
     z-index: 100;
+}
+
+.menu-name {
+    min-width: 90px;
+
+}
+
+
+.menu-translate-item .form-row:not(:last-child){
+    margin-bottom: 10px;
 }

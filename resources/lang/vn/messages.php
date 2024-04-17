@@ -114,6 +114,9 @@ return [
         ],
         'show' => [
             'title' => 'Danh sách Menu'
+        ],
+        'translate' => [
+            'title' => 'Tạo bản dịch {language} cho ',
         ]
     ],
     'post' => [

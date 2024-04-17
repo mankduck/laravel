@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreChildrenRequest;
 use App\Models\Language;
+use App\Repositories\Interfaces\LanguageRepositoryInterface as LanguageRepository;
 use App\Repositories\Interfaces\MenuCatalogueRepositoryInterface as MenuCatalogueRepository;
 use App\Services\Interfaces\MenuCatalogueServiceInterface as MenuCatalogueService;
 use Illuminate\Http\Request;
@@ -22,12 +23,15 @@ class MenuController extends Controller
 
     protected $menuRepository;
     protected $menuCatalogueRepository;
+    protected $languageRepository;
+
 
     public function __construct(
         MenuService $menuService,
         MenuCatalogueService $menuCatalogueService,
         MenuRepository $menuRepository,
-        MenuCatalogueRepository $menuCatalogueRepository
+        MenuCatalogueRepository $menuCatalogueRepository,
+        LanguageRepository $languageRepository
     ) {
         $this->middleware(function ($request, $next) {
             $locale = app()->getLocale(); // vn en cn
@@ -35,11 +39,11 @@ class MenuController extends Controller
             $this->language = $language->id;
             return $next($request);
         });
-
         $this->menuService = $menuService;
         $this->menuCatalogueService = $menuCatalogueService;
         $this->menuRepository = $menuRepository;
         $this->menuCatalogueRepository = $menuCatalogueRepository;
+        $this->languageRepository = $languageRepository;
     }
     public function index(Request $request)
     {
@@ -211,6 +215,33 @@ class MenuController extends Controller
         return redirect()->route('menu.index')->with('error', 'Xóa bản ghi không thành công. Hãy thử lại');
     }
 
+
+    public function translate(int $languageId = 1, int $id = 0)
+    {
+
+        $language = $this->languageRepository->findById($languageId);
+        $menuCatalogue = $this->menuCatalogueRepository->findById($id);
+        $currentLanguage = $this->language;
+        $menus = $this->menuRepository->findByCondition([
+            ['menu_catalogue_id', '=', $id]
+        ], TRUE, [
+            'languages' => function ($query) use ($currentLanguage) {
+                $query->where('language_id', $currentLanguage);
+            }
+        ], ['lft', 'ASC']);
+        $config = $this->config();
+        $config['seo'] = __('messages.menu');
+        $config['method'] = 'translate';
+        return view(
+            'backend.menu.menu.translate',
+            compact(
+                'config',
+                'language',
+                'menuCatalogue',
+                'menus'
+            )
+        );
+    }
 
 
     private function config()
