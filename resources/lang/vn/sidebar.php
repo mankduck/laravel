@@ -60,6 +60,17 @@ return [
             ]
         ],
         [
+            'title' => 'QL Banner & Slide',
+            'icon' => 'fa fa-image',
+            'name' => ['slide'],
+            'subModule' => [
+                [
+                    'title' => 'QL Slide',
+                    'route' => 'slide/index'
+                ]
+            ]
+        ],
+        [
             'title' => 'QL Menu',
             'icon' => 'fa fa-bar',
             'name' => ['menu'],

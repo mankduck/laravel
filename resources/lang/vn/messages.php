@@ -110,7 +110,7 @@ return [
         ],
         'create' => [
             'title' => 'Cài đặt thông tin Menu',
-            'children' =>'cập nhật Menu con cho mục '
+            'children' => 'cập nhật Menu con cho mục '
         ],
         'show' => [
             'title' => 'Danh sách Menu'
@@ -167,6 +167,22 @@ return [
             'title' => 'Cập nhật quyền'
         ],
 
+    ],
+
+    'slide' => [
+        'index' => [
+            'title' => 'Quản lý Slide',
+            'table' => 'Danh sách Slide'
+        ],
+        'create' => [
+            'title' => 'Thêm mới Slide'
+        ],
+        'edit' => [
+            'title' => 'Cập nhật Slide'
+        ],
+        'delete' => [
+            'title' => 'Xóa Slide'
+        ],
     ],
     'permission' => [
         'index' => [

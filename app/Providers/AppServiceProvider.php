@@ -61,6 +61,9 @@ class AppServiceProvider extends ServiceProvider
 
         'App\Services\Interfaces\MenuCatalogueServiceInterface' => 'App\Services\MenuCatalogueService',
         'App\Repositories\Interfaces\MenuCatalogueRepositoryInterface' => 'App\Repositories\MenuCatalogueRepository',
+
+        'App\Services\Interfaces\SlideServiceInterface' => 'App\Services\SlideService',
+        'App\Repositories\Interfaces\SlideRepositoryInterface' => 'App\Repositories\SlideRepository',
     ];
     /**
      * Register any application services.
