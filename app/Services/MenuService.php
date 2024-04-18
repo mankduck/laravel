@@ -238,55 +238,47 @@ class MenuService extends BaseService implements MenuServiceInterface
     public function findMenuItemTranslate($menus, int $currentLanguage = 1, int $languageId = 1)
     {
         $output = [];
-        // dd($menus);
         if (count($menus)) {
-            foreach ($menus as $menu) {
+            foreach ($menus as $key => $menu) {
                 $canonical = $menu->languages->first()->pivot->canonical;
-                // echo $canonical;die;
-                $router = $this->routerRepository->findByCondition([
-                    ['canonical', '=', $canonical]
+                $detailMenu = $this->menuRepository->findById($menu->id, ['*'], [
+                    'languages' => function ($query) use ($languageId) {
+                        $query->where('language_id', $languageId);
+                    }
                 ]);
-                // dd($router->canonical);
-                if ($router) {
-                    $controller = explode('\\', $router->controllers);
-                    $model = str_replace('Controller', '', end($controller));
-                    // dd($model);
-
-                    $serviceInterfaceNamespace = '\App\Repositories\\' . $model . 'Repository';
-                    if (class_exists($serviceInterfaceNamespace)) {
-                        $serviceInstance = app($serviceInterfaceNamespace);
-                    }
-                    $alias = Str::snake($model) . '_language';
-                    // dd($alias);
-                    $object = $serviceInstance->findByWhereHas([
-                        'canonical' => $canonical,
-                        'language_id' => $currentLanguage
-                    ], 'languages', $alias);
-                    // dd($object);
-                    if ($object) {
-                        $translateObject = $object->languages()->where('language_id', $languageId)->first([$alias . '.name', $alias . '.canonical']);
-                        // dd($translateObject);
-                        if (!is_null($translateObject)) {
-                            // echo 123; die;
-                            $menu->translate_name = $translateObject->name;
-                            $menu->translate_canonical = $translateObject->canonical;
+                if ($detailMenu) {
+                    if ($detailMenu->languages->isNotEmpty()) {
+                        $menu->translate_name = $detailMenu->languages->first()->pivot->name;
+                        $menu->translate_canonical = $detailMenu->languages->first()->pivot->canonical;
+                    } else {
+                        $router = $this->routerRepository->findByCondition([
+                            ['canonical', '=', $canonical]
+                        ]);
+                        if ($router) {
+                            $controller = explode('\\', $router->controllers);
+                            $model = str_replace('Controller', '', end($controller));
+                            $serviceInterfaceNamespace = '\App\Repositories\\' . $model . 'Repository';
+                            if (class_exists($serviceInterfaceNamespace)) {
+                                $serviceInstance = app($serviceInterfaceNamespace);
+                            }
+                            $alias = Str::snake($model) . '_language';
+                            $object = $serviceInstance->findByWhereHas([
+                                'canonical' => $canonical,
+                                'language_id' => $currentLanguage
+                            ], 'languages', $alias);
+                            if ($object) {
+                                $translateObject = $object->languages()->where('language_id', $languageId)->first([$alias . '.name', $alias . '.canonical']);
+                                if (!is_null($translateObject)) {
+                                    $menu->translate_name = $translateObject->name;
+                                    $menu->translate_canonical = $translateObject->canonical;
+                                }
+                            }
                         }
-                        // dd($translateObject);
                     }
-
-
-
                 }
-                // echo 1; die;
-
                 $output[] = $menu;
-
-
             }
         }
-
-        // dd($output);
-
         return $output;
     }
 
