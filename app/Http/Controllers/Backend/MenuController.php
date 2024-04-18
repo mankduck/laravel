@@ -218,7 +218,6 @@ class MenuController extends Controller
 
     public function translate(int $languageId = 1, int $id = 0)
     {
-
         $language = $this->languageRepository->findById($languageId);
         $menuCatalogue = $this->menuCatalogueRepository->findById($id);
         $currentLanguage = $this->language;
@@ -229,6 +228,12 @@ class MenuController extends Controller
                 $query->where('language_id', $currentLanguage);
             }
         ], ['lft', 'ASC']);
+
+        $menus = buildMenu($this->menuService->findMenuItemTranslate($menus, $currentLanguage, $languageId));
+
+
+        // dd($menus);
+
         $config = $this->config();
         $config['seo'] = __('messages.menu');
         $config['method'] = 'translate';
@@ -237,10 +242,20 @@ class MenuController extends Controller
             compact(
                 'config',
                 'language',
+                'languageId',
                 'menuCatalogue',
                 'menus'
             )
         );
+    }
+
+
+    public function saveTranslate(Request $request, $languageId = 1)
+    {
+        if ($this->menuService->saveTranslateMenu($request, $languageId)) {
+            return redirect()->route('menu.index')->with('success', 'Thêm mới bản ghi thành công');
+        }
+        return redirect()->route('menu.index')->with('error', 'Thêm mới bản ghi không thành công. Hãy thử lại');
     }
 
 

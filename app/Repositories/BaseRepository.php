@@ -132,6 +132,16 @@ class BaseRepository implements BaseRepositoryInterface
         return ($flag == false) ? $query->first() : $query->get();
     }
 
+
+    public function findByWhereHas(array $condition = [], string $relation = '', string $alias = '')
+    {
+        return $this->model->with('languages')->whereHas($relation, function ($query) use ($condition, $alias) {
+            foreach ($condition as $key => $val) {
+                $query->where($alias . '.' . $key, $val);
+            }
+        })->first();
+    }
+
     public function createPivot($model, array $payload = [], string $relation = '')
     {
         return $model->{$relation}()->attach($model->id, $payload);
