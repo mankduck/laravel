@@ -598,3 +598,52 @@ a {
 .menu-translate-item .form-row:not(:last-child){
     margin-bottom: 10px;
 }
+
+
+.ibox .ibox-title h5{
+    margin-bottom: 0;
+}
+
+.ibox-title{
+    padding: 10px;
+}
+
+.custom-row [class*="col-"]{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+input[type="checkbox"]{
+    margin: 0;
+}
+
+.form-row .overlay label{
+    font-weight: normal;
+    margin: 0 10px 0 0;
+}
+
+.form-row .overlay input[type="checkbox"]{
+    width: 16px;
+    height: 16px;
+}
+
+
+.form-row-url{
+    padding-right: 200px;
+    position: relative;
+}
+
+.form-row .overlay{
+    position: absolute;
+    top: 7px;
+    right: 0;
+}
+
+.silde-image{
+    height: 175px;
+}
+
+.slide-seo-tab{
+    padding-right: 0 !important;
+}

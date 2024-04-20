@@ -9,8 +9,8 @@
                     @include('backend.dashboard.component.toolbox', ['model' => 'Post'])
                 </div>
                 <div class="ibox-content">
-                    @include('backend.post.post.component.filter')
-                    @include('backend.post.post.component.table')
+                    @include('backend.slide.slide.component.filter')
+                    @include('backend.slide.slide.component.table')
                 </div>
             </div>
         </div>
