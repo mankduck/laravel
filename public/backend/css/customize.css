@@ -321,7 +321,8 @@ input[type=radio].form-control {
 }
 
 .sortui .variant-delete-image,
-.sortui .delete-image {
+.sortui .delete-image,
+.sortui .delete-slide {
     position: absolute;
     background: linear-gradient(to bottom, #fff, #f9fafb);
     color: red;
@@ -335,7 +336,8 @@ input[type=radio].form-control {
 }
 
 .sortui .variant-delete-image:hover,
-.sortui .delete-image:hover {
+.sortui .delete-image:hover,
+.sortui .delete-slide:hover {
     background: red;
     color: #fff;
 }
@@ -595,55 +597,60 @@ a {
 }
 
 
-.menu-translate-item .form-row:not(:last-child){
+.menu-translate-item .form-row:not(:last-child) {
     margin-bottom: 10px;
 }
 
 
-.ibox .ibox-title h5{
+.ibox .ibox-title h5 {
     margin-bottom: 0;
 }
 
-.ibox-title{
+.ibox-title {
     padding: 10px;
 }
 
-.custom-row [class*="col-"]{
+.custom-row [class*="col-"] {
     padding-left: 5px;
     padding-right: 5px;
 }
 
 
-input[type="checkbox"]{
+input[type="checkbox"] {
     margin: 0;
 }
 
-.form-row .overlay label{
+.form-row .overlay label {
     font-weight: normal;
     margin: 0 10px 0 0;
 }
 
-.form-row .overlay input[type="checkbox"]{
+.form-row .overlay input[type="checkbox"] {
     width: 16px;
     height: 16px;
 }
 
 
-.form-row-url{
+.form-row-url {
     padding-right: 200px;
     position: relative;
 }
 
-.form-row .overlay{
+.form-row .overlay {
     position: absolute;
     top: 7px;
     right: 0;
 }
 
-.silde-image{
+.silde-image {
     height: 175px;
+    position: relative;
 }
 
-.slide-seo-tab{
+.slide-seo-tab {
     padding-right: 0 !important;
+}
+
+.slide-list .ui-state-default {
+    width: 100% !important;
 }

@@ -48,6 +48,7 @@ class SlideController extends Controller
 
     public function index(Request $request)
     {
+        $config = $this->configData();
         $config = [
             'js' => [
                 'backend/js/plugins/switchery/switchery.js',
@@ -154,6 +155,7 @@ class SlideController extends Controller
                 'backend/plugins/ckfinder_2/ckfinder.js',
                 'backend/library/finder.js',
                 'backend/library/seo.js',
+                'backend/library/slide.js',
                 'backend/library/variant.js',
                 'backend/library/library.js',
                 'backend/js/plugins/switchery/switchery.js',
