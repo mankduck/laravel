@@ -93,6 +93,7 @@ class SlideController extends Controller
 
     public function store(StoreSlideRequest $request)
     {
+        echo 123; die;
         if ($this->slideService->create($request, $this->language)) {
             return redirect()->route('slide.index')->with('success', 'Thêm mới bản ghi thành công');
         }

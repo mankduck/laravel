@@ -48,7 +48,7 @@
                     <div class="col-lg-3">
                         <span class="silde-image img-cover">
                             <img src="${image}" alt="">
-                            <input type="hidden" name="slide[title][]" value="${image}">
+                            <input type="hidden" name="slide[image][]" value="${image}">
                             <button type="button" class="delete-slide"><i class="fa fa-trash"></i></button>
                         </span>
                     </div>
@@ -68,7 +68,7 @@
                                             <textarea name="slide[description][]" class="form-control" placeholder=""></textarea>
                                         </div>
                                         <div class="form-row form-row-url">
-                                            <input type="text" name="slide[url][]" class="form-control"
+                                            <input type="text" name="slide[canonical][]" class="form-control"
                                                 placeholder="URL" value="" id="">
                                             <div class="overlay">
                                                 <div class="uk-flex uk-flex-middle">
@@ -111,7 +111,7 @@
 
 
     HT.deleteSlide = () => {
-        $(document).on('click', '.delete-slide', function(){
+        $(document).on('click', '.delete-slide', function () {
             let _this = $(this)
 
             _this.parents('.ui-state-default').remove()
