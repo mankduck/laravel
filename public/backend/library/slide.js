@@ -84,7 +84,7 @@
                                     <div class="panel-body">
                                         <div class="label-text mb10">Tiêu đề</div>
                                         <div class="form-row form-row-url slide-seo-tab mb10">
-                                            <input type="text" name="slide[title][]" class="form-control"
+                                            <input type="text" name="slide[name][]" class="form-control"
                                                 placeholder="URL" value="" id="">
                                         </div>
 
@@ -104,7 +104,7 @@
         </div>
 `
 
-        counter++
+        counter+=2
 
         return html
     }

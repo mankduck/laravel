@@ -29,8 +29,9 @@
                                 class="text-danger">(*)</span></label>
                         <div class="setting-value">
                             <div class="input-group m-b">
-                                <input type="text" name="setting[width]" value="" class="form-control"
-                                    placeholder="" autocomplete="off">
+                                <input type="text" name="setting[width]"
+                                    value="{{ old('setting.width', $slide->setting['width'] ?? 0) }}"
+                                    class="form-control int" placeholder="" autocomplete="off">
                                 <span class="input-group-addon">px</span>
                             </div>
                         </div>
@@ -44,7 +45,9 @@
                                 class="text-danger">(*)</span></label>
                         <div class="setting-value">
                             <div class="input-group m-b">
-                                <input type="text" name="setting[height]" class="form-control">
+                                <input type="text" name="setting[height]"
+                                    value="{{ old('setting.height', $slide->setting['height'] ?? 0) }}"
+                                    class="form-control int">
                                 <span class="input-group-addon">px</span>
                             </div>
                         </div>
@@ -60,7 +63,9 @@
 
                             <select name="setting[animation]" class="form-control setupSelect2" id="">
                                 @foreach (__('module.effect') as $key => $val)
-                                    <option value="{{ $key }}">{{ $val }}</option>
+                                    <option
+                                        {{ $key == old('setting.animation', $slide->setting['animation'] ?? null) ? 'selected' : '' }}
+                                        value="{{ $key }}">{{ $val }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -73,7 +78,8 @@
                         <label for="" class="control-label text-left">Mũi tên <span
                                 class="text-danger">(*)</span></label>
                         <div class="setting-value">
-                            <input type="checkbox" name="setting[arrow]" id="" checked value="accept">
+                            <input type="checkbox" name="setting[arrow]" id="" value="accept"
+                                @if (isset($slide->setting['arrow'])) checked = 'checked' @endif>
                         </div>
                     </div>
                 </div>
@@ -88,9 +94,9 @@
                             @foreach (__('module.navigate') as $key => $val)
                                 <div>
                                     <label>
-                                        <input type="radio" value="{{ $val }}"
+                                        <input type="radio" value="{{ $key }}"
                                             id="navigate_{{ $key }}"
-                                            {{ old('setting.navigate', $key) === 'dots' ? 'checked' : '' }}
+                                            {{ old('setting.navigate', $slide->setting['navigate'] ?? 'dots') === $key ? 'checked' : '' }}
                                             name="setting[navigate]">{{ $val }}
                                     </label>
                                 </div>
@@ -127,7 +133,8 @@
                             <label for="" class="control-label text-left">Tự động chạy
                             </label>
                             <div class="setting-value">
-                                <input type="checkbox" name="setting[autoplay]" value="accept" id="">
+                                <input type="checkbox" name="setting[autoplay]" value="accept" id=""
+                                    @if (!old() || old('setting.autoplay', $slide->setting['autoplay'] ?? null) == 'accept') checked = 'checked' @endif>
                             </div>
                         </div>
                     </div>
@@ -140,7 +147,8 @@
                             <label for="" class="control-label text-left">Dừng khi di chuột
                             </label>
                             <div class="setting-value">
-                                <input type="checkbox" name="setting[pausehover]" value="" id="">
+                                <input type="checkbox" name="setting[pausehover]" value="accept" id=""
+                                    @if (!old() || old('setting.pausehover', $slide->setting['pausehover'] ?? null) == 'accept') checked = 'checked' @endif>
                             </div>
                         </div>
                     </div>
@@ -153,7 +161,8 @@
                         </label>
                         <div class="setting-value">
                             <div class="input-group m-b">
-                                <input type="text" name="setting[animationdelay]" value=""
+                                <input type="text" name="setting[animationdelay]"
+                                    value="{{ old('setting.animationdelay', $slide->setting['animationdelay'] ?? 0) }}"
                                     class="form-control" placeholder="">
                                 <span class="input-group-addon">ms</span>
                             </div>
@@ -168,7 +177,8 @@
                         </label>
                         <div class="setting-value">
                             <div class="input-group m-b">
-                                <input type="text" name="setting[animationspeed]" value=""
+                                <input type="text" name="setting[animationspeed]"
+                                    value="{{ old('setting.animationspeed', $slide->setting['animationspeed'] ?? 0) }}"
                                     class="form-control" placeholder="">
                                 <span class="input-group-addon">ms</span>
                             </div>
@@ -196,6 +206,6 @@
     </div>
     <div class="ibox-content">
         <textarea name="short_code" class="form-control ck-editor" placeholder="" autocomplete="off" id="ckContent"
-            data-height="200">{{ old('short_code', $model->short_code ?? '') }}</textarea>
+            data-height="200">{{ old('short_code', $slide->short_code ?? '') }}</textarea>
     </div>
 </div>

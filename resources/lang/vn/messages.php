@@ -251,6 +251,13 @@ return [
     'tableGrUserNumber' => 'Số Thành Viên',
     'deleteButton' => 'Xóa dữ liệu',
     'tableHeading' => 'Thông tin chung',
+    
+    'tableSlide' => [
+        'slideName' => 'Tên Slide',
+        'slideKey' => 'Từ khóa',
+        'slideImage' => 'Danh sách hình ảnh',
+    ],
+
     'save' => 'Lưu lại',
     'publish' => [
         '0' => 'Chọn tình trạng',

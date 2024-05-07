@@ -93,7 +93,6 @@ class SlideController extends Controller
 
     public function store(StoreSlideRequest $request)
     {
-        echo 123; die;
         if ($this->slideService->create($request, $this->language)) {
             return redirect()->route('slide.index')->with('success', 'Thêm mới bản ghi thành công');
         }
@@ -103,17 +102,20 @@ class SlideController extends Controller
     public function edit($id)
     {
         // $this->authorize('modules', 'product.update');
-        $slide = $this->slideRepository->getProductById($id, $this->language);
+        $slide = $this->slideRepository->findById($id);
+        // dd($slide->item);
+
+        $slideItem = $this->slideService->converSlideArray($slide->item[$this->language]);  //Lấy chính xác phần tử mong muốn
+
         $config = $this->configData();
         $config['seo'] = __('messages.slide');
         $config['method'] = 'edit';
-        $dropdown = $this->nestedset->Dropdown();
         return view(
             'backend.slide.slide.create',
             compact(
                 'config',
-                'dropdown',
                 'slide',
+                'slideItem'
             )
         );
     }
