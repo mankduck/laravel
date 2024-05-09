@@ -86,6 +86,20 @@ if (!function_exists('renderSystemSelect')) {
 }
 
 
+if (!function_exists('write_url')) {
+    function write_url(string $canonical = '', bool $fullDomain = true, $suffix = false)
+    {
+
+        if (strpos($canonical, 'http') !== false) {
+            return $canonical;
+        }
+
+        $fullUrl = (($fullDomain === true) ? config('app.url') : '') . $canonical . (($suffix === true) ? config('apps.general.suffix') : '');
+        return $fullUrl;
+    }
+}
+
+
 if (!function_exists('renderSystemEditor')) {
     function renderSystemEditor(string $name = '', $systems = null)
     {
@@ -109,6 +123,36 @@ if (!function_exists('recursive')) {
             }
         }
         return $temp;
+    }
+}
+
+
+if (!function_exists('frontend_recursive_menu')) {
+    function frontend_recursive_menu($data, $parentId = 0)
+    {
+        $html = '<ul>';
+        if (count($data)) {
+            foreach ($data as $key => $val) {
+                $name = $val['item']->languages->first()->pivot->name;
+                $canonical = write_url($val['item']->languages->first()->pivot->canonical, false, false);
+
+                $html .= '<li class=""><a href="' . $canonical . '">' . $name . '</a>';
+
+                if (count($val['children'])) {
+                    $html .= '<ul class="dropdown">';
+                    $html .= frontend_recursive_menu($val['children']);
+                    $html .= "</ul>";
+
+                }
+
+                $html .= '</li>';
+            }
+
+        }
+
+        $html .= '</ul>';
+
+        return $html;
     }
 }
 

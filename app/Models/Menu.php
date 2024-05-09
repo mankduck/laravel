@@ -36,4 +36,9 @@ class Menu extends Model
             )->withTimestamps();
     }
 
+
+    public function menu_catalogues()
+    {
+        return $this->belongsTo(MenuCatalogue::class, 'menu_catalogue_id', 'id');
+    }
 }

@@ -121,12 +121,11 @@ class Language extends Model
     }
 
 
-    public function menus()
+    public function systems()
     {
-        return $this->belongsToMany(Menu::class, 'post_catalogue_language', 'language_id', 'menu_id')
-            ->withPivot(
-                'name',
-                'canonical',
-            )->withTimestamps();
+        return $this->hasMany(System::class, 'language_id', 'id');
     }
+
+
+
 }

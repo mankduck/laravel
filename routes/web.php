@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\Ajax\AttributeController as AjaxAttributeController;
-use App\Http\Controllers\Ajax\MenuController as AjaxMenuController;
-use App\Http\Controllers\Ajax\LocationController;
+/* ROUTE BACKEND */
 use App\Http\Controllers\Backend\AttributeCatalogueController;
 use App\Http\Controllers\Backend\AttributeController;
 use App\Http\Controllers\Backend\GenerateController;
@@ -21,6 +19,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Middleware\AuthenticateMiddleware;
+
+/* ROUTE FRONTEND */
+use App\Http\Controllers\Frontend\HomeController;
+
+/* ROUTE AJAX */
+use App\Http\Controllers\Ajax\AttributeController as AjaxAttributeController;
+use App\Http\Controllers\Ajax\MenuController as AjaxMenuController;
+use App\Http\Controllers\Ajax\LocationController;
 use App\Http\Controllers\Ajax\DashboardController as AjaxDashboardController;
 
 
@@ -35,16 +41,16 @@ use App\Http\Controllers\Ajax\DashboardController as AjaxDashboardController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
+
+/* FRONTEND ROUTE */
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+
+
+
+/* BACKEND ROUTE */
 Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], function () {
-
-    //Backend Routes
     Route::get('dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index');
-
-    //User Routes
 
     Route::group(['prefix' => 'user'], function () {
         Route::get('index', [UserController::class, 'index'])->name('user.index');
@@ -67,7 +73,6 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::get('permission', [UserCatalogueController::class, 'permission'])->name('user.catalogue.permission');
         Route::post('updatePermission', [UserCatalogueController::class, 'updatePermission'])->name('user.catalogue.updatePermission');
     });
-
 
     Route::group(['prefix' => 'language'], function () {
         Route::get('index', [LanguageController::class, 'index'])->name('language.index');
@@ -92,7 +97,6 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::delete('{id}/destroy', [PostCatalogueController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('post.catalogue.destroy');
     });
 
-
     Route::group(['prefix' => 'post'], function () {
         Route::get('index', [PostController::class, 'index'])->name('post.index');
         Route::get('create', [PostController::class, 'create'])->name('post.create');
@@ -102,7 +106,6 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::get('{id}/delete', [PostController::class, 'delete'])->where(['id' => '[0-9]+'])->name('post.delete');
         Route::delete('{id}/destroy', [PostController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('post.destroy');
     });
-
 
     Route::group(['prefix' => 'permission'], function () {
         Route::get('index', [PermissionController::class, 'index'])->name('permission.index');
@@ -114,7 +117,6 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::delete('{id}/destroy', [PermissionController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('permission.destroy');
     });
 
-
     Route::group(['prefix' => 'generate'], function () {
         Route::get('index', [GenerateController::class, 'index'])->name('generate.index');
         Route::get('create', [GenerateController::class, 'create'])->name('generate.create');
@@ -125,7 +127,6 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::delete('{id}/destroy', [GenerateController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('generate.destroy');
     });
 
-
     Route::group(['prefix' => 'product/catalogue'], function () {
         Route::get('index', [ProductCatalogueController::class, 'index'])->name('product.catalogue.index');
         Route::get('create', [ProductCatalogueController::class, 'create'])->name('product.catalogue.create');
@@ -135,7 +136,6 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::get('{id}/delete', [ProductCatalogueController::class, 'delete'])->where(['id' => '[0-9]+'])->name('product.catalogue.delete');
         Route::delete('{id}/destroy', [ProductCatalogueController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('product.catalogue.destroy');
     });
-
 
     Route::group(['prefix' => 'product'], function () {
         Route::get('index', [ProductController::class, 'index'])->name('product.index');
@@ -157,7 +157,6 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::delete('{id}/destroy', [AttributeCatalogueController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('attribute.catalogue.destroy');
     });
 
-
     Route::group(['prefix' => 'attribute'], function () {
         Route::get('index', [AttributeController::class, 'index'])->name('attribute.index');
         Route::get('create', [AttributeController::class, 'create'])->name('attribute.create');
@@ -168,14 +167,12 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::delete('{id}/destroy', [AttributeController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('attribute.destroy');
     });
 
-
     Route::group(['prefix' => 'system'], function () {
         Route::get('index', [SystemController::class, 'index'])->name('system.index');
         Route::get('{languageId}/translate', [SystemController::class, 'translate'])->where(['languageId' => '[0-9]+'])->name('system.translate');
         Route::post('store', [SystemController::class, 'store'])->name('system.store');
         Route::post('{languageId}/saveTranslate', [SystemController::class, 'saveTranslate'])->where(['languageId' => '[0-9]+'])->name('system.savetranslate');
     });
-
 
     Route::group(['prefix' => 'menu'], function () {
         Route::get('index', [MenuController::class, 'index'])->name('menu.index');
@@ -192,8 +189,6 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::post('{languageId}/saveTranslate', [MenuController::class, 'saveTranslate'])->where(['languageId' => '[0-9]+'])->name('menu.translate.save');
     });
 
-
-
     Route::group(['prefix' => 'slide'], function () {
         Route::get('index', [SlideController::class, 'index'])->name('slide.index');
         Route::get('create', [SlideController::class, 'create'])->name('slide.create');
@@ -204,9 +199,6 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::delete('{id}/destroy', [SlideController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('slide.destroy');
     });
 
-
-
-
     /* AJAX */
     Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation'])->name('ajax.location.index');
     Route::post('ajax/dashboard/changeStatus', [AjaxDashboardController::class, 'changeStatus'])->name('ajax.dashboard.changeStatus');
@@ -216,9 +208,6 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
     Route::get('ajax/attribute/loadAttribute', [AjaxAttributeController::class, 'loadAttribute'])->name('ajax.attribute.loadAttribute');
     Route::post('ajax/menu/createCatalogue', [AjaxMenuController::class, 'createCatalogue'])->name('ajax.menu.createCatalogue');
     Route::post('ajax/menu/drag', [AjaxMenuController::class, 'drag'])->name('ajax.menu.drag');
-
-
-
 });
 
 

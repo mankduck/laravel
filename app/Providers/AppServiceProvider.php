@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Http\ViewComposers\MenuComposer;
+use App\Http\ViewComposers\SystemComposer;
+use App\Models\Language;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -81,6 +84,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $locale = app()->getLocale();
+        $language = Language::where('canonical', $locale)->first();
+        
+
+        view()->composer('frontend.layout', function($view) use ($language){
+            $composer = app()->make(SystemComposer::class, ['language' => $language->id]);
+            $composer->compose($view);
+        });
+
+        view()->composer('frontend.layout', function($view) use ($language){
+            $menu = app()->make(MenuComposer::class, ['language' => $language->id]);
+            $menu->compose($view);
+        });
+
         Schema::defaultStringLength(191);
     }
 }
