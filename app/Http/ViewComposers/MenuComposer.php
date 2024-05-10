@@ -24,6 +24,7 @@ class MenuComposer
             ['keyword', '=', 'menu-chinh']
         ], FALSE, [
             'menus' => function ($query) use ($language) {
+                $query->orderBy('order', 'DESC');
                 $query->with([
                     'languages' => function ($query) use ($language) {
                         $query->where('language_id', $language);
@@ -31,8 +32,13 @@ class MenuComposer
                 ]);
             }
         ]);
-        $menus = frontend_recursive_menu(recursive($menuCatalogue->menus));
 
+        $menus = [];
+        if(count($menuCatalogue)){
+            foreach ($menuCatalogue as $key => $val) {
+                $menus[$val->keyword] = frontend_recursive_menu(recursive($val->menus));
+            }
+        }
         $view->with('menu', $menus);
     }
 
