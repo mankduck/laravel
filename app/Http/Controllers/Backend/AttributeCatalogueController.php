@@ -51,7 +51,7 @@ class AttributeCatalogueController extends Controller
 
     public function index(Request $request)
     {
-        // $this->authorize('modules', 'attribute.catalogue.index');
+        $this->authorize('modules', 'attribute.catalogue.index');
         $attributeCatalogues = $this->attributeCatalogueService->paginate($request, $this->language);
         $config = [
             'js' => [
@@ -77,7 +77,7 @@ class AttributeCatalogueController extends Controller
 
     public function create()
     {
-        // $this->authorize('modules', 'attribute.catalogue.create');
+        $this->authorize('modules', 'attribute.catalogue.create');
         $config = $this->configData();
         $config['seo'] = __('messages.attributeCatalogue');
         $config['method'] = 'create';
@@ -101,7 +101,7 @@ class AttributeCatalogueController extends Controller
 
     public function edit($id)
     {
-        // $this->authorize('modules', 'attribute.catalogue.update');
+        $this->authorize('modules', 'attribute.catalogue.edit');
         $attributeCatalogue = $this->attributeCatalogueRepository->getAttributeCatalogueById($id, $this->language);
         $config = $this->configData();
         $config['seo'] = __('messages.attributeCatalogue');
@@ -127,7 +127,7 @@ class AttributeCatalogueController extends Controller
 
     public function delete($id)
     {
-        // $this->authorize('modules', 'attribute.catalogue.destroy');
+        $this->authorize('modules', 'attribute.catalogue.delete');
         $config['seo'] = __('messages.attributeCatalogue');
         $attributeCatalogue = $this->attributeCatalogueRepository->getAttributeCatalogueById($id, $this->language);
         return view(

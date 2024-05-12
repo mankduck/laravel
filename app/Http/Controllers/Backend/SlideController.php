@@ -44,10 +44,11 @@ class SlideController extends Controller
             'foreignkey' => 'product_catalogue_id',
             'language_id' => $this->language,
         ]);
-    }
+    } 
 
     public function index(Request $request)
     {
+        $this->authorize('modules', 'slide.index');
         $config = $this->configData();
         $config = [
             'js' => [
@@ -76,7 +77,7 @@ class SlideController extends Controller
 
     public function create()
     {
-        // $this->authorize('modules', 'product.create');
+        $this->authorize('modules', 'slide.create');
 
         $config = $this->configData();
         $config['seo'] = __('messages.slide');
@@ -101,7 +102,7 @@ class SlideController extends Controller
 
     public function edit($id)
     {
-        // $this->authorize('modules', 'product.update');
+        $this->authorize('modules', 'slide.edit');
         $slide = $this->slideRepository->findById($id);
         // dd($slide->item);
 
@@ -130,7 +131,7 @@ class SlideController extends Controller
 
     public function delete($id)
     {
-        // $this->authorize('modules', 'product.destroy');
+        $this->authorize('modules', 'slide.delete');
         $config['seo'] = __('messages.slide');
         $slide = $this->slideRepository->getProductById($id, $this->language);
         return view(

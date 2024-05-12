@@ -49,7 +49,7 @@ class AttributeController extends Controller
 
     public function index(Request $request)
     {
-        // $this->authorize('modules', 'attribute.index');
+        $this->authorize('modules', 'attribute.index');
         $attributes = $this->attributeService->paginate($request, $this->language);
         $config = [
             'js' => [
@@ -77,7 +77,7 @@ class AttributeController extends Controller
 
     public function create()
     {
-        // $this->authorize('modules', 'attribute.create');
+        $this->authorize('modules', 'attribute.create');
         $config = $this->configData();
         $config['seo'] = __('messages.attribute');
         $config['method'] = 'create';
@@ -101,7 +101,7 @@ class AttributeController extends Controller
 
     public function edit($id)
     {
-        // $this->authorize('modules', 'attribute.update');
+        $this->authorize('modules', 'attribute.edit');
         $attribute = $this->attributeRepository->getAttributeById($id, $this->language);
         $config = $this->configData();
         $config['seo'] = __('messages.attribute');
@@ -129,7 +129,7 @@ class AttributeController extends Controller
 
     public function delete($id)
     {
-        // $this->authorize('modules', 'attribute.destroy');
+        $this->authorize('modules', 'attribute.delete');
         $config['seo'] = __('messages.attribute');
         $attribute = $this->attributeRepository->getAttributeById($id, $this->language);
         return view(

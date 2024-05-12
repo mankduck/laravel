@@ -63,27 +63,13 @@ return [
             'title' => 'QL Banner & Slide',
             'icon' => 'fa fa-image',
             'name' => ['slide'],
-            'subModule' => [
-                [
-                    'title' => 'QL Slide',
-                    'route' => 'slide/index'
-                ]
-            ]
+            'route' => 'slide/index'
         ],
         [
             'title' => 'QL Menu',
             'icon' => 'fa fa-bar',
             'name' => ['menu'],
-            'subModule' => [
-                [
-                    'title' => 'Cài Đặt Menu',
-                    'route' => 'menu/index'
-                ],
-                [
-                    'title' => 'QL Menu',
-                    'route' => 'menu/index'
-                ]
-            ]
+            'route' => 'menu/index'
         ],
         [
             'title' => 'Cấu hình chung',

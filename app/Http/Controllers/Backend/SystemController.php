@@ -33,6 +33,7 @@ class SystemController extends Controller
 
     public function index()
     {
+        $this->authorize('modules', 'system.index');
         $systemConfig = $this->systemLibrary->config();
         $systems = convert_array($this->systemRepository->findByCondition([['language_id', '=', $this->language]], TRUE), 'keyword', 'content');
         $config = $this->config();
@@ -53,6 +54,7 @@ class SystemController extends Controller
 
     public function translate($languageId = 0)
     {
+        $this->authorize('modules', 'system.translate');
         $systemConfig = $this->systemLibrary->config();
         $systems = convert_array($this->systemRepository->findByCondition([['language_id', '=', $languageId]], TRUE), 'keyword', 'content');
         $config = $this->config();

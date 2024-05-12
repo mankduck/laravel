@@ -71,6 +71,8 @@
     <script src="frontend/js/owl.carousel.min.js"></script>
     <script src="frontend/js/jquery.nicescroll.min.js"></script>
     <script src="frontend/js/main.js"></script>
+    <script src="frontend/js/function.js"></script>
+    <script src="frontend/js/library.js"></script>
 </body>
 
 </html>

@@ -26,7 +26,7 @@ class LanguageController extends Controller
 
     public function index(Request $request)
     {
-        // $this->authorize('modules', 'language.index');
+        $this->authorize('modules', 'language.index');
         $languages = $this->languageService->paginate($request);
 
         $config = [
@@ -53,7 +53,7 @@ class LanguageController extends Controller
 
     public function create()
     {
-        // $this->authorize('modules', 'language.create');
+        $this->authorize('modules', 'language.create');
         $config = $this->configData();
         $config['seo'] = config('apps.language');
         $config['method'] = 'create';
@@ -76,7 +76,7 @@ class LanguageController extends Controller
 
     public function edit($id)
     {
-        // $this->authorize('modules', 'language.edit');
+        $this->authorize('modules', 'language.edit');
         $language = $this->languageRepository->findById($id);
         $config = $this->configData();
         $config['seo'] = config('apps.language');
@@ -101,7 +101,7 @@ class LanguageController extends Controller
 
     public function delete($id)
     {
-        // $this->authorize('modules', 'language.delete');
+        $this->authorize('modules', 'language.delete');
         $config['seo'] = config('apps.language');
         $language = $this->languageRepository->findById($id);
         return view(
@@ -145,10 +145,12 @@ class LanguageController extends Controller
 
     public function translate($id = 0, $languageId = 0, $model = '')
     {
+        $this->authorize('modules', 'language.translate');
+
         $repositoryInstance = $this->respositoryInstance($model);
         // dd($repositoryInstance);
         $languageInstance = $this->respositoryInstance('Language');
-        
+
         $currentLanguage = $languageInstance->findByCondition([
             ['canonical', '=', session('app_locale')]
         ]);
@@ -160,7 +162,6 @@ class LanguageController extends Controller
 
         $objectTransate = $repositoryInstance->{$method}($id, $languageId);
 
-        // $this->authorize('modules', 'language.translate');
         $config = [
             'js' => [
                 'backend/plugins/ckeditor/ckeditor.js',

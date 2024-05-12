@@ -53,7 +53,7 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        // $this->authorize('modules', 'product.index');
+        $this->authorize('modules', 'product.index');
         $products = $this->productService->paginate($request, $this->language);
         $config = [
             'js' => [
@@ -81,7 +81,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        // $this->authorize('modules', 'product.create');
+        $this->authorize('modules', 'product.create');
 
         $attributeCatalogue = $this->attributeCatalogue->getAll($this->language);
         $config = $this->configData();
@@ -108,7 +108,7 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        // $this->authorize('modules', 'product.update');
+        $this->authorize('modules', 'product.edit');
         $product = $this->productRepository->getProductById($id, $this->language);
         $attributeCatalogue = $this->attributeCatalogue->getAll($this->language);
         $config = $this->configData();
@@ -138,7 +138,7 @@ class ProductController extends Controller
 
     public function delete($id)
     {
-        // $this->authorize('modules', 'product.destroy');
+        $this->authorize('modules', 'product.delete');
         $config['seo'] = __('messages.product');
         $product = $this->productRepository->getProductById($id, $this->language);
         return view(

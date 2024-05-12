@@ -47,6 +47,7 @@ class MenuController extends Controller
     }
     public function index(Request $request)
     {
+        $this->authorize('modules', 'menu.index');
         $config = [
             'js' => [
                 'backend/js/plugins/switchery/switchery.js',
@@ -70,7 +71,7 @@ class MenuController extends Controller
 
     public function create()
     {
-        // $this->authorize('modules', 'menu.create');
+        $this->authorize('modules', 'menu.create');
         $menuCatalogues = $this->menuCatalogueRepository->all();
         $config = $this->config();
         $config['seo'] = __('messages.menu');
@@ -96,7 +97,7 @@ class MenuController extends Controller
 
     public function edit($id)
     {
-        // $this->authorize('modules', 'menu.edit');
+        $this->authorize('modules', 'menu.edit');
         $language = $this->language;
         $menus = $this->menuRepository->findByCondition([
             ['menu_catalogue_id', '=', $id]
@@ -124,6 +125,7 @@ class MenuController extends Controller
 
     public function editMenu($id)
     {
+        $this->authorize('modules', 'menu.editMenu');
         $language = $this->language;
         $menus = $this->menuRepository->findByCondition([
             ['menu_catalogue_id', '=', $id],
@@ -157,6 +159,7 @@ class MenuController extends Controller
 
     public function children($id)
     {
+        $this->authorize('modules', 'menu.children');
         $language = $this->language;
         $menu = $this->menuRepository->findById($id, ['*'], [
             'languages' => function ($query) use ($language) {
@@ -195,7 +198,7 @@ class MenuController extends Controller
 
     public function delete($id)
     {
-        // $this->authorize('modules', 'menu.delete');
+        $this->authorize('modules', 'menu.delete');
         $config['seo'] = __('messages.menu');
         $menuCatalogue = $this->menuCatalogueRepository->findById($id);
         return view(
@@ -218,6 +221,7 @@ class MenuController extends Controller
 
     public function translate(int $languageId = 1, int $id = 0)
     {
+        $this->authorize('modules', 'menu.translate');
         $language = $this->languageRepository->findById($languageId);
         $menuCatalogue = $this->menuCatalogueRepository->findById($id);
         $currentLanguage = $this->language;

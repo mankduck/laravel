@@ -27,14 +27,18 @@
             </li>
             @foreach (__('sidebar.module') as $key => $val)
                 <li class="{{ in_array($segment, $val['name']) ? 'active' : '' }}">
-                    <a href=""><i class="{{ $val['icon'] }}"></i> <span
-                            class="nav-label">{{ $val['title'] }}</span> <span class="fa arrow"></span></a>
                     @if (isset($val['subModule']))
+                        <a href=""><i class="{{ $val['icon'] }}"></i> <span
+                                class="nav-label">{{ $val['title'] }}</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             @foreach ($val['subModule'] as $module)
                                 <li><a href="{{ $module['route'] }}">{{ $module['title'] }}</a></li>
                             @endforeach
                         </ul>
+                    @else
+                        <a href="{{ $val['route'] }}">
+                            <i class="{{ $val['icon'] }}"></i> <span class="nav-label">{{ $val['title'] }}</span>
+                        </a>
                     @endif
                 </li>
             @endforeach

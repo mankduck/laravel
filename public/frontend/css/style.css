@@ -509,6 +509,11 @@ ol {
 	height: 500px;
 }
 
+.banner__text__custom{
+	padding: 150px 0 0;
+
+}
+
 .banner__text span {
 	font-size: 18px;
 	color: #ca1515;
@@ -544,7 +549,7 @@ ol {
 
 .banner__slider {
 	text-align: center;
-	padding: 150px 0 0;
+	/* padding: 150px 0 0; */
 }
 
 .banner__slider.owl-carousel .owl-dots {

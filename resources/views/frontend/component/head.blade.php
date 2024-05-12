@@ -21,3 +21,4 @@
 <link rel="stylesheet" href="frontend/css/owl.carousel.min.css" type="text/css">
 <link rel="stylesheet" href="frontend/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="frontend/css/style.css" type="text/css">
+<link rel="stylesheet" href="frontend/css/library.css" type="text/css">
