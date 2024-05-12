@@ -19,24 +19,42 @@
             </div>
             <div class="col-lg-2 col-md-3 col-sm-5">
                 <div class="footer__widget">
-                    <h6>Quick links</h6>
-                    <ul>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Blogs</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">FAQ</a></li>
-                    </ul>
+                    @if (isset($menu['menu-footer-1']))
+                        <h6>Quick links</h6>
+                        <ul>
+                            @foreach ($menu['menu-footer-1'] as $key => $val)
+                                @php
+                                    $name = $val['item']->languages->first()->pivot->name;
+                                    $canonical = write_url(
+                                        $val['item']->languages->first()->pivot->canonical,
+                                        true,
+                                        true,
+                                    );
+                                @endphp
+                                <li><a href="{{ $canonical }}">{{ $name }}</a></li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </div>
             </div>
             <div class="col-lg-2 col-md-3 col-sm-4">
                 <div class="footer__widget">
-                    <h6>Account</h6>
-                    <ul>
-                        <li><a href="#">{{$system['contact_hotline']}}</a></li>
-                        <li><a href="#">Orders Tracking</a></li>
-                        <li><a href="#">Checkout</a></li>
-                        <li><a href="#">Wishlist</a></li>
-                    </ul>
+                    @if (isset($menu['menu-footer-2']))
+                        <h6>Account</h6>
+                        <ul>
+                            @foreach ($menu['menu-footer-2'] as $key => $val)
+                                @php
+                                    $name = $val['item']->languages->first()->pivot->name;
+                                    $canonical = write_url(
+                                        $val['item']->languages->first()->pivot->canonical,
+                                        true,
+                                        true,
+                                    );
+                                @endphp
+                                <li><a href="{{ $canonical }}">{{ $name }}</a></li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </div>
             </div>
             <div class="col-lg-4 col-md-8 col-sm-8">
@@ -60,8 +78,8 @@
             <div class="col-lg-12">
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 <div class="footer__copyright__text">
-                    <p>Cần hỗ trợ? Liên hệ cho chúng tôi: {{$system['contact_hotline']}} <i class="fa fa-heart" aria-hidden="true"></i> Design by <a
-                            href="https://colorlib.com" target="_blank">Phgmnhd</a>
+                    <p>Cần hỗ trợ? Liên hệ cho chúng tôi: {{ $system['contact_hotline'] }} <i class="fa fa-heart"
+                            aria-hidden="true"></i> Design by <a href="https://colorlib.com" target="_blank">Phgmnhd</a>
                     </p>
                 </div>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->

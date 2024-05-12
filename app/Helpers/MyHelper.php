@@ -130,29 +130,26 @@ if (!function_exists('recursive')) {
 if (!function_exists('frontend_recursive_menu')) {
     function frontend_recursive_menu($data, $parentId = 0, $type = 'html')
     {
-        $html = '<ul>';
+        $html = '';
         if (count($data)) {
-            foreach ($data as $key => $val) {
-                $name = $val['item']->languages->first()->pivot->name;
-                $canonical = write_url($val['item']->languages->first()->pivot->canonical, false, false);
-
-                $html .= '<li class=""><a href="' . $canonical . '">' . $name . '</a>';
-
-                if (count($val['children'])) {
-                    $html .= '<ul class="dropdown">';
-                    $html .= frontend_recursive_menu($val['children']);
-                    $html .= "</ul>";
-
+            if ($type == 'html') {
+                $html = '<ul>';
+                foreach ($data as $key => $val) {
+                    $name = $val['item']->languages->first()->pivot->name;
+                    $canonical = write_url($val['item']->languages->first()->pivot->canonical, false, false);
+                    $html .= '<li class=""><a href="' . $canonical . '">' . $name . '</a>';
+                    if (count($val['children'])) {
+                        $html .= '<ul class="dropdown">';
+                        $html .= frontend_recursive_menu($val['children'], $val['item']->parent_id, $type);
+                        $html .= "</ul>";
+                    }
+                    $html .= '</li>';
                 }
-
-                $html .= '</li>';
+                $html .= '</ul>';
+                return $html;
             }
-
         }
-
-        $html .= '</ul>';
-
-        return $html;
+        return $data;
     }
 }
 

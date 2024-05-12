@@ -16,8 +16,8 @@
                         <div class="uk-flex uk-flex-middle uk-flex-space-between">
                             <div class="font-bold">Chọn vị trí hiển thị <span class="text-danger">(*)</span>
                             </div>
-                            <button type="button" data-toggle="modal" data-target="#createMenuCatalogue"
-                                class="createMenuCatalogue btn btn-danger">Chọn vị trí hiển thị</button>
+                            {{-- <button type="button" data-toggle="modal" data-target="#createMenuCatalogue"
+                                class="createMenuCatalogue btn btn-danger">Chọn vị trí hiển thị</button> --}}
                         </div>
                     </div>
                     <div class="col-lg-12">
