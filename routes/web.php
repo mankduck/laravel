@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\SlideController;
 use App\Http\Controllers\Backend\SystemController;
 use App\Http\Controllers\Backend\UserCatalogueController;
 use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\WidgetController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
@@ -197,6 +198,17 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::post('{id}/update', [SlideController::class, 'update'])->where(['id' => '[0-9]+'])->name('slide.update');
         Route::get('{id}/delete', [SlideController::class, 'delete'])->where(['id' => '[0-9]+'])->name('slide.delete');
         Route::delete('{id}/destroy', [SlideController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('slide.destroy');
+    });
+
+
+    Route::group(['prefix' => 'widget'], function () {
+        Route::get('index', [WidgetController::class, 'index'])->name('widget.index');
+        Route::get('create', [WidgetController::class, 'create'])->name('widget.create');
+        Route::post('store', [WidgetController::class, 'store'])->name('widget.store');
+        Route::get('{id}/edit', [WidgetController::class, 'edit'])->where(['id' => '[0-9]+'])->name('widget.edit');
+        Route::post('{id}/update', [WidgetController::class, 'update'])->where(['id' => '[0-9]+'])->name('widget.update');
+        Route::get('{id}/delete', [WidgetController::class, 'delete'])->where(['id' => '[0-9]+'])->name('widget.delete');
+        Route::delete('{id}/destroy', [WidgetController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('widget.destroy');
     });
 
     /* AJAX */

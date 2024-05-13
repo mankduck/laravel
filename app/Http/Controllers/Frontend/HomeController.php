@@ -21,7 +21,12 @@ class HomeController extends FrontendController
         $language = $this->language;
 
         $slides = $this->slideRepository->findByCondition(...$this->slideAgrument());
-        $slideItems = $slides->item[$this->language];
+        if ($slides) {
+            $slideItems = $slides->item[$this->language];
+        }else{
+            $slideItems = [];
+        }
+        ;
 
         return view('frontend.homepage.home.index', compact('slides', 'slideItems'));
     }

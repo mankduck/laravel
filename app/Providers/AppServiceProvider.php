@@ -68,6 +68,9 @@ class AppServiceProvider extends ServiceProvider
 
         'App\Services\Interfaces\SlideServiceInterface' => 'App\Services\SlideService',
         'App\Repositories\Interfaces\SlideRepositoryInterface' => 'App\Repositories\SlideRepository',
+
+        'App\Services\Interfaces\WidgetServiceInterface' => 'App\Services\WidgetService',
+        'App\Repositories\Interfaces\WidgetRepositoryInterface' => 'App\Repositories\WidgetRepository',
     ];
     /**
      * Register any application services.

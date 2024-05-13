@@ -184,6 +184,22 @@ return [
             'title' => 'Xóa Slide'
         ],
     ],
+
+    'widget' => [
+        'index' => [
+            'title' => 'Quản lý Widget',
+            'table' => 'Danh sách Widget'
+        ],
+        'create' => [
+            'title' => 'Thêm mới Widget'
+        ],
+        'edit' => [
+            'title' => 'Cập nhật Widget'
+        ],
+        'delete' => [
+            'title' => 'Xóa Widget'
+        ],
+    ],
     'permission' => [
         'index' => [
             'title' => 'Quản lý Quyền',
@@ -236,7 +252,7 @@ return [
     'seoMetaDescription' => 'Mô tả SEO',
     'canonical' => 'Đường Dẫn',
     'character' => 'Ký tự',
-    'tableStatus' => 'Tình Trạng',
+    'tableStatus' => 'Tình Trạng',  
     'tableAction' => 'Thao Tác',
     'tableName' => 'Tiêu Đề',
     'tableOrder' => 'Sắp Xếp',
@@ -251,11 +267,17 @@ return [
     'tableGrUserNumber' => 'Số Thành Viên',
     'deleteButton' => 'Xóa dữ liệu',
     'tableHeading' => 'Thông tin chung',
-    
+
     'tableSlide' => [
         'slideName' => 'Tên Slide',
         'slideKey' => 'Từ khóa',
         'slideImage' => 'Danh sách hình ảnh',
+    ],
+
+    'tableWidget' => [
+        'widgetName' => 'Tên Widget',
+        'widgetKey' => 'Từ khóa',
+        'widgetModel' => 'Model',
     ],
 
     'save' => 'Lưu lại',

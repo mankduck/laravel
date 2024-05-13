@@ -80,13 +80,17 @@ return [
                     'title' => 'QL Ngôn ngữ',
                     'route' => 'language/index'
                 ],
-                [
-                    'title' => 'QL Module',
-                    'route' => 'generate/index'
-                ],
+                // [
+                //     'title' => 'QL Module',
+                //     'route' => 'generate/index'
+                // ],
                 [
                     'title' => 'Cấu hình hệ thống',
                     'route' => 'system/index'
+                ],
+                [
+                    'title' => 'Quản lý Widget',
+                    'route' => 'widget/index'
                 ],
 
             ]
