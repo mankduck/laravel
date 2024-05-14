@@ -10,6 +10,56 @@
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-lg-9">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Thông tin chung</h5>
+                        </div>
+                        <div class="ibox-content widgetContent">
+                            @include('backend.dashboard.component.content', [
+                                'offTitle' => true,
+                                'offContent' => true,
+                            ])
+                        </div>
+                    </div>
+                    <div class="ibox">
+                        <div class="ibox-content widgetContent">
+                            @include('backend.dashboard.component.album')
+                        </div>
+                    </div>
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Cấu hình nội dung Widget</h5>
+                        </div>
+                        <div class="ibox-content model-list">
+                            <div class="labelText">Chọn Module</div>
+                            @foreach (__('module.model') as $key => $val)
+                                <div class="model-item uk-flex uk-flex-middle">
+                                    <input type="radio" class="input-radio" name="model" value="{{ $key }}"
+                                        id="{{ $key }}">
+                                    <label for="{{ $key }}">{{ $val }}</label>
+                                </div>
+                            @endforeach
+
+                            <div class="search-model-box">
+                                <i class="fa fa-search"></i>
+                                <input type="text" name="" class="form-control search-model" id="">
+                            </div>
+
+                            <div class="search-model-result">
+                                <div class="uk-flex uk-flex-middle uk-flex-space-between">
+                                    <div class="uk-flex uk-flex-middle">
+                                        <span class="image img-cover">
+                                            <img src="" alt="">
+                                        </span>
+                                        <span class="name">NGUYỄN THỊ HẢI YẾN</span>
+                                    </div>
+                                </div>
+                                <div class="deleted">
+                                    <button class=""><i class="fa fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-3">
                     @include('backend.widget.component.aside')
