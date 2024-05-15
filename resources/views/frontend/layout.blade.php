@@ -7,9 +7,9 @@
 
 <body>
     <!-- Page Preloder -->
-    <div id="preloder">
+    {{-- <div id="preloder">
         <div class="loader"></div>
-    </div>
+    </div> --}}
 
     <!-- Offcanvas Menu Begin -->
     <div class="offcanvas-menu-overlay"></div>
@@ -61,18 +61,18 @@
     <!-- Search End -->
 
     <!-- Js Plugins -->
-    <script src="frontend/js/jquery-3.3.1.min.js"></script>
-    <script src="frontend/js/bootstrap.min.js"></script>
-    <script src="frontend/js/jquery.magnific-popup.min.js"></script>
-    <script src="frontend/js/jquery-ui.min.js"></script>
-    <script src="frontend/js/mixitup.min.js"></script>
-    <script src="frontend/js/jquery.countdown.min.js"></script>
-    <script src="frontend/js/jquery.slicknav.js"></script>
-    <script src="frontend/js/owl.carousel.min.js"></script>
-    <script src="frontend/js/jquery.nicescroll.min.js"></script>
-    <script src="frontend/js/main.js"></script>
-    <script src="frontend/js/function.js"></script>
-    <script src="frontend/js/library.js"></script>
+    <script src="{{ asset('frontend/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/mixitup.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/jquery.countdown.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/jquery.slicknav.js') }}"></script>
+    <script src="{{ asset('frontend/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/jquery.nicescroll.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/main.js') }}"></script>
+    <script src="{{ asset('frontend/js/function.js') }}"></script>
+    <script src="{{ asset('frontend/js/library.js') }}"></script>
 </body>
 
 </html>
