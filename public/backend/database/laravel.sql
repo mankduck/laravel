@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 26, 2024 at 07:31 AM
+-- Generation Time: May 15, 2024 at 12:04 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -141,7 +141,7 @@ CREATE TABLE `attribute_catalogues` (
 
 INSERT INTO `attribute_catalogues` (`id`, `parent_id`, `lft`, `rgt`, `level`, `image`, `icon`, `album`, `publish`, `follow`, `order`, `user_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
 (3, 0, 4, 5, 1, '/userfiles/image/languages/Flag_of_Vietnam_svg.webp', NULL, '', 2, 1, 0, 1, NULL, '2024-04-18 00:01:00', '2024-04-18 00:01:00'),
-(4, 0, 2, 3, 1, '/userfiles/image/languages/Flag_of_Vietnam_svg.webp', NULL, '', 0, 1, 0, 1, NULL, '2024-04-18 00:01:13', '2024-04-18 00:01:13');
+(4, 0, 2, 3, 1, '/userfiles/image/languages/Flag_of_Vietnam_svg.webp', NULL, '', 1, 1, 0, 1, NULL, '2024-04-18 00:01:13', '2024-05-12 04:40:49');
 
 -- --------------------------------------------------------
 
@@ -1008,9 +1008,9 @@ CREATE TABLE `languages` (
 --
 
 INSERT INTO `languages` (`id`, `name`, `canonical`, `image`, `user_id`, `created_at`, `updated_at`, `deleted_at`, `publish`, `current`) VALUES
-(1, 'Tiếng Việt', 'vn', '/userfiles/image/languages/Flag_of_Vietnam_svg.webp', 1, '2024-03-24 20:34:39', '2024-04-17 23:54:58', NULL, 2, 1),
-(2, 'Tiếng Anh', 'en', '/userfiles/image/languages/england.png', 1, '2024-03-25 01:29:14', '2024-04-17 23:54:58', NULL, 2, 0),
-(3, 'Tiếng Trung Quốc', 'cn', '/userfiles/image/languages/china.png', 1, '2024-04-03 06:02:14', '2024-04-17 23:54:58', NULL, 2, 0);
+(1, 'Tiếng Việt', 'vn', '/userfiles/image/languages/Flag_of_Vietnam_svg.webp', 1, '2024-03-24 20:34:39', '2024-05-06 19:25:20', NULL, 2, 1),
+(2, 'Tiếng Anh', 'en', '/userfiles/image/languages/england.png', 1, '2024-03-25 01:29:14', '2024-05-06 19:25:20', NULL, 2, 0),
+(3, 'Tiếng Trung Quốc', 'cn', '/userfiles/image/languages/china.png', 1, '2024-04-03 06:02:14', '2024-05-11 21:56:36', NULL, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1042,9 +1042,17 @@ CREATE TABLE `menus` (
 --
 
 INSERT INTO `menus` (`id`, `parent_id`, `menu_catalogue_id`, `lft`, `rgt`, `level`, `type`, `image`, `icon`, `album`, `publish`, `order`, `user_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(84, 86, 8, 3, 4, 2, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, '2024-04-18 00:04:41', '2024-04-18 00:04:52'),
-(85, 0, 8, 6, 7, 1, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, '2024-04-18 00:04:41', '2024-04-18 00:04:47'),
-(86, 0, 8, 2, 5, 1, NULL, NULL, NULL, NULL, 1, 2, 1, NULL, '2024-04-18 00:04:41', '2024-04-18 00:04:48');
+(87, 0, 10, 16, 17, 1, NULL, NULL, NULL, NULL, 1, 2, 1, NULL, '2024-05-11 20:19:30', '2024-05-12 04:57:41'),
+(88, 89, 10, 19, 20, 2, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, '2024-05-11 20:19:30', '2024-05-12 04:57:37'),
+(89, 0, 10, 18, 21, 1, NULL, NULL, NULL, NULL, 1, 3, 1, NULL, '2024-05-11 20:19:30', '2024-05-12 04:57:41'),
+(90, 0, 10, 22, 23, 1, NULL, NULL, NULL, NULL, 1, 4, 1, NULL, '2024-05-11 20:19:30', '2024-05-12 04:57:41'),
+(91, 0, 11, 12, 13, 1, NULL, NULL, NULL, NULL, 1, 0, 1, NULL, '2024-05-11 20:41:32', '2024-05-11 20:41:32'),
+(92, 0, 11, 14, 15, 1, NULL, NULL, NULL, NULL, 1, 0, 1, NULL, '2024-05-11 20:41:32', '2024-05-11 20:41:32'),
+(93, 0, 11, 10, 11, 1, NULL, NULL, NULL, NULL, 1, 0, 1, NULL, '2024-05-11 20:50:49', '2024-05-11 20:50:49'),
+(94, 0, 12, 8, 9, 1, NULL, NULL, NULL, NULL, 1, 0, 1, NULL, '2024-05-11 21:00:45', '2024-05-11 21:00:45'),
+(95, 0, 12, 4, 5, 1, NULL, NULL, NULL, NULL, 1, 0, 1, NULL, '2024-05-11 21:01:10', '2024-05-11 21:01:10'),
+(96, 0, 12, 6, 7, 1, NULL, NULL, NULL, NULL, 1, 0, 1, NULL, '2024-05-11 21:01:10', '2024-05-11 21:01:10'),
+(97, 0, 10, 2, 3, 1, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, '2024-05-12 04:57:37', '2024-05-12 04:57:41');
 
 -- --------------------------------------------------------
 
@@ -1067,8 +1075,10 @@ CREATE TABLE `menu_catalogues` (
 --
 
 INSERT INTO `menu_catalogues` (`id`, `name`, `keyword`, `publish`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(8, 'Menu Chính', 'menu-chinh', 2, NULL, '2024-04-17 23:58:59', '2024-04-17 23:59:27'),
-(9, 'Menu Footer', 'menu-footer', 2, NULL, '2024-04-17 23:59:15', '2024-04-17 23:59:26');
+(10, 'Menu Chính', 'menu-chinh', 2, NULL, '2024-05-11 20:18:00', '2024-05-11 21:07:07'),
+(11, 'Menu Footer 1', 'menu-footer-1', 2, NULL, '2024-05-11 20:18:21', '2024-05-11 21:07:08'),
+(12, 'Menu Footer 2', 'menu-footer-2', 2, NULL, '2024-05-11 20:18:42', '2024-05-11 21:07:08'),
+(13, 'Menu Sản Phẩm', 'menu-san-pham', 1, NULL, '2024-05-11 20:25:32', '2024-05-11 21:07:09');
 
 -- --------------------------------------------------------
 
@@ -1090,11 +1100,17 @@ CREATE TABLE `menu_language` (
 --
 
 INSERT INTO `menu_language` (`menu_id`, `language_id`, `name`, `canonical`, `created_at`, `updated_at`) VALUES
-(84, 1, 'Áo Phông', 'ao-phong', '2024-04-18 00:04:41', '2024-04-18 00:04:41'),
-(86, 1, 'Áo', 'ao', '2024-04-18 00:04:52', '2024-04-18 00:04:52'),
-(85, 1, 'Quần', 'quan', '2024-04-18 00:04:52', '2024-04-18 00:04:52'),
-(86, 2, 'Shirt Test', 'shirt', '2024-04-18 07:33:39', '2024-04-18 07:33:39'),
-(84, 2, 'Shirt Short', 'shirt-short', '2024-04-18 07:33:39', '2024-04-18 07:33:39');
+(88, 1, 'Áo Phông', 'ao-phong', '2024-05-11 20:19:30', '2024-05-11 20:19:30'),
+(91, 1, 'Blogs', 'blogs', '2024-05-11 20:50:49', '2024-05-11 20:50:49'),
+(92, 1, 'Liên Hệ', 'lien-he', '2024-05-11 20:50:49', '2024-05-11 20:50:49'),
+(93, 1, 'FAQ', 'faq', '2024-05-11 20:50:49', '2024-05-11 20:50:49'),
+(94, 1, 'Orders Tracking', 'orders-tracking', '2024-05-11 21:01:10', '2024-05-11 21:01:10'),
+(95, 1, 'Checkout', 'checkout', '2024-05-11 21:01:10', '2024-05-11 21:01:10'),
+(96, 1, 'Wishlist', 'wishlist', '2024-05-11 21:01:10', '2024-05-11 21:01:10'),
+(90, 1, 'Trang Chủ', 'trang-chu', '2024-05-12 04:57:37', '2024-05-12 04:57:37'),
+(89, 1, 'Áo', 'ao', '2024-05-12 04:57:37', '2024-05-12 04:57:37'),
+(87, 1, 'Quần', 'quan', '2024-05-12 04:57:37', '2024-05-12 04:57:37'),
+(97, 1, 'Bài Viết', 'bai-viet', '2024-05-12 04:57:37', '2024-05-12 04:57:37');
 
 -- --------------------------------------------------------
 
@@ -1165,7 +1181,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (51, '2024_04_11_045053_create_menu_catalogues_table', 32),
 (52, '2024_04_11_152421_create_menus_table', 33),
 (53, '2024_04_11_153116_create_menu_language_table', 34),
-(54, '2024_04_18_152929_create_slides_table', 35);
+(56, '2024_04_18_152929_create_slides_table', 35),
+(57, '2024_05_13_184727_create_widgets_table', 36);
 
 -- --------------------------------------------------------
 
@@ -1218,7 +1235,44 @@ INSERT INTO `permissions` (`id`, `name`, `canonical`, `created_at`, `updated_at`
 (18, 'Xem danh sách nhóm bài viết', 'post.catalogue.index', '2024-04-03 21:42:13', '2024-04-03 21:42:13'),
 (19, 'Thêm mới nhóm bài viết', 'post.catalogue.create', '2024-04-03 21:42:34', '2024-04-03 21:42:34'),
 (20, 'Chỉnh sửa nhóm bài viết', 'post.catalogue.edit', '2024-04-03 21:42:53', '2024-04-03 21:42:53'),
-(21, 'Xóa nhóm bài viết', 'post.catalogue.delete', '2024-04-03 21:43:09', '2024-04-03 21:43:09');
+(21, 'Xóa nhóm bài viết', 'post.catalogue.delete', '2024-04-03 21:43:09', '2024-04-03 21:43:09'),
+(22, 'Quản lý loại thuộc tính', 'attribute.catalogue.index', '2024-05-12 04:41:18', '2024-05-12 04:41:35'),
+(23, 'Thêm mới loại thuộc tính', 'attribute.catalogue.create', '2024-05-12 04:42:00', '2024-05-12 04:42:00'),
+(24, 'Chỉnh sửa loại thuộc tính', 'attribute.catalogue.edit', '2024-05-12 04:42:25', '2024-05-12 04:42:25'),
+(25, 'Xóa loại thuộc tính', 'attribute.catalogue.delete', '2024-05-12 04:42:38', '2024-05-12 04:42:38'),
+(26, 'Quản lý thuộc tính', 'attribute.index', '2024-05-12 04:46:17', '2024-05-12 04:46:17'),
+(27, 'Chỉnh sửa thuộc tính', 'attribute.edit', '2024-05-12 04:46:29', '2024-05-12 04:46:29'),
+(28, 'Thêm mới thuộc tính', 'attribute.create', '2024-05-12 04:46:54', '2024-05-12 04:46:54'),
+(29, 'Xóa thuộc tính', 'attribute.delete', '2024-05-12 04:47:06', '2024-05-12 04:47:06'),
+(30, 'Quản lý ngôn ngữ', 'language.index', '2024-05-12 04:50:18', '2024-05-12 04:50:18'),
+(31, 'Thêm mới ngôn ngữ', 'language.create', '2024-05-12 04:50:29', '2024-05-12 04:50:29'),
+(32, 'Chỉnh sửa ngôn ngữ', 'language.edit', '2024-05-12 04:50:39', '2024-05-12 04:50:39'),
+(33, 'Xóa ngôn ngữ', 'language.delete', '2024-05-12 04:50:49', '2024-05-12 04:50:49'),
+(34, 'Tạo bản dịch', 'language.translate', '2024-05-12 04:51:30', '2024-05-12 04:51:30'),
+(35, 'Quản lý Menu', 'menu.index', '2024-05-12 05:01:38', '2024-05-12 05:01:38'),
+(36, 'Thêm mới Menu', 'menu.create', '2024-05-12 05:01:48', '2024-05-12 05:01:48'),
+(37, 'Chỉnh sửa Menu', 'menu.edit', '2024-05-12 05:02:01', '2024-05-12 05:02:01'),
+(38, 'Chỉnh sửa Menu cấp 1', 'menu.editMenu', '2024-05-12 05:02:14', '2024-05-12 05:02:14'),
+(39, 'Quản lý Menu con', 'menu.children', '2024-05-12 05:02:41', '2024-05-12 05:02:41'),
+(40, 'Tạo bản dịch cho Menu', 'menu.translate', '2024-05-12 05:03:04', '2024-05-12 05:03:04'),
+(41, 'Quản lý nhóm sản phẩm', 'product.catalogue.index', '2024-05-12 05:06:48', '2024-05-12 05:06:48'),
+(42, 'Thêm mới nhóm sản phẩm', 'product.catalogue.create', '2024-05-12 05:07:04', '2024-05-12 05:07:04'),
+(43, 'Chỉnh sửa nhóm sản phẩm', 'product.catalogue.edit', '2024-05-12 05:07:16', '2024-05-12 05:07:16'),
+(44, 'Xóa nhóm sản phẩm', 'product.catalogue.delete', '2024-05-12 05:07:27', '2024-05-12 05:07:27'),
+(45, 'Quản lý sản phẩm', 'product.index', '2024-05-12 05:08:35', '2024-05-12 05:08:35'),
+(46, 'Thêm mới sản phẩm', 'product.create', '2024-05-12 05:08:45', '2024-05-12 05:08:45'),
+(47, 'Chỉnh sửa sản phẩm', 'product.edit', '2024-05-12 05:08:56', '2024-05-12 05:08:56'),
+(48, 'Xóa sản phẩm', 'product.delete', '2024-05-12 05:09:05', '2024-05-12 05:09:05'),
+(49, 'Quản lý Slide, Banner', 'slide.index', '2024-05-12 05:12:03', '2024-05-12 05:12:03'),
+(50, 'Thêm mới Slide, Banner', 'slide.create', '2024-05-12 05:12:18', '2024-05-12 05:12:18'),
+(51, 'Chỉnh sửa Slide, Banner', 'slide.edit', '2024-05-12 05:12:31', '2024-05-12 05:12:31'),
+(52, 'Xóa Slide, Banner', 'slide.delete', '2024-05-12 05:12:44', '2024-05-12 05:12:44'),
+(53, 'Quản lý cấu hình hệ thống', 'system.index', '2024-05-12 05:14:19', '2024-05-12 05:14:19'),
+(54, 'Tạo bản dịch cho cấu hình hệ thống', 'system.translate', '2024-05-12 05:14:34', '2024-05-12 05:14:34'),
+(55, 'Quản lý Widget', 'widget.index', '2024-05-13 10:22:17', '2024-05-13 10:22:17'),
+(56, 'Thêm mới Widget', 'widget.create', '2024-05-13 10:22:32', '2024-05-13 10:22:32'),
+(57, 'Chỉnh sửa Widget', 'widget.edit', '2024-05-13 10:22:43', '2024-05-13 10:22:43'),
+(58, 'Xóa Widget', 'widget.delete', '2024-05-13 10:22:54', '2024-05-13 10:22:54');
 
 -- --------------------------------------------------------
 
@@ -1688,10 +1742,20 @@ CREATE TABLE `slides` (
   `keyword` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
   `item` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `publish` tinyint NOT NULL DEFAULT '1',
+  `setting` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `short_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `slides`
+--
+
+INSERT INTO `slides` (`id`, `name`, `keyword`, `description`, `item`, `publish`, `setting`, `short_code`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(5, 'Slide Chính', 'main-slide', NULL, '{\"1\":[{\"image\":\"\\/userfiles\\/image\\/Slides\\/banner-1.jpg\",\"name\":\"FREESHIP FOR 30-4!\",\"description\":\"English texts for beginners to practice reading and comprehension online and for free. Practicing your comprehension of written English will both improve your\",\"canonical\":null,\"alt\":null,\"window\":\"\"},{\"image\":\"\\/userfiles\\/image\\/Slides\\/banner-2.jpg\",\"name\":null,\"description\":null,\"canonical\":null,\"alt\":null,\"window\":\"\"},{\"image\":\"\\/userfiles\\/image\\/Slides\\/banner-3.jpg\",\"name\":\"Asion Shop\",\"description\":\"Mang l\\u1ea1i c\\u1ea3m gi\\u00e1c \\u1ea5m \\u00e1p cho b\\u1ea1n\",\"canonical\":null,\"alt\":null,\"window\":\"\"}]}', 2, '{\"width\":\"1.099\",\"height\":\"1.020\",\"animation\":\"coverflow\",\"navigate\":\"dots\",\"autoplay\":\"accept\",\"pausehover\":\"accept\",\"animationdelay\":\"231\",\"animationspeed\":\"123\"}', '<p>Mainninini</p>\r\n\r\n<p>&nbsp;</p>', NULL, '2024-05-06 23:44:00', '2024-05-15 05:03:12');
 
 -- --------------------------------------------------------
 
@@ -1815,8 +1879,11 @@ CREATE TABLE `user_catalogues` (
 
 INSERT INTO `user_catalogues` (`id`, `name`, `description`, `deleted_at`, `created_at`, `updated_at`, `publish`) VALUES
 (1, 'Quản trị viên', 'Quản lý trang web', NULL, '2024-03-24 03:17:13', '2024-03-24 06:19:08', 2),
-(2, 'Cộng tác viên', 'Quản lý sản phẩm', NULL, '2024-03-24 06:40:07', '2024-04-03 21:44:42', 2),
-(3, 'Quản lý bài viết', 'Writing', NULL, '2024-04-03 21:05:27', '2024-04-03 21:06:09', 2);
+(2, 'Cộng tác viên sản phẩm', 'Quản lý sản phẩm', NULL, '2024-03-24 06:40:07', '2024-05-12 04:37:18', 2),
+(3, 'Cộng tác viên bài viết', 'Writing', NULL, '2024-04-03 21:05:27', '2024-05-12 04:37:31', 2),
+(4, 'Quản lý chung', 'Quản lý các vấn đề chung cho trang web', NULL, '2024-05-12 04:37:52', '2024-05-12 04:44:32', 2),
+(5, 'Quản lý nhân sự', 'Quản lý chung về User, phân quyền chức năng,..', NULL, '2024-05-12 04:44:29', '2024-05-12 04:45:35', 2),
+(6, 'Cộng tác viên dịch thuật', 'Tạo bản dịch cho toàn bộ trang web', NULL, '2024-05-12 04:51:55', '2024-05-12 04:52:30', 2);
 
 -- --------------------------------------------------------
 
@@ -1855,8 +1922,103 @@ INSERT INTO `user_catalogue_permission` (`user_catalogue_id`, `permission_id`) V
 (1, 19),
 (1, 20),
 (1, 21),
-(2, 1),
-(3, 1);
+(1, 22),
+(1, 23),
+(1, 24),
+(1, 25),
+(1, 26),
+(1, 27),
+(1, 28),
+(1, 29),
+(1, 30),
+(1, 31),
+(1, 32),
+(1, 33),
+(1, 34),
+(1, 35),
+(1, 36),
+(1, 37),
+(1, 38),
+(1, 39),
+(1, 40),
+(1, 41),
+(1, 42),
+(1, 43),
+(1, 44),
+(1, 45),
+(1, 46),
+(1, 47),
+(1, 48),
+(1, 49),
+(1, 50),
+(1, 51),
+(1, 52),
+(1, 53),
+(1, 54),
+(1, 55),
+(1, 56),
+(1, 57),
+(1, 58),
+(5, 1),
+(5, 2),
+(5, 3),
+(5, 4),
+(5, 5),
+(5, 6),
+(5, 7),
+(5, 8),
+(5, 9),
+(5, 10),
+(5, 11),
+(5, 12),
+(5, 13),
+(3, 14),
+(3, 15),
+(3, 16),
+(3, 17),
+(3, 18),
+(3, 19),
+(3, 20),
+(3, 21),
+(2, 22),
+(2, 23),
+(2, 24),
+(2, 25),
+(2, 26),
+(2, 27),
+(2, 28),
+(2, 29),
+(2, 41),
+(2, 42),
+(2, 43),
+(2, 44),
+(2, 45),
+(2, 46),
+(2, 47),
+(2, 48),
+(4, 30),
+(4, 31),
+(4, 32),
+(4, 33),
+(4, 35),
+(4, 36),
+(4, 37),
+(4, 38),
+(4, 39),
+(4, 49),
+(4, 50),
+(4, 51),
+(4, 52),
+(4, 53),
+(4, 55),
+(4, 56),
+(4, 57),
+(4, 58),
+(6, 34),
+(6, 35),
+(6, 37),
+(6, 40),
+(6, 54);
 
 -- --------------------------------------------------------
 
@@ -12498,6 +12660,27 @@ INSERT INTO `wards` (`code`, `name`, `name_en`, `full_name`, `full_name_en`, `co
 ('32245', 'Tân Ân', 'Tan An', 'Xã Tân Ân', 'Tan An Commune', 'tan_an', '973', 10),
 ('32248', 'Đất Mũi', 'Dat Mui', 'Xã Đất Mũi', 'Dat Mui Commune', 'dat_mui', '973', 10);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `widgets`
+--
+
+CREATE TABLE `widgets` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `keyword` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `album` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `publish` tinyint NOT NULL DEFAULT '1',
+  `short_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -12782,6 +12965,13 @@ ALTER TABLE `wards`
   ADD KEY `idx_wards_unit` (`administrative_unit_id`);
 
 --
+-- Indexes for table `widgets`
+--
+ALTER TABLE `widgets`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `widgets_keyword_unique` (`keyword`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -12819,25 +13009,25 @@ ALTER TABLE `languages`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT for table `menu_catalogues`
 --
 ALTER TABLE `menu_catalogues`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -12891,7 +13081,7 @@ ALTER TABLE `routers`
 -- AUTO_INCREMENT for table `slides`
 --
 ALTER TABLE `slides`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `systems`
@@ -12909,7 +13099,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_catalogues`
 --
 ALTER TABLE `user_catalogues`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `widgets`
+--
+ALTER TABLE `widgets`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
