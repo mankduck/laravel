@@ -45,6 +45,7 @@
                     <div class="ibox-content" id="dataCatalogue" data-catalogueId="{{ $id }}">
                         @php
                             $menus = recursive($menus);
+                            // dd($menus);
                             $menuString = recursive_menu($menus);
                         @endphp
                         @if (count($menus))

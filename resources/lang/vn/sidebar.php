@@ -74,7 +74,7 @@ return [
         [
             'title' => 'Cấu hình chung',
             'icon' => 'fa fa-file',
-            'name' => ['language', 'generate'],
+            'name' => ['language', 'generate', 'widget'],
             'subModule' => [
                 [
                     'title' => 'QL Ngôn ngữ',

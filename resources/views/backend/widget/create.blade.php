@@ -43,20 +43,14 @@
                             <div class="search-model-box">
                                 <i class="fa fa-search"></i>
                                 <input type="text" name="" class="form-control search-model" id="">
+
+                                <div class="ajax-search-result">
+
+                                </div>
                             </div>
 
                             <div class="search-model-result">
-                                <div class="uk-flex uk-flex-middle uk-flex-space-between">
-                                    <div class="uk-flex uk-flex-middle">
-                                        <span class="image img-cover">
-                                            <img src="" alt="">
-                                        </span>
-                                        <span class="name">NGUYỄN THỊ HẢI YẾN</span>
-                                    </div>
-                                </div>
-                                <div class="deleted">
-                                    <button class=""><i class="fa fa-trash"></i></button>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>

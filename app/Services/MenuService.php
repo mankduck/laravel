@@ -62,7 +62,6 @@ class MenuService extends BaseService implements MenuServiceInterface
                 foreach ($payload['menu']['name'] as $key => $val) {
                     $menuId = $payload['menu']['id'][$key];
                     $menuArray = [
-
                         'menu_catalogue_id' => $payload['menu_catalogue_id'],
                         'order' => $payload['menu']['order'][$key],
                         'user_id' => Auth::id(),
@@ -87,15 +86,18 @@ class MenuService extends BaseService implements MenuServiceInterface
                     // dd($menuArray);
                     if ($menu->id > 0) {
                         $menu->languages()->detach([$languageId, $menu->id]);
+                        // dd($menu); die;
                         $payloadLanguage = [
                             'language_id' => $languageId,
                             'name' => $val,
                             'canonical' => $payload['menu']['canonical'][$key]
                         ];
+
+
                         $this->menuRepository->createPivot($menu, $payloadLanguage, 'languages');
                     }
+                    
                 }
-                // dd($menu);
 
                 $this->initialize($languageId);
                 $this->nestedset();

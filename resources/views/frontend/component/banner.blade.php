@@ -7,8 +7,11 @@
                         <div class="banner__item banner set-bg" data-setbg="{!! $val['image'] !!}">
                             <div class="banner__text banner__text__custom">
                                 <span>{!! $val['name'] !!}</span>
-                                <h1>{!! $val['description'] !!}</h1>
-                                <a href="#">Shop now</a>
+                                <h1>{!! $val['alt'] !!}</h1>
+                                <h5 class="mb20">{!! $val['description'] !!}</h5>
+                                @if (isset($val['canonical']))
+                                    <a href="{{ $val['canonical'] }}">Shop now</a>
+                                @endif
                             </div>
                         </div>
                     @endforeach

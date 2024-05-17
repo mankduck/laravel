@@ -285,7 +285,7 @@
                 data: option,
                 dataType: 'json',
                 success: function (res) {
-
+                    console.log(res);
                 },
                 beforeSend: function () {
 
@@ -311,7 +311,7 @@
 
 
     HT.runUpdateNesableOutput = () => {
-        updateOutput($('#nestable2').data('output', $('#nestable2-output')));
+        HT.updateNesableOutput($('#nestable2').data('output', $('#nestable2-output')));
     }
 
     HT.expandAndCollapse = () => {

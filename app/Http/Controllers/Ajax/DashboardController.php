@@ -83,7 +83,7 @@ class DashboardController extends Controller
             ],
             'keyword' => $keyword
         ];
-        if(is_null($keyword)){
+        if (is_null($keyword)) {
             $condition['keyword'] = addslashes($keyword);
         }
         return [
@@ -101,4 +101,26 @@ class DashboardController extends Controller
     }
 
 
+    public function findModelObject(Request $request)
+    {
+        $get = $request->input();
+        $alias = Str::snake($get['model']) . '_language';
+        $class = $this->loadClassInterface($get['model'], 'Repository');
+        $object = $class->findWidgetItem([
+            ['name', 'LIKE', '%' . $get['keyword'] . '%']
+        ], $this->language, $alias);
+        return response()->json($object);
+    }
+
+    private function loadClassInterface(string $model = '', $interface = 'Repository')
+    {
+        $serviceInterfaceNamespace = '\App\Repositories\\' . ucfirst($model) . $interface;
+        if (class_exists($serviceInterfaceNamespace)) {
+            $serviceInstance = app($serviceInterfaceNamespace);
+        }
+
+        return $serviceInstance;
+    }
+
 }
+

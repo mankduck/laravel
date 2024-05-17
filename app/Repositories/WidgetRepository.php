@@ -19,4 +19,6 @@ class WidgetRepository extends BaseRepository implements WidgetRepositoryInterfa
     ) {
         $this->model = $model;
     }
+
+
 }

@@ -41,7 +41,7 @@
         </div>
     </div>
     <div class="ibox-content">
-        <textarea name="short_code" class="form-control ck-editor" placeholder="" autocomplete="off" id="ckContent"
+        <textarea name="short_code" class="form-control" placeholder="" autocomplete="off" id="ckContent"
             data-height="200">{{ old('short_code', $widget->short_code ?? '') }}</textarea>
     </div>
 </div>
