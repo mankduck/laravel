@@ -11,7 +11,7 @@ class UpdateWidgetRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,20 @@ class UpdateWidgetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required',
+            'keyword' => 'required|unique:widgets,keyword, ' . $this->id . '',
+            'short_code' => 'required|unique:widgets,short_code, ' . $this->id . '',
+        ];
+    }
+
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Bạn chưa nhập vào tên Widget.',
+            'keyword.required' => 'Bạn cần nhập vào từ khóa của Widget',
+            'keyword.unique' => 'Từ khóa đã tồn tại!',
+            'short_code.required' => 'Short Code đã tồn tại!',
         ];
     }
 }

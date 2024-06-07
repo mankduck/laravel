@@ -13,6 +13,10 @@ class Widget extends Model
     protected $fillable = [
         'name',
         'description',
+        'model_id',
+        'short_code',
+        'model',
+        'album',
         'keyword',
         'publish',
     ];
@@ -20,8 +24,9 @@ class Widget extends Model
 
 
     protected $casts = [
-        'item' => 'json',
-        'setting' => 'json'
+        'model_id' => 'json',
+        'album' => 'json',
+        'description' => 'json'
     ];
 
 }

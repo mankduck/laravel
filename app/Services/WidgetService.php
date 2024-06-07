@@ -44,16 +44,18 @@ class WidgetService extends BaseService implements WidgetServiceInterface
         return $widgets;
     }
 
-    public function create($request)
+    public function create($request, $languageId)
     {
         DB::beginTransaction();
         try {
 
-            $payload = $request->except(['_token', 'send', 're_password']);
-            if ($payload['birthday'] != null) {
-                $payload['birthday'] = $this->convertBirthdayDate($payload['birthday']);
-            }
-            $payload['password'] = Hash::make($payload['password']);
+            $payload = $request->only('name', 'keyword', 'short_code', 'description', 'album', 'model');
+            $payload['model_id'] = $request->input('modelItem.id');
+            $payload['description'] = [
+
+                $languageId => $payload['description']
+            ];
+            // dd($payload);
             $widget = $this->widgetRepository->create($payload);
             DB::commit();
             return true;
@@ -67,15 +69,17 @@ class WidgetService extends BaseService implements WidgetServiceInterface
     }
 
 
-    public function update($id, $request)
+    public function update($id, $request, $languageId)
     {
         DB::beginTransaction();
         try {
 
-            $payload = $request->except(['_token', 'send']);
-            if ($payload['birthday'] != null) {
-                $payload['birthday'] = $this->convertBirthdayDate($payload['birthday']);
-            }
+            $payload = $request->only('name', 'keyword', 'short_code', 'description', 'album', 'model');
+            $payload['model_id'] = $request->input('modelItem.id');
+            $payload['description'] = [
+
+                $languageId => $payload['description']
+            ];
             $widget = $this->widgetRepository->update($id, $payload);
             DB::commit();
             return true;
@@ -92,7 +96,7 @@ class WidgetService extends BaseService implements WidgetServiceInterface
     {
         DB::beginTransaction();
         try {
-            $widget = $this->widgetRepository->delete($id);
+            $widget = $this->widgetRepository->SoftDeletes($id);
 
             DB::commit();
             return true;
@@ -105,24 +109,38 @@ class WidgetService extends BaseService implements WidgetServiceInterface
         }
     }
 
-
-    private function convertBirthdayDate($birthday = '')
+    public function saveTranslate($request, $languageId)
     {
-        $carbonDate = Carbon::createFromFormat('Y-m-d', $birthday);
-        $birthday = $carbonDate->format('Y-m-d H:i:s');
-        return $birthday;
+        DB::beginTransaction();
+        try {
+            $temp = [];
+            $translateId = $request->input('translateId');
+            $widget = $this->widgetRepository->findById($request->input('widgetId'));
+            $temp = $widget->description;
+            $temp[$translateId] = $request->input('translate_description');
+            $payload ['description'] = $temp;
+            $widget = $this->widgetRepository->update($widget->id, $payload);
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Log::error($e->getMessage());
+            echo $e->getMessage();
+            die();
+            return false;
+        }
     }
 
     private function paginateSelect()
     {
         return [
             'id',
-            'email',
-            'phone',
-            'address',
+            'keyword',
+            'short_code',
+            'description',
             'name',
-            'publish',
-            'widget_catalogue_id'
+            'publish'
         ];
     }
 

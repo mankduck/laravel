@@ -120,11 +120,20 @@ class BaseRepository implements BaseRepositoryInterface
         return $this->model->select($column)->with($relation)->findOrFail($modelId);
     }
 
-    public function findByCondition($condition = [], $flag = false, $relation = [], array $orderBy = ['id', 'desc'])
-    {
+    public function findByCondition(
+        $condition = [],
+        $flag = false,
+        $relation = [],
+        array $orderBy = ['id', 'desc'],
+        array $param = []
+    ) {
         $query = $this->model->newQuery();
         foreach ($condition as $key => $val) {
             $query->where($val[0], $val[1], $val[2]);
+        }
+
+        if(isset($param['whereIn'])){
+            $query->whereIn($param['whereInField'], $param['whereIn']);
         }
 
         $query->with($relation);

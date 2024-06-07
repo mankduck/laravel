@@ -198,6 +198,8 @@ return [
         ],
         'delete' => [
             'title' => 'Xóa Widget'
+        ],'translate' => [
+            'title' => 'Tạo bản dịch {language} cho Widget'
         ],
     ],
     'permission' => [

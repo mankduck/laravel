@@ -18,7 +18,7 @@
                 <div class="form-row">
                     <label for="" class="control-label text-left">Từ khóa Widget <span
                             class="text-danger">(*)</span></label>
-                    <input type="text" name="keyword" value="{{ old('keyword', $slide->widget ?? '') }}"
+                    <input type="text" name="keyword" value="{{ old('keyword', $widget->keyword ?? '') }}"
                         class="form-control" placeholder="" autocomplete="off">
                 </div>
             </div>

@@ -3,7 +3,7 @@
     @include('backend.dashboard.component.breadcrumb', ['title' => $config['seo']['create']['title']])
     @include('backend.dashboard.component.formError')
     @php
-        $url = $config['method'] == 'create' ? route('widget.store') : route('widget.update', $slide->id);
+        $url = $config['method'] == 'create' ? route('widget.store') : route('widget.update', $widget->id);
     @endphp
     <form action="{{ $url }}" method="post" class="box">
         @csrf
@@ -18,12 +18,13 @@
                             @include('backend.dashboard.component.content', [
                                 'offTitle' => true,
                                 'offContent' => true,
+                                'model' => $widget ?? null,
                             ])
                         </div>
                     </div>
                     <div class="ibox">
                         <div class="ibox-content widgetContent">
-                            @include('backend.dashboard.component.album')
+                            @include('backend.dashboard.component.album', ['model' => $widget ?? null])
                         </div>
                     </div>
                     <div class="ibox">
@@ -35,7 +36,8 @@
                             @foreach (__('module.model') as $key => $val)
                                 <div class="model-item uk-flex uk-flex-middle">
                                     <input type="radio" class="input-radio" name="model" value="{{ $key }}"
-                                        id="{{ $key }}">
+                                        id="{{ $key }}"
+                                        {{ old('model', $widget->model ?? null) == $key ? 'checked' : '' }}>
                                     <label for="{{ $key }}">{{ $val }}</label>
                                 </div>
                             @endforeach
@@ -49,8 +51,37 @@
                                 </div>
                             </div>
 
+                            @php
+                                $modelItem = old('modelItem', $widgetItem ?? null);
+                            @endphp
                             <div class="search-model-result">
-                                
+                                @if (!is_null($modelItem))
+                                    @foreach ($modelItem['id'] as $key => $val)
+                                        <div class="search-result-item" id="model-{{ $val }}"
+                                            data-modelid="{{ $val }}">
+                                            <div class="uk-flex uk-flex-middle uk-flex-space-between">
+                                                <div class="uk-flex uk-flex-middle">
+                                                    <span class="image img-cover">
+                                                        <img src="{{ $modelItem['image'][$key] }}" alt="">
+                                                    </span>
+                                                    <span class="name">{{ $modelItem['name'][$key] }}</span>
+                                                    <div class="hidden">
+                                                        <input type="text" name="modelItem[id][]"
+                                                            value="{{ $val }}">
+                                                        <input type="text" name="modelItem[name][]"
+                                                            value="{{ $modelItem['name'][$key] }}">
+                                                        <input type="text" name="modelItem[image][]"
+                                                            value="{{ $modelItem['image'][$key] }}">
+
+                                                    </div>
+                                                </div>
+                                                <div class="deleted">
+                                                    <button class=""><i class="fa fa-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>

@@ -209,6 +209,8 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::post('{id}/update', [WidgetController::class, 'update'])->where(['id' => '[0-9]+'])->name('widget.update');
         Route::get('{id}/delete', [WidgetController::class, 'delete'])->where(['id' => '[0-9]+'])->name('widget.delete');
         Route::delete('{id}/destroy', [WidgetController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('widget.destroy');
+        Route::get('{languageId}/{id}/translate', [WidgetController::class, 'translate'])->where(['languageId' => '[0-9]+', 'id' => '[0-9]+'])->name('widget.translate');
+        Route::post('saveTranslate', [WidgetController::class, 'saveTranslate'])->where(['languageId' => '[0-9]+'])->name('widget.translate.save');
     });
 
     /* AJAX */

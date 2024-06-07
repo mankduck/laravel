@@ -144,6 +144,12 @@
                             <img src="${data.image}" alt="">
                         </span>
                         <span class="name">${data.name}</span>
+                        <div class="hidden">
+                            <input type="text" name="modelItem[id][]" value="${data.id}">
+                            <input type="text" name="modelItem[name][]" value="${data.name}">
+                            <input type="text" name="modelItem[image][]" value="${data.image}">
+
+                        </div>
                     </div>
                     <div class="deleted">
                         <button class=""><i class="fa fa-trash"></i></button>
@@ -154,10 +160,20 @@
         return html
     }
 
+
+    HT.removeModel = () => {
+        $(document).on('click', '.deleted', function () {
+            let _this = $(this)
+            _this.parents('.search-result-item').remove()
+        })
+    }
+
     $(document).ready(function () {
+        HT.chooseModel()
         HT.searchModel()
         HT.unfocusSearchBox()
         HT.addModel()
+        HT.removeModel()
     });
 
 

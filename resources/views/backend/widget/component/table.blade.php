@@ -6,9 +6,10 @@
             </th>
             <th class="text-center">{{ __('messages.tableWidget.widgetName') }}</th>
             <th class="text-center">{{ __('messages.tableWidget.widgetKey') }}</th>
+            @include('backend.dashboard.component.languageTh')
             <th class="text-center">{{ __('messages.tableWidget.widgetModel') }}</th>
-            <th class="text-center" style="width:100px;">{{ __('messages.tableStatus') }}</th>
-            <th class="text-center" style="width:100px;">{{ __('messages.tableAction') }}</th>
+            <th class="text-center">{{ __('messages.tableStatus') }}</th>
+            <th class="text-center">{{ __('messages.tableAction') }}</th>
         </tr>
     </thead>
     <tbody>
@@ -19,23 +20,28 @@
                         <input type="checkbox" value="{{ $widget->id }}" class="input-checkbox checkBoxItem">
                     </td>
                     <td>
-                        <div class="uk-flex uk-flex-middle">
-                            <div class="main-info">
-                                <div class="name"><span class="maintitle">{{ $widget->name }}</span></div>
-                                <div class="name"><span class="maintitle">{{ $widget->keyword }}</span></div>
-                                <div class="name"><span class="maintitle">{{ $widget->name }}</span></div>
-
-                            </div>
-                        </div>
+                        {{ $widget->name }}
                     </td>
-                    {{-- @include('backend.dashboard.component.languageTd', [
-                        'model' => $widget,
-                        'modeling' => 'Post',
-                    ]) --}}
                     <td>
-                        <input type="text" name="order" value="{{ $widget->order }}"
-                            class="form-control sort-order text-right" data-id="{{ $widget->id }}"
-                            data-model="{{ $config['model'] }}">
+                        {{ $widget->keyword }}
+                    </td>
+                    @foreach ($languages as $language)
+                        @if (session('app_locale') === $language->canonical)
+                            @continue
+                        @endif
+                        @php
+                            $translated = isset($widget->description[$language->id]) ? 1 : 0;
+                        @endphp
+                        <td class="text-center">
+                            <a class="{{ $translated == 1 ? '' : 'text-danger' }}"
+                                href="{{ route('widget.translate', ['languageId' => $language->id, 'id' => $widget->id]) }}">
+                                {{ $translated == 1 ? 'Đã dịch' : 'Chưa dịch' }}
+                            </a>
+                        </td>
+                    @endforeach
+
+                    <td>
+                        {{ $widget->short_code ?? '-' }}
                     </td>
                     <td class="text-center js-switch-{{ $widget->id }}">
                         <input type="checkbox" value="{{ $widget->publish }}" class="js-switch status "
@@ -43,9 +49,9 @@
                             {{ $widget->publish == 2 ? 'checked' : '' }} data-modelId="{{ $widget->id }}" />
                     </td>
                     <td class="text-center">
-                        <a href="{{ route('post.edit', $widget->id) }}" class="btn btn-success"><i
+                        <a href="{{ route('widget.edit', $widget->id) }}" class="btn btn-success"><i
                                 class="fa fa-edit"></i></a>
-                        <a href="{{ route('post.delete', $widget->id) }}" class="btn btn-danger"><i
+                        <a href="{{ route('widget.delete', $widget->id) }}" class="btn btn-danger"><i
                                 class="fa fa-trash"></i></a>
                     </td>
                 </tr>
