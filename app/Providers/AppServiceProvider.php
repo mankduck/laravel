@@ -71,6 +71,9 @@ class AppServiceProvider extends ServiceProvider
 
         'App\Services\Interfaces\WidgetServiceInterface' => 'App\Services\WidgetService',
         'App\Repositories\Interfaces\WidgetRepositoryInterface' => 'App\Repositories\WidgetRepository',
+
+        'App\Services\Interfaces\PromotionServiceInterface' => 'App\Services\PromotionService',
+        'App\Repositories\Interfaces\PromotionRepositoryInterface' => 'App\Repositories\PromotionRepository',
     ];
     /**
      * Register any application services.

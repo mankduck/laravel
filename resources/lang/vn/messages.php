@@ -198,9 +198,53 @@ return [
         ],
         'delete' => [
             'title' => 'Xóa Widget'
-        ],'translate' => [
+        ],
+        'translate' => [
             'title' => 'Tạo bản dịch {language} cho Widget'
         ],
+    ],
+
+
+    'promotion' => [
+        'index' => [
+            'title' => 'Quản lý khuyến mãi',
+            'table' => 'Danh sách khuyến mãi'
+        ],
+        'create' => [
+            'title' => 'Thêm mới khuyến mãi'
+        ],
+        'edit' => [
+            'title' => 'Cập nhật khuyến mãi'
+        ],
+        'delete' => [
+            'title' => 'Xóa khuyến mãi'
+        ],
+        'translate' => [
+            'title' => 'Tạo bản dịch {language} cho khuyến mãi'
+        ],
+        'createPromotion' => [
+            'setupPromotionDetail' => 'Cài đặt chi tiết khuyến mãi',
+            'name' => 'Tên chương trình',
+            'code' => 'Mã khuyến mãi',
+            'description' => 'Mô tả',
+            'timeProgram' => 'Thời gian chương trình',
+            'startDate' => 'Ngày bắt đầu',
+            'endDate' => 'Ngày kết thúc',
+            'noEndDate' => 'Không có ngày kết thúc',
+            'customer' => 'Nguồn khách hàng',
+            'allCustomer' => 'Toàn bộ nguồn khách hàng',
+            'chooseCustomer' => 'Chọn nguồn khách hàng',
+            'object' => 'Đối tượng áp dụng',
+            'allObject' => 'Toàn bộ đối tượng',
+            'chooseObject' => 'Chọn đối tượng',
+            'formPromotion' => 'Hình thức khuyến mãi'
+        ],
+        'tablePromotion' => [
+            'promotionName' => 'Tên Khuyến mãi',
+            'promotionKey' => 'Từ khóa',
+            'promotionModel' => 'Model',
+        ],
+
     ],
     'permission' => [
         'index' => [
@@ -254,7 +298,7 @@ return [
     'seoMetaDescription' => 'Mô tả SEO',
     'canonical' => 'Đường Dẫn',
     'character' => 'Ký tự',
-    'tableStatus' => 'Tình Trạng',  
+    'tableStatus' => 'Tình Trạng',
     'tableAction' => 'Thao Tác',
     'tableName' => 'Tiêu Đề',
     'tableOrder' => 'Sắp Xếp',
@@ -281,6 +325,8 @@ return [
         'widgetKey' => 'Từ khóa',
         'widgetModel' => 'Model',
     ],
+
+
 
     'save' => 'Lưu lại',
     'publish' => [

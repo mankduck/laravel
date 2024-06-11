@@ -26,6 +26,22 @@ return [
             ]
         ],
         [
+            'title' => 'QL Marketing',
+            'icon' => 'fa fa-money',
+            'name' => ['promotion'],
+            'subModule' => [
+                [
+                    'title' => 'QL khuyến mại',
+                    'route' => 'promotion/index'
+                ],
+                [
+                    'title' => 'QL sản phẩm',
+                    'route' => 'product/index'
+                ]
+
+            ]
+        ],
+        [
             'title' => 'QL Bài viết',
             'icon' => 'fa fa-file',
             'name' => ['post'],

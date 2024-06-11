@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\PostCatalogueController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\ProductCatalogueController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\PromotionController;
 use App\Http\Controllers\Backend\SlideController;
 use App\Http\Controllers\Backend\SystemController;
 use App\Http\Controllers\Backend\UserCatalogueController;
@@ -211,6 +212,17 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::delete('{id}/destroy', [WidgetController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('widget.destroy');
         Route::get('{languageId}/{id}/translate', [WidgetController::class, 'translate'])->where(['languageId' => '[0-9]+', 'id' => '[0-9]+'])->name('widget.translate');
         Route::post('saveTranslate', [WidgetController::class, 'saveTranslate'])->where(['languageId' => '[0-9]+'])->name('widget.translate.save');
+    });
+
+
+        Route::group(['prefix' => 'promotion'], function () {
+        Route::get('index', [PromotionController::class, 'index'])->name('promotion.index');
+        Route::get('create', [promotionController::class, 'create'])->name('promotion.create');
+        Route::post('store', [promotionController::class, 'store'])->name('promotion.store');
+        Route::get('{id}/edit', [promotionController::class, 'edit'])->where(['id' => '[0-9]+'])->name('promotion.edit');
+        Route::post('{id}/update', [promotionController::class, 'update'])->where(['id' => '[0-9]+'])->name('promotion.update');
+        Route::get('{id}/delete', [promotionController::class, 'delete'])->where(['id' => '[0-9]+'])->name('promotion.delete');
+        Route::delete('{id}/destroy', [promotionController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('promotion.destroy');
     });
 
     /* AJAX */

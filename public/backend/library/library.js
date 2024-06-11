@@ -196,7 +196,6 @@
         HT.changeStatusAll();
         HT.sortui();
         HT.int();
-
     });
 
 })(jQuery);
