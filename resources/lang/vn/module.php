@@ -24,5 +24,17 @@ return [
         'hide' => 'Ẩn thanh điều hướng',
         'dots' => 'Hiển thị dạng dấu chấm',
         'thumbnails' => 'Dạng ảnh Thumbnails'
-    ]
+    ],
+
+
+    'promotion' => [
+        'order_amount_range' => 'Chiết khấu theo tổng giá trị đơn hàng',
+        'product_and_quantity' => 'Chiết khấu theo từng sản phẩm',
+        'product_quantity_range' => 'Chiết khấu theo ố lượng sản phẩm',
+        'goods_discount_by_quantity' => 'Mua sản phẩm - Giảm giá sản phẩm'
+    ],
+    'item' => [
+        'Product' => 'Phiên bản sản phẩm',
+        'ProductCatalogue' => 'Loại sản phẩm',
+    ],
 ];

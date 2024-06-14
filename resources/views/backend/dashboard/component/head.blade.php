@@ -20,6 +20,7 @@
 <link href="backend/css/style.css" rel="stylesheet">
 <link href="backend/css/customize.css" rel="stylesheet">
 <script src="backend/js/jquery-3.1.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     var BASE_URL = '{{ config('app.url') }}'
     var SUFFIX = '{{ config('apps.general.suffix') }}'

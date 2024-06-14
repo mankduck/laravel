@@ -59,100 +59,92 @@
                                 <label for=""
                                     class="control-label text-left mb10">{{ __('messages.promotion.createPromotion.formPromotion') }}<span
                                         class="text-danger">(*)</span></label>
-                                <select name="" class="setupSelect2" id="">
+                                <select name="" class="setupSelect2 promotionMethod" id="">
                                     <option value="">Chọn hình thức</option>
+                                    @foreach (__('module.promotion') as $key => $val)
+                                        <option value="{{ $key }}">{{ $val }}</option>
+                                    @endforeach
                                 </select>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="ibox">
-                        <div class="ibox-title">
-                            <h5>{{ __('messages.promotion.createPromotion.timeProgram') }}</h5>
-                        </div>
-                        <div class="ibox-content">
-                            <div class="form-row mb20">
-                                <label for=""
-                                    class="control-label text-left">{{ __('messages.promotion.createPromotion.startDate') }}<span
-                                        class="text-danger">(*)</span></label>
-                                <input type="datetime-local" name="startDate" id="datetime"
-                                    value="{{ old('startDate', $promotion->startDate ?? '') }}" class="form-control"
-                                    placeholder="" autocomplete="off" {{ isset($disabled) ? 'disabled' : '' }}>
-                            </div>
-                            <div class="form-row mb20">
-                                <label for=""
-                                    class="control-label text-left">{{ __('messages.promotion.createPromotion.endDate') }}<span
-                                        class="text-danger">(*)</span></label>
-                                <input type="datetime-local" name="endDate"
-                                    value="{{ old('endDate', $promotion->endDate ?? '') }}" class="form-control"
-                                    placeholder="" autocomplete="off" {{ isset($disabled) ? 'disabled' : '' }}>
-                            </div>
-                            <div class="form-row">
-                                <div class="uk-flex uk-flex-middle">
-                                    <input type="checkbox" name="" class="" value="accept" id="neverEnd">
-                                    <label for=""
-                                        class="control-label fix-label ml5">{{ __('messages.promotion.createPromotion.noEndDate') }}</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ibox">
-                        <div class="ibox-title">
-                            <h5>{{ __('messages.promotion.createPromotion.customer') }}</h5>
-                        </div>
-                        <div class="ibox-content">
-                            <div class="setting-value">
-                                <div class="form-row mb20">
-                                    <div class="uk-flex uk-flex-middle">
-                                        <input type="radio" name="customer" class="chooseSource" value="accept"
-                                            id="allSource">
-                                        <label for="allSource"
-                                            class="control-label fix-label ml5">{{ __('messages.promotion.createPromotion.allCustomer') }}</label>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="uk-flex uk-flex-middle">
-                                        <input type="radio" name="customer" class="chooseSource" value="accept"
-                                            id="chooseSource">
-                                        <label for="chooseSource"
-                                            class="control-label fix-label ml5">{{ __('messages.promotion.createPromotion.chooseCustomer') }}</label>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="promotion-container">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-right" style="width: 390px">Sản phẩm mua</th>
+                                            <th class="text-right" style="width: 100px">SL tối thiểu</th>
+                                            <th class="text-right">Giới hạn KM</th>
+                                            <th class="text-right" style="width: 150px">Chiết khấu</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="order_amount_range_from td-range">
+                                                <div class="product-quantity" data-toggle="modal"
+                                                    data-target="#findProduct">
+                                                    <div class="uk-flex uk-flex-middle">
+                                                        <div class="boxWrapper">
+                                                            <div class="boxSearchIcon ">
+                                                                <i class="fa fa-search"></i>
+                                                            </div>
+                                                            @for ($i = 1; $i <= 10; $i++)
+                                                                <div class="fixGrid6 hidden">
+                                                                    <div class="goods-item">
+                                                                        <span class="goods-item-name">Áo Sơ Mi Cộc Tay
+                                                                            Nam</span>
+                                                                        <button class="delete-goods-item">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                                                                <path
+                                                                                    d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            @endfor
 
-                        </div>
-                    </div>
-                    <div class="ibox">
-                        <div class="ibox-title">
-                            <h5>{{ __('messages.promotion.createPromotion.object') }}</h5>
-                        </div>
-                        <div class="ibox-content">
-                            <div class="form-row mb20">
-                                <div class="uk-flex uk-flex-middle">
-                                    <input type="radio" name="apply" class="chooseApply" value=""
-                                        id="allApply">
-                                    <label for="allApply"
-                                        class="control-label fix-label ml5">{{ __('messages.promotion.createPromotion.allObject') }}</label>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="uk-flex uk-flex-middle">
-                                    <input type="radio" name="apply" class="chooseApply" value=""
-                                        id="chooseApply">
-                                    <label for="chooseApply"
-                                        class="control-label fix-label ml5">{{ __('messages.promotion.createPromotion.chooseObject') }}</label>
-                                </div>
+
+                                                            <div class="boxSearchInput fixGrid6">
+                                                                <p>Tìm kiếm sản phẩm...</p>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="order_amount_range_to td-range">
+                                                <input type="text" name="amountTo[]" class="form-control int"
+                                                    value="1" placeholder="1" id="">
+                                            </td>
+                                            <td>
+                                                <input type="text" name="amountTo[]" class="form-control int"
+                                                    value="0" placeholder="0" id="">
+                                            </td>
+                                            <td class="discountType">
+                                                <div class="uk-flex uk-flex-middle">
+                                                    <input type="text" name="amountValue[]" class="form-control int"
+                                                        value="0" placeholder="0" id="">
+                                                    <select name="amountType" class="multipleSelect2" id="">
+                                                        <option value="cash">đ</option>
+                                                        <option value="percent">%</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
+                @include('backend.promotion.promotion.component.aside')
             </div>
             <div class="text-right mb15">
                 <button class="btn btn-primary" type="submit" name="send" value="send">Lưu lại</button>
             </div>
         </div>
     </form>
+    <input type="hidden" class="input-product-and-quantity" value="{{ json_encode(__('module.item')) }}">
+    @include('backend.promotion.promotion.component.popup')
     <script>
         const now = new Date();
         const year = now.getFullYear();

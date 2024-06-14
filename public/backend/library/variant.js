@@ -232,8 +232,8 @@
             'attributeCatalogueId': object.attr('data-catid')
         }
         $(object).select2({
-            minimumInputLength: 2,
-            placeholder: 'Nhập tối thiểu 2 kí tự để tìm kiếm',
+            minimumInputLength: 1,
+            placeholder: 'Nhập tối thiểu 1 kí tự để tìm kiếm',
             ajax: {
                 url: 'ajax/attribute/getAttribute',
                 type: 'GET',

@@ -13,6 +13,11 @@ input::placeholder {
     margin-bottom: 20px;
 }
 
+
+.mb5 {
+    margin-bottom: 5px !important;
+}
+
 .mt20 {
     margin-top: 20px;
 }
@@ -771,6 +776,181 @@ input[type="checkbox"] {
 }
 
 
-.conditionLabel{
+.conditionLabel {
     color: blue;
 }
+
+
+.discountType .select2-container {
+    width: 60px !important;
+    margin-left: 10px;
+}
+
+.delete-some-item {
+    padding-top: 8px;
+    cursor: pointer;
+}
+
+.btn-custom {
+    border-radius: 5px;
+}
+
+.errorLine td input {
+    border: 1px solid red;
+}
+
+.product-quantity {
+    border: 1px solid #c4cdd5;
+    background: #fff;
+    padding: 6px 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    min-height: 30px;
+}
+
+.product-quantity p {
+    margin: 0;
+    padding-left: 5px;
+}
+
+/* 
+.product-quantity .boxSearchIcon .fa{
+    width: 20px;
+    height: 20px;
+} */
+
+.goods-item {
+    background: rgb(217, 237, 255);
+    border: 1px solid transparent;
+    margin-bottom: 8px;
+    text-align: center;
+    position: relative;
+    border-radius: 100px;
+    padding: 4px 10px;
+}
+
+.goods-item span {
+    font-size: 11px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
+    width: 90%;
+}
+
+.goods-item button {
+    background: transparent;
+    position: absolute;
+    right: 0;
+    top: 4px;
+    border: 0;
+}
+
+.goods-item button svg {
+    width: 12px;
+    height: 12px;
+}
+
+.boxWrapper {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.boxWrapper .col-lg-6 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.boxWrapper p {
+    /* margin-top: 5px; */
+    font-size: 12px;
+}
+
+
+.fixGrid6 {
+    max-width: 50%;
+    flex-grow: 0;
+    flex-basis: 50%;
+    padding: 0 6px;
+}
+
+
+.modal-title {
+    text-transform: uppercase;
+}
+
+
+.modal-body .search-model-box {
+    margin-top: 0;
+}
+
+.search-object-item {
+    cursor: pointer;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e3e9ed;
+}
+
+.search-object-item .image {
+    width: 52px;
+    height: 52px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.object-name .name {
+    margin-bottom: 4px;
+}
+
+.object-name .jscode {
+    color: blue;
+    font-size: 12px;
+}
+
+.object-extra-info {
+    text-align: right;
+}
+
+.object-extra-info .price {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.object-extra-info .slash {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.object-extra-info .text-value {
+    color: blue;
+}
+
+.object-extra-info .text-1 {
+    color: #888;
+}
+
+.search-list {
+    overflow: auto;
+    height: auto;
+    max-height: calc(100vh - 300px);
+    padding-right: 20px;
+}
+
+/* Custom Scrollbar */
+
+/* .search-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+.search-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.search-list::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.search-list::-webkit-scrollbar-thumb:hover {
+    background: #555;
+} */

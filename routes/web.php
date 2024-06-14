@@ -27,9 +27,11 @@ use App\Http\Controllers\Frontend\HomeController;
 
 /* ROUTE AJAX */
 use App\Http\Controllers\Ajax\AttributeController as AjaxAttributeController;
+use App\Http\Controllers\Ajax\DashboardController as AjaxDashboardController;
 use App\Http\Controllers\Ajax\MenuController as AjaxMenuController;
 use App\Http\Controllers\Ajax\LocationController;
-use App\Http\Controllers\Ajax\DashboardController as AjaxDashboardController;
+use App\Http\Controllers\Ajax\ProductController as AjaxProductController;
+
 
 
 /*
@@ -215,7 +217,7 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
     });
 
 
-        Route::group(['prefix' => 'promotion'], function () {
+    Route::group(['prefix' => 'promotion'], function () {
         Route::get('index', [PromotionController::class, 'index'])->name('promotion.index');
         Route::get('create', [promotionController::class, 'create'])->name('promotion.create');
         Route::post('store', [promotionController::class, 'store'])->name('promotion.store');
@@ -230,11 +232,14 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
     Route::post('ajax/dashboard/changeStatus', [AjaxDashboardController::class, 'changeStatus'])->name('ajax.dashboard.changeStatus');
     Route::get('ajax/dashboard/getMenu', [AjaxDashboardController::class, 'getMenu'])->name('ajax.dashboard.getMenu');
     Route::get('ajax/dashboard/findModelObject', [AjaxDashboardController::class, 'findModelObject'])->name('ajax.dashboard.findModelObject');
+    Route::get('ajax/dashboard/findPromotionObject', [AjaxDashboardController::class, 'findPromotionObject'])->name('ajax.dashboard.findPromotionObject');
     Route::post('ajax/dashboard/changeStatusAll', [AjaxDashboardController::class, 'changeStatusAll'])->name('ajax.dashboard.changeStatusAll');
     Route::get('ajax/attribute/getAttribute', [AjaxAttributeController::class, 'getAttribute'])->name('ajax.attribute.getAttribute');
     Route::get('ajax/attribute/loadAttribute', [AjaxAttributeController::class, 'loadAttribute'])->name('ajax.attribute.loadAttribute');
     Route::post('ajax/menu/createCatalogue', [AjaxMenuController::class, 'createCatalogue'])->name('ajax.menu.createCatalogue');
     Route::post('ajax/menu/drag', [AjaxMenuController::class, 'drag'])->name('ajax.menu.drag');
+    Route::get('ajax/product/loadProductPromotion', [AjaxProductController::class, 'loadProductPromotion'])->name('ajax.product.loadProductPromotion');
+
 });
 
 

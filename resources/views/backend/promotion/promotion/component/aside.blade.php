@@ -1,47 +1,76 @@
-<div class="ibox slide-setting slide-normal">
-    <div class="ibox-title">
-        <h5>Cài đặt cơ bản</h5>
-    </div>
-    <div class="ibox-content">
-        <div class="row mb15">
-            <div class="col-lg-12">
-                <div class="form-row">
-                    <label for="" class="control-label text-left">Tên Widget <span
-                            class="text-danger">(*)</span></label>
-                    <input type="text" name="name" value="{{ old('name', $widget->name ?? '') }}"
-                        class="form-control" placeholder="" autocomplete="off">
+<div class="col-lg-4">
+    <div class="ibox">
+        <div class="ibox-title">
+            <h5>{{ __('messages.promotion.createPromotion.timeProgram') }}</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="form-row mb20">
+                <label for=""
+                    class="control-label text-left">{{ __('messages.promotion.createPromotion.startDate') }}<span
+                        class="text-danger">(*)</span></label>
+                <input type="datetime-local" name="startDate" id="datetime"
+                    value="{{ old('startDate', $promotion->startDate ?? '') }}" class="form-control" placeholder=""
+                    autocomplete="off" {{ isset($disabled) ? 'disabled' : '' }}>
+            </div>
+            <div class="form-row mb20">
+                <label for=""
+                    class="control-label text-left">{{ __('messages.promotion.createPromotion.endDate') }}<span
+                        class="text-danger">(*)</span></label>
+                <input type="datetime-local" name="endDate" value="{{ old('endDate', $promotion->endDate ?? '') }}"
+                    class="form-control" placeholder="" autocomplete="off" {{ isset($disabled) ? 'disabled' : '' }}>
+            </div>
+            <div class="form-row">
+                <div class="uk-flex uk-flex-middle">
+                    <input type="checkbox" name="" class="" value="accept" id="neverEnd">
+                    <label for=""
+                        class="control-label fix-label ml5">{{ __('messages.promotion.createPromotion.noEndDate') }}</label>
                 </div>
             </div>
         </div>
-        <div class="row mb15">
-            <div class="col-lg-12">
+    </div>
+    <div class="ibox">
+        <div class="ibox-title">
+            <h5>{{ __('messages.promotion.createPromotion.customer') }}</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="setting-value">
+                <div class="form-row mb20">
+                    <div class="uk-flex uk-flex-middle">
+                        <input type="radio" name="customer" class="chooseSource" value="accept" id="allSource">
+                        <label for="allSource"
+                            class="control-label fix-label ml5">{{ __('messages.promotion.createPromotion.allCustomer') }}</label>
+                    </div>
+                </div>
                 <div class="form-row">
-                    <label for="" class="control-label text-left">Từ khóa Widget <span
-                            class="text-danger">(*)</span></label>
-                    <input type="text" name="keyword" value="{{ old('keyword', $widget->keyword ?? '') }}"
-                        class="form-control" placeholder="" autocomplete="off">
+                    <div class="uk-flex uk-flex-middle">
+                        <input type="radio" name="customer" class="chooseSource" value="accept" id="chooseSource">
+                        <label for="chooseSource"
+                            class="control-label fix-label ml5">{{ __('messages.promotion.createPromotion.chooseCustomer') }}</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="ibox">
+        <div class="ibox-title">
+            <h5>{{ __('messages.promotion.createPromotion.object') }}</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="form-row mb20">
+                <div class="uk-flex uk-flex-middle">
+                    <input type="radio" name="apply" class="chooseApply" value="" id="allApply">
+                    <label for="allApply"
+                        class="control-label fix-label ml5">{{ __('messages.promotion.createPromotion.allObject') }}</label>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="uk-flex uk-flex-middle">
+                    <input type="radio" name="apply" class="chooseApply" value="" id="chooseApply">
+                    <label for="chooseApply"
+                        class="control-label fix-label ml5">{{ __('messages.promotion.createPromotion.chooseObject') }}</label>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="ibox short-code">
-    <div class="ibox-title">
-        <h5>Short Code</h5>
-        <div class="ibox-tools">
-            <a class="collapse-link">
-                <i class="fa fa-chevron-up"></i>
-            </a>
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-wrench"></i>
-            </a>
-            <a class="close-link">
-                <i class="fa fa-times"></i>
-            </a>
-        </div>
-    </div>
-    <div class="ibox-content">
-        <textarea name="short_code" class="form-control" placeholder="" autocomplete="off" id="ckContent"
-            data-height="200">{{ old('short_code', $widget->short_code ?? '') }}</textarea>
     </div>
 </div>
