@@ -20,7 +20,7 @@
        $('input[name=canonical]').on('keyup', function(){
             let input = $(this)
             let value = HT.removeUtf8(input.val())
-            $('.canonical').html(BASE_URL + value + SUFFIX) 
+            $('.canonical').html(BASE_URL + value + SUFFIX)
         })
 
         $('textarea[name=meta_description]').on('keyup', function(){

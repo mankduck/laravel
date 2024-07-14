@@ -27,6 +27,7 @@ class MenuComposer
         if (count($menuCatalogue)) {
             foreach ($menuCatalogue as $key => $val) {
                 $type = (in_array($val->keyword, $htmlType)) ? 'html' : 'array';
+                dd($val->menus);
                 $menus[$val->keyword] = frontend_recursive_menu(recursive($val->menus), 0, $type);
             }
         }

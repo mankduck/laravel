@@ -67,71 +67,7 @@
                                 </select>
                             </div>
                             <div class="promotion-container">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-right" style="width: 390px">Sản phẩm mua</th>
-                                            <th class="text-right" style="width: 100px">SL tối thiểu</th>
-                                            <th class="text-right">Giới hạn KM</th>
-                                            <th class="text-right" style="width: 150px">Chiết khấu</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="order_amount_range_from td-range">
-                                                <div class="product-quantity" data-toggle="modal"
-                                                    data-target="#findProduct">
-                                                    <div class="uk-flex uk-flex-middle">
-                                                        <div class="boxWrapper">
-                                                            <div class="boxSearchIcon ">
-                                                                <i class="fa fa-search"></i>
-                                                            </div>
-                                                            @for ($i = 1; $i <= 10; $i++)
-                                                                <div class="fixGrid6 hidden">
-                                                                    <div class="goods-item">
-                                                                        <span class="goods-item-name">Áo Sơ Mi Cộc Tay
-                                                                            Nam</span>
-                                                                        <button class="delete-goods-item">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                                                                <path
-                                                                                    d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
-                                                                            </svg>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            @endfor
-
-
-                                                            <div class="boxSearchInput fixGrid6">
-                                                                <p>Tìm kiếm sản phẩm...</p>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="order_amount_range_to td-range">
-                                                <input type="text" name="amountTo[]" class="form-control int"
-                                                    value="1" placeholder="1" id="">
-                                            </td>
-                                            <td>
-                                                <input type="text" name="amountTo[]" class="form-control int"
-                                                    value="0" placeholder="0" id="">
-                                            </td>
-                                            <td class="discountType">
-                                                <div class="uk-flex uk-flex-middle">
-                                                    <input type="text" name="amountValue[]" class="form-control int"
-                                                        value="0" placeholder="0" id="">
-                                                    <select name="amountType" class="multipleSelect2" id="">
-                                                        <option value="cash">đ</option>
-                                                        <option value="percent">%</option>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                
                             </div>
                         </div>
                     </div>

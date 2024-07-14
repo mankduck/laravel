@@ -2,24 +2,24 @@
 return [
     'module' => [
         [
-            'title' => 'QL sản phẩm',
+            'title' => 'QL Sản Phẩm',
             'icon' => 'fa fa-cube',
             'name' => ['product', 'attribute'],
             'subModule' => [
                 [
-                    'title' => 'QL Nhóm sản phẩm',
+                    'title' => 'QL Nhóm Sản Phẩm',
                     'route' => 'product/catalogue/index'
                 ],
                 [
-                    'title' => 'QL sản phẩm',
+                    'title' => 'QL Sản Phẩm',
                     'route' => 'product/index'
                 ],
                 [
-                    'title' => 'QL Loại thuộc tính',
+                    'title' => 'QL Loại Thuộc Tính',
                     'route' => 'attribute/catalogue/index'
                 ],
                 [
-                    'title' => 'QL thuộc tính',
+                    'title' => 'QL Thuộc Tính',
                     'route' => 'attribute/index'
                 ],
 
@@ -28,15 +28,15 @@ return [
         [
             'title' => 'QL Marketing',
             'icon' => 'fa fa-money',
-            'name' => ['promotion'],
+            'name' => ['promotion', 'source'],
             'subModule' => [
                 [
-                    'title' => 'QL khuyến mại',
+                    'title' => 'QL Khuyến Mãi',
                     'route' => 'promotion/index'
                 ],
                 [
-                    'title' => 'QL sản phẩm',
-                    'route' => 'product/index'
+                    'title' => 'QL Nguồn Khách',
+                    'route' => 'source/index'
                 ]
 
             ]
@@ -88,7 +88,7 @@ return [
             'route' => 'menu/index'
         ],
         [
-            'title' => 'Cấu hình chung',
+            'title' => 'Cấu Hình Chung',
             'icon' => 'fa fa-file',
             'name' => ['language', 'generate', 'widget'],
             'subModule' => [
@@ -96,12 +96,8 @@ return [
                     'title' => 'QL Ngôn ngữ',
                     'route' => 'language/index'
                 ],
-                // [
-                //     'title' => 'QL Module',
-                //     'route' => 'generate/index'
-                // ],
                 [
-                    'title' => 'Cấu hình hệ thống',
+                    'title' => 'Cấu Hình Hệ Thống',
                     'route' => 'system/index'
                 ],
                 [

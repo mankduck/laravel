@@ -21,7 +21,6 @@ class AttributeCatalogueRepository extends BaseRepository implements AttributeCa
     }
 
     
-
     public function getAttributeCatalogueById(int $id = 0, $language_id = 0){
         return $this->model->select([
                 'attribute_catalogues.id',

@@ -28,17 +28,42 @@ class ProductController extends Controller
     public function loadProductPromotion(Request $request)
     {
         $get = $request->input();
+        $loadClass = loadClass($get['model']);
 
-        $condition = [
-            ['tb2.language_id', '=', $this->language]
-        ];
 
-        if (isset($get['keyword']) && $get['keyword'] != '') {
-            $keywordCondition = ['tb2.name', 'LIKE', '%' . $get['keyword'] . '%'];
-            array_push($condition, $keywordCondition);
+
+        if ($get['model'] == 'Product') {
+            $condition = [
+                ['tb2.language_id', '=', $this->language]
+            ];
+
+            if (isset($get['keyword']) && $get['keyword'] != '') {
+                $keywordCondition = ['tb2.name', 'LIKE', '%' . $get['keyword'] . '%'];
+                array_push($condition, $keywordCondition);
+            }
+            $objects = $this->productRepository->findProductForPrmotion($condition);
+        } elseif ($get['model'] == 'ProductCatalogue') {
+            $conditionArray['keyword'] = ($get['keyword']) ?? null;
+            $conditionArray['where'] = [
+                ['tb2.language_id', '=', $this->language]
+            ];
+            $objects = $loadClass->pagination(
+                [
+                    'product_catalogues.id',
+                    'tb2.name',
+                ],
+                $conditionArray,
+                20,
+                ['path' => 'product.catalogue.index'],
+                ['product_catalogues.id', 'DESC'],
+                [
+                    ['product_catalogue_language as tb2', 'tb2.product_catalogue_id', '=', 'product_catalogues.id']
+                ],
+                []
+            );
         }
 
-        $objects = $this->productRepository->findProductForPrmotion($condition);
+
         return response()->json([
             'model' => ($get['model']) ?? 'Product',
             'objects' => $objects

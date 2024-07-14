@@ -43,9 +43,11 @@
                         name: 'Lazada'
                     }
                 ]
-                let sourceHtml = HT.renderPromotionSource(sourceData).prop('outerHTML')
-                _this.parents('.ibox-content').append(sourceHtml)
-                HT.promotionMutipleSelect2()
+                if (!$('.source-wrapper').length) {
+                    let sourceHtml = HT.renderPromotionSource(sourceData).prop('outerHTML')
+                    _this.parents('.ibox-content').append(sourceHtml)
+                    HT.promotionMutipleSelect2()
+                }
             }
         })
     }
@@ -59,7 +61,6 @@
             select.append(option)
         }
         wrapper.append(select)
-        // }
         return wrapper
     }
 
@@ -107,7 +108,6 @@
         }
         wrapperConditionItem.append(select)
         wrapper.append(wrapperConditionItem)
-        // }
         return wrapper
     }
 
@@ -137,12 +137,9 @@
     }
 
     HT.createConditionLabel = (label, value) => {
-        // let deleteButton = $('<div>').addClass('delete').html('<svg data-icon="TrashSolidLarge" aria-hidden="true" focusable="false" width="15" height="16" viewBox="0 0 15 16" class="bem-Svg" style="display: block;"><path fill="currentColor" d="M2 14a1 1 0 001 1h9a1 1 0 001-1V6H2v8zM13 2h-3a1 1 0 01-1-1H6a1 1 0 01-1 1H1v2h13V2h-1z"></path></svg>').attr('data-condition-item', value)
         let conditionLabel = $('<div>').addClass('conditionLabel').text(label)
         let flex = $('<div>').addClass('uk-flex uk-flex-middle uk-flex-space-between')
         let wrapperBox = $('<div>').addClass('mb10 mt20')
-
-        // flex.append(conditionLabel).append(deleteButton)
         flex.append(conditionLabel)
 
         wrapperBox.append(flex)
@@ -228,66 +225,13 @@
     // }
 
 
-    // let ranges = []
-
-    // HT.checkBtnJs100ConflickRange = (newFrom, newTo) => {
-    //     for (let i = 0; i < ranges.length; i++) {
-    //         let existRange = ranges[i]
-    //         if (
-    //             (newFrom >= existRange.from && newFrom <= existRange.to) || (newFrom >= existRange.from && newTo <= existRange.to)
-    //             || (newFrom <= existRange.from && newTo >= existRange.from) || (newFrom <= existRange.from && newTo >= existRange.to)
-    //         ) {
-    //             return true
-    //         }
-    //     }
-    //     return false
-    // }
-
-    // HT.isValidRange = (newFrom, newTo) => {
-    //     if (newTo <= newFrom) {
-    //         return false
-    //     }
-    //     return true
-    // }
-
-
 
     HT.btnJs100 = () => {
         $(document).on('click', '.btn-js-100', function () {
             let button = $(this)
 
             let trLastChild = $('.order_amount_range').find('tbody tr:last-child')
-            // let newFrom = parseInt(trLastChild.find('.order_amount_range_from input').val().replace(/\./g, ''))
             let newTo = parseInt(trLastChild.find('.order_amount_range_to input').val().replace(/\./g, ''))
-
-            // if (!HT.isValidRange(newFrom, newTo)) {
-            //     Swal.fire({
-            //         icon: 'error',
-            //         title: 'Lỗi',
-            //         text: 'Giá trị đến phải lớn hơn giá trị từ cùng hàng!',
-            //         position: 'center',
-            //         showConfirmButton: false,
-            //         timer: 3000
-            //     });
-            //     return
-            // }
-
-            // if (HT.checkBtnJs100ConflickRange(newFrom, newTo)) {
-            //     trLastChild.addClass('errorLine')
-            //     Swal.fire({
-            //         icon: 'error',
-            //         title: 'Lỗi',
-            //         text: 'Có xung đột giữa các khoảng điều kiện, kiểm tra lại!',
-            //         position: 'center',
-            //         showConfirmButton: false,
-            //         timer: 3000
-            //     });
-            //     return
-            // }
-            // $('.order_amount_range').find('tr').removeClass('errorLine')
-
-            // ranges.push({ from: newFrom, to: newTo })
-
 
             let $tr = $('<tr>')
 
@@ -336,28 +280,6 @@
             HT.promotionMutipleSelect2()
         })
     }
-
-
-    // HT.rangeOnChange = (ranges) => {
-    //     $(document).on('change', '.td-range .form-control', function (e) {
-    //         e.preventDefault()
-    //         let _this = $(this)
-    //         let ranges = []
-    //         $('.order_amount_range tbody tr').each(function () {
-    //             let newFrom = parseInt(_this.find('.order_amount_range_from .form-control').val().replace(/\./g, ''))
-    //             let newTo = parseInt(_this.find('.order_amount_range_to .form-control').val().replace(/\./g, ''))
-
-    //             if (!isNaN(newFrom) && !isNaN(newTo)) {
-    //                 ranges.push({ from: newFrom, to: newTo })
-    //             }
-    //         })
-    //         for (let i = 0; i < ranges.length; i++) {
-    //             for (let j = i + 1; j < ranges.length; j++) {
-
-    //             }
-    //         }
-    //     })
-    // }
 
     HT.deleteAmountRangeCondition = () => {
         $(document).on('click', '.delete-order-amount-range-condition', function () {
@@ -446,16 +368,14 @@
         for (let key in selectData) {
             selectHtml += '<option value="' + key + '">' + selectData[key] + '</option>'
         }
+        console.log(selectHtml);
         let html = `
         <div class="product-and-quantity">
             <div class="choose-module mt20">
                 <div class="fix-label mb5">Sản phẩm áp dụng</div>
-                <select name="" class="multipleSelect2 select-product-and-quantity"
-                    id="">
+                <select name="" class="multipleSelect2 select-product-and-quantity">
                     <option value="">Chọn hình thức</option>
-                    @foreach (__('module.item') as $key => $val)
                         ${selectHtml}
-                    @endforeach
                 </select>
             </div>
             <table class="table table-striped">
@@ -469,9 +389,22 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="order_amount_range_from td-range">
-                            <select name="" multiple class="multipleSelect2 form-control" data-model="Product" id="">
-                            </select>
+                        <td class="chooseProductPromotionTd order_amount_range_from td-range">
+                            <div class="product-quantity" data-toggle="modal"
+                                data-target="#findProduct">
+                                <div class="uk-flex uk-flex-middle">
+                                    <div class="boxWrapper">
+                                        <div class="boxSearchIcon ">
+                                            <i class="fa fa-search"></i>
+                                        </div>
+                                        
+                                        <div class="boxSearchInput fixGrid6">
+                                            <p>Tìm kiếm sản phẩm...</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                         <td class="order_amount_range_to td-range">
                             <input type="text" name="amountTo[]" class="form-control int"
@@ -508,6 +441,7 @@
 
 
     HT.loadProduct = (option) => {
+        console.log($('.select-product-and-quantity').val());
         $.ajax({
             url: 'ajax/product/loadProductPromotion',
             type: 'GET',
@@ -515,6 +449,7 @@
             dataType: 'json',
             success: function (res) {
                 HT.fillToObjectList(res)
+
             },
             beforeSend: function () {
 
@@ -547,13 +482,14 @@
             let option = {
                 model: $('.select-product-and-quantity').val(),
             }
-            HT.loadProduct()
+            HT.loadProduct(option)
 
         })
     }
 
 
     HT.fillToObjectList = (data) => {
+        console.log(data.model);
         switch (data.model) {
             case 'Product':
                 HT.fillProductToList(data.objects)
@@ -564,9 +500,42 @@
         }
     }
 
+    HT.fillProductCatalogueToList = (object) => {
+        let html = ''
+        if (object.data.length) {
+            let model = $('.select-product-and-quantity').val()
+            for (let i = 0; i < object.data.length; i++) {
+                let name = object.data[i].name
+                let id = object.data[i].id
+                let classBox = model + '_' + id
+                let isChecked = $('.boxWrapper .' + classBox + '').length ? true : false
+
+                html += `
+                <div class="search-object-item" data-productid="${id}" data-name="${name}">
+                    <div class="uk-flex uk-flex-middle uk-flex-space-between">
+                        <div class="object-info">
+                            <div class="uk-flex uk-flex-middle">
+                                <input type="checkbox" name="" value="${id}" class="input-checkbox" id="" 
+                                ${(isChecked) ? 'checked' : ''}
+                                >
+                                <div class="object-name">
+                                    <div class="name"> ${name}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `
+            }
+        }
+        html = html + HT.paginationLinks(object.links).prop('outerHTML')
+        $('.search-list').html(html)
+    }
+
     HT.fillProductToList = (object) => {
         let html = ''
         if (object.data.length) {
+            let model = $('.select-product-and-quantity').val()
             for (let i = 0; i < object.data.length; i++) {
                 let image = object.data[i].image
                 let name = object.data[i].variant_name
@@ -576,13 +545,17 @@
                 let inventory = (typeof object.data[i].inventory != 'undefined') ? inventory : 0
                 let couldSell = (typeof object.data[i].couldSell != 'undefined') ? couldSell : 0
                 let sku = object.data[i].sku
+                let classBox = model + '_' + product_id + '_' + product_variant_id
+                let isChecked = $('.boxWrapper .' + classBox + '').length ? true : false
 
                 html += `
                 <div class="search-object-item" data-productid="${product_id}" data-variant_id="${product_variant_id}" data-name="${name}">
                     <div class="uk-flex uk-flex-middle uk-flex-space-between">
                         <div class="object-info">
                             <div class="uk-flex uk-flex-middle">
-                                <input type="checkbox" name="" value="${product_id + '_' + product_variant_id}" class="input-checkbox" id="">
+                                <input type="checkbox" name="" value="${product_id + '_' + product_variant_id}" class="input-checkbox" id="" 
+                                ${(isChecked) ? 'checked' : ''}
+                                >
                                 <span class="image img-scaledown">
                                     <img src="${image}"
                                         alt="">
@@ -611,6 +584,14 @@
         }
         html = html + HT.paginationLinks(object.links).prop('outerHTML')
         $('.search-list').html(html)
+    }
+
+
+    HT.changePromotionMethod = () => {
+        $(document).on('change', '.select-product-and-quantity', function () {
+            $('.fixGrid6').remove()
+            objectChoose = []
+        })
     }
 
 
@@ -671,6 +652,94 @@
         })
     }
 
+    var objectChoose = []
+
+    HT.chooseProductPromotion = () => {
+        $(document).on('click', '.search-object-item', function (e) {
+            e.preventDefault()
+            let _this = $(this)
+            let isChecked = _this.find('input[type=checkbox]').prop('checked')
+            let objectItem = {
+                product_id: _this.attr('data-productid'),
+                product_variant_id: _this.attr('data-variant_id'),
+                name: _this.attr('data-name')
+            }
+            if (isChecked) {
+                objectChoose = objectChoose.filter(item => item.name !== objectItem.name)
+                _this.find('input[type=checkbox]').prop('checked', false)
+            } else {
+                objectChoose.push(objectItem)
+                _this.find('input[type=checkbox]').prop('checked', true)
+            }
+
+            console.log(objectChoose);
+        })
+    }
+
+    HT.confirmProductPromotion = () => {
+        $(document).on('click', '.confirm-product-promotion', function (e) {
+            let html = ''
+            let model = $('.select-product-and-quantity').val()
+            if (objectChoose.length) {
+                for (let i = 0; i < objectChoose.length; i++) {
+                    let product_id = objectChoose[i].product_id
+                    let product_variant_id = objectChoose[i].product_variant_id
+                    let name = objectChoose[i].name
+                    let classBox = model + '_' + product_id + '_' + product_variant_id
+
+                    if (!$(`.boxWrapper .${classBox}`).length) {
+                        html += `
+                        <div class="fixGrid6 ${classBox}">
+                            <div class="goods-item">
+                                <a class="goods-item-name" title="${name}">${name}</a>
+                                <button class="delete-goods-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                        <path
+                                            d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                                    </svg>
+                                </button>
+                                <div class="hidden">
+                                    <input name="object[id][]" value="${product_id}">
+                                    <input name="object[product_variant_id][]" value="${product_variant_id}">
+                                </div>
+                            </div>
+                        </div>
+                        `
+                    }
+                }
+            }
+            HT.checkFixGrid(html)
+        })
+    }
+
+    HT.checkFixGrid = (html) => {
+        if ($('.fixGrid6').elExit) {
+            $('.boxSearchIcon').remove()
+            $('.boxWrapper').prepend(html)
+        } else {
+            $('.fixGrid6').remove()
+            $('.boxWrapper').prepend(HT.boxSearchIcon())
+        }
+    }
+
+    HT.boxSearchIcon = () => {
+        return `
+        <div class="boxSearchIcon ">
+            <i class="fa fa-search"></i>
+        </div>
+        `
+    }
+
+
+    HT.deleteGoodsItem = () => {
+        $(document).on('click', '.delete-goods-item', function (e) {
+            e.stopPropagation()
+            let _button = $(this)
+            _button.parents('.fixGrid6').remove()
+        })
+    }
+
 
     $(document).ready(function () {
         HT.promotionNeverEnd()
@@ -682,11 +751,14 @@
         HT.btnJs100()
         HT.deleteAmountRangeCondition()
         HT.renderOrderRangeConditionContainer()
-        // HT.setupAjaxSearch()
         HT.loadProduct()
         HT.productQuantityListProduct()
         HT.searchObject()
         HT.getPaginationMenu()
+        HT.chooseProductPromotion()
+        HT.confirmProductPromotion()
+        HT.deleteGoodsItem()
+        HT.changePromotionMethod()
     });
 
 

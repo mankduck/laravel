@@ -60,7 +60,6 @@ class ProductCatalogue extends Model
         } 
 
         return true;
-        
     }
 
 

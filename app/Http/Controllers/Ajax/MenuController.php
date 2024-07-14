@@ -31,7 +31,7 @@ class MenuController extends Controller
             $locale = app()->getLocale(); // vn en cn
             $language = Language::where('canonical', $locale)->first();
             $this->language = $language->id;
-            return $next($request);
+            return $next($request); 
         });
     }
 

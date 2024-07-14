@@ -3,7 +3,6 @@
 /* ROUTE BACKEND */
 use App\Http\Controllers\Backend\AttributeCatalogueController;
 use App\Http\Controllers\Backend\AttributeController;
-use App\Http\Controllers\Backend\GenerateController;
 use App\Http\Controllers\Backend\LanguageController;
 use App\Http\Controllers\Backend\MenuController;
 use App\Http\Controllers\Backend\PermissionController;
@@ -54,6 +53,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
 /* BACKEND ROUTE */
 Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], function () {
+    
     Route::get('dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::group(['prefix' => 'user'], function () {
@@ -121,15 +121,6 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::delete('{id}/destroy', [PermissionController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('permission.destroy');
     });
 
-    Route::group(['prefix' => 'generate'], function () {
-        Route::get('index', [GenerateController::class, 'index'])->name('generate.index');
-        Route::get('create', [GenerateController::class, 'create'])->name('generate.create');
-        Route::post('store', [GenerateController::class, 'store'])->name('generate.store');
-        Route::get('{id}/edit', [GenerateController::class, 'edit'])->where(['id' => '[0-9]+'])->name('generate.edit');
-        Route::post('{id}/update', [GenerateController::class, 'update'])->where(['id' => '[0-9]+'])->name('generate.update');
-        Route::get('{id}/delete', [GenerateController::class, 'delete'])->where(['id' => '[0-9]+'])->name('generate.delete');
-        Route::delete('{id}/destroy', [GenerateController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('generate.destroy');
-    });
 
     Route::group(['prefix' => 'product/catalogue'], function () {
         Route::get('index', [ProductCatalogueController::class, 'index'])->name('product.catalogue.index');

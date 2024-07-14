@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('product_variants', function (Blueprint $table) {
             $table->integer('price')->default(0)->change();
-
         });
     }
 
