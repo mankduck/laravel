@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('languages', function (Blueprint $table) {
-            $table->tinyInteger('current')->default(0);
+        Schema::create('permissions', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 191);
+            $table->string('canonical', 191);
+            $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('languages', function (Blueprint $table) {
-            $table->dropColumn('current');
-        });
+        Schema::dropIfExists('permissions');
     }
 };

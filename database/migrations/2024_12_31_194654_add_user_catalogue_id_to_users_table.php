@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('product_variants', function (Blueprint $table) {
-            $table->integer('price')->default(0)->change();
+        Schema::table('users', function (Blueprint $table) {
+            $table->bigInteger('user_catalogue_id')->unsigned()->default(2);
         });
     }
 
@@ -21,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('product_variants', function (Blueprint $table) {
-            $table->float('price')->default(0)->change();
-
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('user_catalogue_id');
         });
     }
 };
