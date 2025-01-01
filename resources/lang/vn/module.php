@@ -7,6 +7,16 @@ return [
         'Product' => 'Sản phẩm',
 
     ],
+    'gender' => [
+        [
+            'id' => 1,
+            'name' => 'Nam'
+        ],
+        [
+            'id' => 2,
+            'name' => 'Nữ'
+        ]
+    ],
 
     'type' => [
         'dropdown-menu' => 'DropDown Menu',

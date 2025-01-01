@@ -168,6 +168,41 @@ return [
         ],
 
     ],
+    'customer' => [
+        'index' => [
+            'title' => 'Quản lý khách hàng',
+            'table' => 'Danh sách khách hàng'
+        ],
+        'create' => [
+            'title' => 'Thêm mới khách hàng'
+        ],
+        'edit' => [
+            'title' => 'Cập nhật khách hàng'
+        ],
+        'delete' => [
+            'title' => 'Xóa khách hàng'
+        ]
+    ],
+    'customerCatalogue' => [
+        'index' => [
+            'title' => 'Quản lý nhóm khách hàng',
+            'table' => 'Danh sách nhóm khách hàng'
+        ],
+        'create' => [
+            'title' => 'Thêm mới nhóm khách hàng'
+        ],
+        'edit' => [
+            'title' => 'Cập nhật nhóm khách hàng'
+        ],
+        'delete' => [
+            'title' => 'Xóa nhóm khách hàng'
+        ],
+        'permission' => [
+            'title' => 'Cập nhật quyền'
+        ],
+
+    ],
+
 
     'slide' => [
         'index' => [
@@ -201,6 +236,23 @@ return [
         ],
         'translate' => [
             'title' => 'Tạo bản dịch {language} cho Widget'
+        ],
+    ],
+
+
+    'source' => [
+        'index' => [
+            'title' => 'Quản lý nguồn khách',
+            'table' => 'Danh sách nguồn khách'
+        ],
+        'create' => [
+            'title' => 'Thêm mới nguồn khách'
+        ],
+        'edit' => [
+            'title' => 'Cập nhật nguồn khách'
+        ],
+        'delete' => [
+            'title' => 'Xóa nguồn khách'
         ],
     ],
 
@@ -313,6 +365,9 @@ return [
     'tableGrUserNumber' => 'Số Thành Viên',
     'deleteButton' => 'Xóa dữ liệu',
     'tableHeading' => 'Thông tin chung',
+    'tableCustomerGroup' => 'Nhóm Khách Hàng',
+    'tableCustomerSource' => 'Nguồn Khách Hàng ',
+
 
     'tableSlide' => [
         'slideName' => 'Tên Slide',
@@ -326,6 +381,11 @@ return [
         'widgetModel' => 'Model',
     ],
 
+    'tableSource' => [
+        'sourceName' => 'Tên nguồn khách',
+        'sourceKey' => 'Từ khóa',
+        'sourceDescription' => 'Mô tả',
+    ],
 
 
     'save' => 'Lưu lại',
@@ -344,6 +404,7 @@ return [
         'image' => 'Chọn Hình',
         'notice' => 'Sử dụng nút chọn hình hoặc click vào đây để thêm hình ảnh'
     ],
+    
     'generalTitle' => 'Thông tin chung',
     'generalDescription' => 'Bạn đang muốn xóa ngôn ngữ có tên là:
     Lưu ý: Không thể khôi phục dữ liệu sau khi xóa. Hãy chắc chắn bạn muốn thực hiện chức năng này',

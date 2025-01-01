@@ -12,9 +12,8 @@ class DashboardController extends Controller
 {
     protected $language;
 
-    public function __construct(
-
-    ) {
+    public function __construct()
+    {
         $this->middleware(function ($request, $next) {
             $locale = app()->getLocale(); // vn en cn
             $language = Language::where('canonical', $locale)->first();
@@ -33,7 +32,6 @@ class DashboardController extends Controller
         $flag = $serviceInstance->updateStatus($post);
 
         return response()->json(['flag' => $flag]);
-
     }
 
     public function changeStatusAll(Request $request)
@@ -45,7 +43,6 @@ class DashboardController extends Controller
         }
         $flag = $serviceInstance->updateStatusAll($post);
         return response()->json(['flag' => $flag]);
-
     }
 
     public function getMenu(Request $request)
@@ -62,7 +59,6 @@ class DashboardController extends Controller
         $object = $serviceInstance->pagination(...array_values($agruments));
 
         return response()->json($object);
-
     }
 
 
@@ -74,8 +70,7 @@ class DashboardController extends Controller
         ];
         if (strpos($model, '_catalogue') === false) {
             $join[] = ['' . $model . '_catalogue_' . $model . ' as tb3', $model . 's.id', '=', 'tb3.' . $model . '_id'];
-        }
-        ;
+        };
 
         $condition = [
             'where' => [
@@ -136,6 +131,37 @@ class DashboardController extends Controller
         return response()->json(array('items' => $temp));
     }
 
+    public function getPromotionConditionValue(Request $request)
+    {
+        $get = $request->input();
+        // $object = [];
+        switch ($get['value']) {
+            case 'staff_take_care_customer':
+                $class = loadClass('User');
+                $object = $class->all()->toArray();
+                break;
+            case 'customer_group':
+                $class = loadClass('CustomerCatalogue');
+                $object = $class->all()->toArray();
+                break;
+            case 'customer_gender':
+                $object = __('module.gender');
+                break;
+        }
+        $temp = [];
+        if (count($object)) {
+            foreach ($object as $key => $val) {
+                $temp[] = [
+                    'id' => $val['id'],
+                    'text' => $val['name']
+                ];
+            }
+        }
+
+        return response()->json(['data' => $object]);
+
+    }
+
     // private function loadClassInterface(string $model = '', $folder = 'Repositories',$interface = 'Repository')
     // {
     //     $serviceInterfaceNamespace = '\App\\'.$folder.'\\' . ucfirst($model) . $interface;
@@ -147,4 +173,3 @@ class DashboardController extends Controller
     // }
 
 }
-

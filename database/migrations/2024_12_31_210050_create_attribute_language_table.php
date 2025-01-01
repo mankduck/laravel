@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('attribute_language', function (Blueprint $table) {
             $table->bigInteger('attribute_id')->unsigned();
             $table->bigInteger('language_id')->unsigned();
-            $table->foreign('attribute_id')->references('id')->on('attribute_catalogues')->onDelete('cascade');
+            $table->foreign('attribute_id')->references('id')->on('attributes')->onDelete('cascade');
             $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
             $table->string('name', 191);
             $table->text('description')->nullable();

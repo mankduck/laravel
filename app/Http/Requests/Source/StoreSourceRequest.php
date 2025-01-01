@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Source;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreWidgetRequest extends FormRequest
+class StoreSourceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class StoreWidgetRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'keyword' => 'required|unique:widgets',
+            'keyword' => 'required|unique:sources',
         ];
     }
 
@@ -31,8 +31,8 @@ class StoreWidgetRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Bạn chưa nhập vào tên Widget.',
-            'keyword.required' => 'Bạn cần nhập vào từ khóa của Widget',
+            'name.required' => 'Bạn chưa nhập vào tên nguồn khách.',
+            'keyword.required' => 'Bạn cần nhập vào từ khóa của nguồn khách',
             'keyword.unique' => 'Từ khóa đã tồn tại!',
         ];
     }

@@ -71,6 +71,15 @@ class AppServiceProvider extends ServiceProvider
 
         'App\Services\Interfaces\PromotionServiceInterface' => 'App\Services\PromotionService',
         'App\Repositories\Interfaces\PromotionRepositoryInterface' => 'App\Repositories\PromotionRepository',
+
+        'App\Services\Interfaces\SourceServiceInterface' => 'App\Services\SourceService',
+        'App\Repositories\Interfaces\SourceRepositoryInterface' => 'App\Repositories\SourceRepository',
+
+        'App\Services\Interfaces\CustomerCatalogueServiceInterface' => 'App\Services\CustomerCatalogueService',
+        'App\Repositories\Interfaces\CustomerCatalogueRepositoryInterface' => 'App\Repositories\CustomerCatalogueRepository',
+
+        'App\Services\Interfaces\CustomerServiceInterface' => 'App\Services\CustomerService',
+        'App\Repositories\Interfaces\CustomerRepositoryInterface' => 'App\Repositories\CustomerRepository',
     ];
     /**
      * Register any application services.

@@ -29,25 +29,21 @@
             if (flag) {
                 _this.parents('.ibox-content').find('.source-wrapper').remove()
             } else {
-                let sourceData = [
-                    {
-                        id: 1,
-                        name: 'TikTok'
-                    },
-                    {
-                        id: 2,
-                        name: 'Shopee'
-                    },
-                    {
-                        id: 3,
-                        name: 'Lazada'
+
+
+            $.ajax ({
+                url: 'ajax/source/getAllSource',
+                type: 'GET',
+                dataType: 'json',
+                success:function(res){
+                    let sourceData = res.data
+                    if (!$('.source-wrapper').length) {
+                        let sourceHtml = HT.renderPromotionSource(sourceData).prop('outerHTML')
+                        _this.parents('.ibox-content').append(sourceHtml)
+                        HT.promotionMutipleSelect2()
                     }
-                ]
-                if (!$('.source-wrapper').length) {
-                    let sourceHtml = HT.renderPromotionSource(sourceData).prop('outerHTML')
-                    _this.parents('.ibox-content').append(sourceHtml)
-                    HT.promotionMutipleSelect2()
                 }
+            })
             }
         })
     }
@@ -84,10 +80,6 @@
                     {
                         id: 'customer_gender',
                         name: 'Giới tính'
-                    },
-                    {
-                        id: 'customer_birthday',
-                        name: 'Ngày sinh nhật'
                     }
                 ]
                 let applyHtml = HT.renderApplyCondition(applyData).prop('outerHTML')
@@ -148,36 +140,30 @@
 
 
     HT.createConditionItem = (value, label) => {
-
-        let optionData = [
-            {
-                id: 1,
-                name: 'Khách Vip'
-            },
-            {
-                id: 2,
-                name: 'Khách Bán Buôn'
-            }
-        ]
-        let conditionItem = $('<div>').addClass('wrapperConditionItem ' + value)
-        let select = $('<select>').addClass('multipleSelect2 objectItem').attr('name', 'customerGroup').attr('multiple', true)
-
-        for (let i = 0; i < optionData.length; i++) {
-            let option = $('<option>').attr('value', optionData[i].id).text(optionData[i].name)
-            select.append(option)
-        }
-        const conditionLabel = HT.createConditionLabel(label, value)
-        conditionItem.append(conditionLabel)
-        conditionItem.append(select)
-        if ($('.wrapper-condition').find('.' + value).elExit()) {
-            return
-        } else {
-            $('.wrapper-condition').append(conditionItem)
-        }
-
-        HT.promotionMutipleSelect2()
-
-
+        if (!$('.wrapper-condition').find('.' + value).elExit()) {
+            $.ajax ({
+                url: 'ajax/dashboard/getPromotionConditionValue',
+                type: 'GET',
+                data: {
+                    value: value
+                },
+                dataType: 'json',
+                success:function(res){
+                    let optionData = res.data
+                    let conditionItem = $('<div>').addClass('wrapperConditionItem ' + value)
+                    let select = $('<select>').addClass('multipleSelect2 objectItem').attr('name', value).attr('multiple', true)
+                    for (let i = 0; i < optionData.length; i++) {
+                        let option = $('<option>').attr('value', optionData[i].id).text(optionData[i].name)
+                        select.append(option)
+                    }
+                    const conditionLabel = HT.createConditionLabel(label, value)
+                    conditionItem.append(conditionLabel)
+                    conditionItem.append(select)
+                    $('.wrapper-condition').append(conditionItem)
+                    HT.promotionMutipleSelect2()
+                }
+            })
+        } 
     }
 
 
