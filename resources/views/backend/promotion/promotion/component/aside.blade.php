@@ -132,3 +132,9 @@
 
 <input type="hidden" name="" class="input_order_amount_range"
     value="{{ json_encode(old('promotion_order_amount_range', $promotion->promotion_order_amount_range ?? null)) }}">
+
+<input type="hidden" name="" class="input_product_and_quantity"
+    value="{{ json_encode(old('product_and_quantity', $promotion->product_and_quantity ?? null)) }}">
+
+<input type="hidden" name="" class="input_object"
+    value="{{ json_encode(old('object', $promotion->object ?? null)) }}">

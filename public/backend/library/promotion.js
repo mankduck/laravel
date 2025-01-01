@@ -358,7 +358,7 @@
                     </svg>
                 </div>
             `
-            } 
+            }
 
             console.log(deleteButton);
 
@@ -418,6 +418,17 @@
         for (let key in selectData) {
             selectHtml += '<option ' + ((moduleType.length && typeof moduleType !== 'undefined' && moduleType == key) ? 'selected' : '') + ' value="' + key + '">' + selectData[key] + '</option>'
         }
+
+        let preloadData = JSON.parse($('.input_product_and_quantity').val()) ?? {
+            quantity: ['1'],
+            maxDiscountValue: ['0'],
+            discountValue: ['0'],
+            discountType: ['cash'],
+        }
+
+
+
+
         let html = `
                     <div class="product-and-quantity">
             <div class="choose-module mt20">
@@ -456,20 +467,20 @@
                             </div>
                         </td>
                         <td class="order_amount_range_to td-range">
-                            <input type="text" name="amountTo[]" class="form-control int"
-                                value="1" placeholder="1" id="">
+                            <input type="text" name="product_and_quantity[quantity]" class="form-control int"
+                                value="${preloadData.quantity}" placeholder="1" id="">
                         </td>
                         <td>
-                            <input type="text" name="amountTo[]" class="form-control int"
-                                value="0" placeholder="0" id="">
+                            <input type="text" name="product_and_quantity[maxDiscountValue]" class="form-control int"
+                                value="${preloadData.maxDiscountValue}" placeholder="0" id="">
                         </td>
                         <td class="discountType">
                             <div class="uk-flex uk-flex-middle">
-                                <input type="text" name="amountValue[]" class="form-control int"
-                                    value="0" placeholder="0" id="">
-                                <select name="amountType" class="multipleSelect2" id="">
-                                    <option value="cash">đ</option>
-                                    <option value="percent">%</option>
+                                <input type="text" name="product_and_quantity[discountValue]" class="form-control int"
+                                    value="${preloadData.discountValue}" placeholder="0" id="">
+                                <select name="product_and_quantity[discountType]" class="multipleSelect2" id="">
+                                    <option value="cash" ${(preloadData.discountType == 'cash') ? 'selected' : ''}>đ</option>
+                                    <option value="percent" ${(preloadData.discountType == 'cash') ? 'selected' : ''}>%</option>
                                 </select>
                             </div>
                         </td>
@@ -563,7 +574,7 @@
                 let isChecked = $('.boxWrapper .' + classBox + '').length ? true : false
 
                 html += `
-                    < div class="search-object-item" data - productid="${id}" data - name="${name}" >
+                    <div class="search-object-item" data-productid="${id}" data-name="${name}" >
                         <div class="uk-flex uk-flex-middle uk-flex-space-between">
                             <div class="object-info">
                                 <div class="uk-flex uk-flex-middle">
@@ -576,7 +587,7 @@
                                 </div>
                             </div>
                         </div>
-                </div >
+                </div>
                     `
             }
         }
@@ -601,7 +612,7 @@
                 let isChecked = $('.boxWrapper .' + classBox + '').length ? true : false
 
                 html += `
-                    < div class="search-object-item" data - productid="${product_id}" data - variant_id="${product_variant_id}" data - name="${name}" >
+                    <div class="search-object-item" data-productid="${product_id}" data-variant_id="${product_variant_id}" data-name="${name}" >
                         <div class="uk-flex uk-flex-middle uk-flex-space-between">
                             <div class="object-info">
                                 <div class="uk-flex uk-flex-middle">
@@ -630,7 +641,7 @@
                                 </div>
                             </div>
                         </div>
-                </div >
+                </div>
                     `
             }
         }
@@ -729,40 +740,65 @@
     }
 
     HT.confirmProductPromotion = () => {
-        $(document).on('click', '.confirm-product-promotion', function (e) {
-            let html = ''
-            let model = $('.select-product-and-quantity').val()
-            if (objectChoose.length) {
-                for (let i = 0; i < objectChoose.length; i++) {
-                    let product_id = objectChoose[i].product_id
-                    let product_variant_id = objectChoose[i].product_variant_id
-                    let name = objectChoose[i].name
-                    let classBox = model + '_' + product_id + '_' + product_variant_id
 
-                    if (!$(`.boxWrapper.${classBox} `).length) {
-                        html += `
-                    < div class="fixGrid6 ${classBox}" >
-                        <div class="goods-item">
-                            <a class="goods-item-name" title="${name}">${name}</a>
-                            <button class="delete-goods-item">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                    <path
-                                        d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
-                                </svg>
-                            </button>
-                            <div class="hidden">
-                                <input name="object[id][]" value="${product_id}">
-                                    <input name="object[product_variant_id][]" value="${product_variant_id}">
-                                    </div>
-                            </div>
+        let preloadObject = JSON.parse($('.input_object').val()) ?? {
+            id: [],
+            product_variant_id: [],
+            name: []
+        }
+
+        let objectArray = preloadObject.id.map((id, index) => ({
+            product_id: id,
+            product_variant_id: preloadObject.product_variant_id[index] || 'null',
+            name: preloadObject.name[index]
+        }))
+
+        if (objectArray.length && typeof objectArray !== 'undefined') {
+            let preloadHtml = HT.renderBoxWrapper(objectArray)
+            HT.checkFixGrid(preloadHtml)
+            $('#findProduct').modal('hide')
+        }
+
+        $(document).on('click', '.confirm-product-promotion', function (e) {
+            let html = HT.renderBoxWrapper(objectChoose)
+            HT.checkFixGrid(html)
+            $('#findProduct').modal('hide')
+        })
+    }
+
+    HT.renderBoxWrapper = (objectData) => {
+        let html = ''
+        let model = $('.select-product-and-quantity').val()
+
+        if (objectData.length) {
+            for (let i = 0; i < objectData.length; i++) {
+                let { product_id, product_variant_id, name } = objectData[i]
+                let classBox = `${model}_${product_id}_${product_variant_id}`
+
+                if (!$(`.boxWrapper.${classBox} `).length) {
+                    html += `
+                <div class="fixGrid6 ${classBox}" >
+                    <div class="goods-item">
+                        <a class="goods-item-name" title="${name}">${name}</a>
+                        <button class="delete-goods-item">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                                <path
+                                    d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+                            </svg>
+                        </button>
+                        <div class="hidden">
+                            <input name="object[id][]" value="${product_id}">
+                            <input name="object[product_variant_id][]" value="${product_variant_id}">
+                            <input name="object[name][]" value="${name}">
                         </div>
-                `
-                    }
+                    </div>
+                </div>
+            `
                 }
             }
-            HT.checkFixGrid(html)
-        })
+            return html
+        }
     }
 
     HT.checkFixGrid = (html) => {
@@ -777,9 +813,9 @@
 
     HT.boxSearchIcon = () => {
         return `
-                    < div class="boxSearchIcon " >
+                    <div class="boxSearchIcon " >
                         <i class="fa fa-search"></i>
-        </div >
+        </div>
                     `
     }
 
