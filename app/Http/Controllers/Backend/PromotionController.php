@@ -9,19 +9,22 @@ use Illuminate\Http\Request;
 
 use App\Services\Interfaces\PromotionServiceInterface as PromotionService;
 use App\Repositories\Interfaces\PromotionRepositoryInterface as PromotionRepository;
-use App\Http\Requests\StorePromotionRequest;
-use App\Http\Requests\UpdatePromotionRequest;
+use App\Repositories\Interfaces\SourceRepositoryInterface as SourceRepository;
+use App\Http\Requests\Promotion\StorePromotionRequest;
+use App\Http\Requests\Promotion\UpdatePromotionRequest;
 use App\Http\Requests\TranslateRequest;
 
 class PromotionController extends Controller
 {
     protected $promotionService;
     protected $promotionRepository;
+    protected $sourceRepository;
     protected $language;
 
     public function __construct(
         PromotionService $promotionService,
         PromotionRepository $promotionRepository,
+        SourceRepository $sourceRepository
     ) {
         $this->middleware(function ($request, $next) {
             $locale = app()->getLocale(); // vn en cn
@@ -33,6 +36,7 @@ class PromotionController extends Controller
 
         $this->promotionService = $promotionService;
         $this->promotionRepository = $promotionRepository;
+        $this->sourceRepository = $sourceRepository;
         // $this->initialize();
 
     }
@@ -82,6 +86,7 @@ class PromotionController extends Controller
     public function create()
     {
         $this->authorize('modules', 'promotion.create');
+        $sources = $this->sourceRepository->all();
         $config = $this->configData();
         $config['seo'] = __('messages.promotion');
         $config['method'] = 'create';
@@ -91,7 +96,7 @@ class PromotionController extends Controller
             'backend.promotion.promotion.create',
             compact(
                 'config',
-                // 'dropdown'
+                'sources'
             )
         );
     }

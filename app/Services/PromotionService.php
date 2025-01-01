@@ -46,6 +46,7 @@ class PromotionService extends BaseService implements PromotionServiceInterface
 
     public function create($request, $languageId)
     {
+        dd(123123);
         DB::beginTransaction();
         try {
 

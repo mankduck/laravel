@@ -18,6 +18,21 @@ return [
         ]
     ],
 
+    'applyStatus' => [
+        [
+            'id' => 'staff_take_care_customer',
+            'name' => 'Nhân viên phụ trách',
+        ],
+        [
+            'id' => 'customer_group',
+            'name' => 'Nhóm khách hàng',
+        ],
+        [
+            'id' => 'customer_gender',
+            'name' => 'Giới tính',
+        ],
+    ],
+
     'type' => [
         'dropdown-menu' => 'DropDown Menu',
         'mega-menu' => 'Mega Menu'
@@ -47,4 +62,5 @@ return [
         'Product' => 'Phiên bản sản phẩm',
         'ProductCatalogue' => 'Loại sản phẩm',
     ],
+
 ];

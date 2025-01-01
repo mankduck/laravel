@@ -3,7 +3,7 @@
     @include('backend.dashboard.component.breadcrumb', ['title' => $config['seo']['create']['title']])
     @include('backend.dashboard.component.formError')
     @php
-        $url = $config['method'] == 'create' ? route('widget.store') : route('widget.update', $widget->id);
+        $url = $config['method'] == 'create' ? route('promotion.store') : route('promotion.update', $promotion->id);
     @endphp
     <form action="{{ $url }}" method="post" class="box">
         @csrf
@@ -59,7 +59,7 @@
                                 <label for=""
                                     class="control-label text-left mb10">{{ __('messages.promotion.createPromotion.formPromotion') }}<span
                                         class="text-danger">(*)</span></label>
-                                <select name="" class="setupSelect2 promotionMethod" id="">
+                                <select name="method" class="setupSelect2 promotionMethod" id="">
                                     <option value="">Chọn hình thức</option>
                                     @foreach (__('module.promotion') as $key => $val)
                                         <option value="{{ $key }}">{{ $val }}</option>
@@ -67,7 +67,7 @@
                                 </select>
                             </div>
                             <div class="promotion-container">
-                                
+
                             </div>
                         </div>
                     </div>
