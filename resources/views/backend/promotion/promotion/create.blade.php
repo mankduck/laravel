@@ -29,11 +29,10 @@
                                 <div class="col-lg-6">
                                     <div class="form-row">
                                         <label for=""
-                                            class="control-label text-left">{{ __('messages.promotion.createPromotion.code') }}<span
-                                                class="text-danger">(*)</span></label>
+                                            class="control-label text-left">{{ __('messages.promotion.createPromotion.code') }}</label>
                                         <input type="text" name="code"
                                             value="{{ old('code', $promotion->code ?? '') }}" class="form-control"
-                                            placeholder="" autocomplete="off" {{ isset($disabled) ? 'disabled' : '' }}>
+                                            placeholder="{{ __('messages.promotion.createPromotion.placeholder') }}" autocomplete="off" {{ isset($disabled) ? 'disabled' : '' }}>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">

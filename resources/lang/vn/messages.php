@@ -276,6 +276,7 @@ return [
         ],
         'createPromotion' => [
             'setupPromotionDetail' => 'Cài đặt chi tiết khuyến mãi',
+            'placeholder' => 'Nếu để trống mã, hệ thống sẽ tự động tạo',
             'name' => 'Tên chương trình',
             'code' => 'Mã khuyến mãi',
             'description' => 'Mô tả',

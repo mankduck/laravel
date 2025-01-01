@@ -754,13 +754,16 @@
         }))
 
         if (objectArray.length && typeof objectArray !== 'undefined') {
-            let preloadHtml = HT.renderBoxWrapper(objectArray)
-            HT.checkFixGrid(preloadHtml)
-            $('#findProduct').modal('hide')
+            setTimeout(()=>{
+                let preloadHtml = HT.renderBoxWrapper(objectArray)
+                HT.checkFixGrid(preloadHtml)
+                $('#findProduct').modal('hide')
+            }, 100)
         }
 
         $(document).on('click', '.confirm-product-promotion', function (e) {
             let html = HT.renderBoxWrapper(objectChoose)
+
             HT.checkFixGrid(html)
             $('#findProduct').modal('hide')
         })
@@ -769,6 +772,7 @@
     HT.renderBoxWrapper = (objectData) => {
         let html = ''
         let model = $('.select-product-and-quantity').val()
+        
 
         if (objectData.length) {
             for (let i = 0; i < objectData.length; i++) {
@@ -803,9 +807,13 @@
 
     HT.checkFixGrid = (html) => {
         if ($('.fixGrid6').elExit) {
+            console.log(12345);
+            
             $('.boxSearchIcon').remove()
             $('.boxWrapper').prepend(html)
         } else {
+            console.log(987654);
+
             $('.fixGrid6').remove()
             $('.boxWrapper').prepend(HT.boxSearchIcon())
         }
