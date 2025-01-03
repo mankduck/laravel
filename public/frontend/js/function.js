@@ -1,43 +1,104 @@
 (function($) {
 	"use strict";
-	var HT = {}; // Khai báo là 1 đối tượng
+	var HT = {}; 
 	var timer;
 
 	HT.swiperOption = (setting) => {
-		// console.log(setting);
-		let option = {}
-		if(setting.animation.length){
-			option.effect = setting.animation;
-		}	
-		if(setting.arrow === 'accept'){
+		console.log("Swiper Settings:", setting); // Kiểm tra dữ liệu JSON đã parse
+		let option = {};
+	
+		if (setting.animation) {
+			option.effect = setting.animation.toLowerCase(); // Đảm bảo giá trị viết thường
+		}
+	
+		if (setting.arrow === "accept") {
 			option.navigation = {
-				nextEl: '.swiper-button-next',
-				prevEl: '.swiper-button-prev',
-			}
+				nextEl: ".swiper-button-next",
+				prevEl: ".swiper-button-prev",
+			};
 		}
-		if(setting.autoplay === 'accept'){
-			option.autoplay = {
-			    delay: 2000,
-			    disableOnInteraction: false,
+	
+		if (setting.autoplay === "accept") {
+			if(setting.pausehover === "accept"){
+				if (setting.animationdelay === "0" || setting.animationdelay === null) {
+					option.autoplay = {
+						delay: 3000, // Thời gian chuyển slide
+						disableOnInteraction: false,
+					pauseOnMouseEnter: true,
+					};
+				}else{
+					option.autoplay = {
+						delay: setting.animationdelay,
+						disableOnInteraction: true,
+					pauseOnMouseEnter: true,
+	
+					};
+					console.log(option);
+					
+				}
+			}else{
+				if (setting.animationdelay === 0 || setting.animationdelay === null) {
+					option.autoplay = {
+						delay: 3000, // Thời gian chuyển slide
+						disableOnInteraction: false,
+					pauseOnMouseEnter: false,
+					};
+				}else{
+					option.autoplay = {
+						delay: setting.animationdelay,
+						disableOnInteraction: true,
+					pauseOnMouseEnter: false,
+	
+					};
+					console.log(option);
+					
+				}
 			}
+			
 		}
-		if(setting.navigate === 'dots'){
+
+		
+	
+		if (setting.navigate === "dots") {
 			option.pagination = {
-				el: '.swiper-pagination',
-			}
+				el: ".swiper-pagination",
+				clickable: true,
+			};
 		}
-		return option
-	}
+
+		// if (setting.pausehover === "accept") {
+		// 	option.autoplay: {
+		// 		disableOnInteraction: false,
+		// 		pauseOnMouseEnter: true,
+		// 	},
+		// }
+
+		
+	
+		console.log("Swiper Options:", option); // Kiểm tra cấu hình Swiper
+		return option;
+	};
+	
 	
 	/* MAIN VARIABLE */
 	HT.swiper = () => {
-		if($('.panel-slide').length){
-			let setting = JSON.parse($('.panel-slide').attr('data-setting'))
-			let option = HT.swiperOption(setting)
+		if ($('.panel-slide .swiper-container').length) {
+			let setting = JSON.parse($('.panel-slide').attr('data-setting'));
+			let option = HT.swiperOption(setting);
+	
+			console.log("Initializing Swiper with options:", option);
+	
 			var swiper = new Swiper(".panel-slide .swiper-container", option);
+	
+			if (!swiper) {
+				console.error("Swiper initialization failed.");
+			}
+		} else {
+			console.error("Swiper container not found.");
 		}
-		
-	}
+	};
+	
+	
 
 	// HT.swiperCategory = () => {
 	// 	var swiper = new Swiper(".panel-category .swiper-container", {
@@ -103,25 +164,16 @@
 	
 
 	HT.wow = () => {
-		var wow = new WOW(
-			{
-			  boxClass:     'wow',      // animated element css class (default is wow)
-			  animateClass: 'animated', // animation css class (default is animated)
-			  offset:       0,          // distance to the element when triggering the animation (default is 0)
-			  mobile:       true,       // trigger animations on mobile devices (default is true)
-			  live:         true,       // act on asynchronously loaded content (default is true)
-			  callback:     function(box) {
-				// the callback is fired every time an animation is started
-				// the argument that is passed in is the DOM node being animated
-			  },
-			  scrollContainer: null,    // optional scroll container selector, otherwise use window,
-			  resetAnimation: true,     // reset animation on end (default is true)
-			}
-		  );
-		  wow.init();
-
-
-	}// arrow function
+		var wow = new WOW({
+			boxClass: "wow",
+			animateClass: "animated",
+			offset: 0,
+			mobile: true,
+			live: true,
+			resetAnimation: true,
+		});
+		wow.init();
+	};
 
 	HT.niceSelect = () => {
 		if($('.nice-select').length){
@@ -132,26 +184,8 @@
 
 	$(document).ready(function(){
 		HT.wow()
-		HT.swiperCategory()
-		HT.swiperBestSeller()
-		
-		/* CORE JS */
 		HT.swiper()
 		HT.niceSelect()		
 	});
 
 })(jQuery);
-
-
-
-addCommas = (nStr) => { 
-    nStr = String(nStr);
-    nStr = nStr.replace(/\./gi, "");
-    let str ='';
-    for (let i = nStr.length; i > 0; i -= 3){
-        let a = ( (i-3) < 0 ) ? 0 : (i-3);
-        str= nStr.slice(a,i) + '.' + str;
-    }
-    str= str.slice(0,str.length-1);
-    return str;
-}

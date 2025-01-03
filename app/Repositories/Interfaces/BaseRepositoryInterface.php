@@ -10,7 +10,14 @@ interface BaseRepositoryInterface
 {
     public function all(array $relation);
     public function findById(int $id);
-    public function findByCondition($condition = [], $flag = false, $relation = [], array $orderBy = ['id', 'DESC']);
+    public function findByCondition(
+        $condition = [],
+        $flag = false,
+        $relation = [],
+        array $orderBy = ['id', 'DESC'],
+        array $param = [],
+        array $withCount = []
+    );
     public function findByWhereHas(array $condition = [], string $relation = '', string $alias = '');
     public function create(array $payload);
     public function createBatch(array $payload = []);

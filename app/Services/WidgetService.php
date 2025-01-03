@@ -118,7 +118,7 @@ class WidgetService extends BaseService implements WidgetServiceInterface
             $widget = $this->widgetRepository->findById($request->input('widgetId'));
             $temp = $widget->description;
             $temp[$translateId] = $request->input('translate_description');
-            $payload ['description'] = $temp;
+            $payload['description'] = $temp;
             $widget = $this->widgetRepository->update($widget->id, $payload);
 
             DB::commit();
@@ -132,6 +132,59 @@ class WidgetService extends BaseService implements WidgetServiceInterface
         }
     }
 
+    public function findWidgetByKeyword($keyword = '', $language = 1, $param = [])
+    {
+        $widget = $this->widgetRepository->findByCondition([
+            ['keyword', '=', $keyword],
+            config('apps.general.defaultPublish')
+        ]);
+        $class = loadClass($widget->model);
+        $agrument = $this->widgetAgrument($widget, $language, $param);
+        $object = $class->findByCondition(...$agrument);
+        return $object;
+    }
+
+    private function widgetAgrument($widget, $language, $param)
+    {
+
+        $relation = [
+            'languages' => function ($query) use ($language) {
+                $query->where('language_id', $language);
+            }
+        ];
+
+        $withCount = [];
+
+        if (strpos($widget->model, 'Catalogue') && isset($param['children'])) {
+            $model = lcfirst(str_replace('Catalogue', '', $widget->model)) . 's';
+            $relation[$model] = function ($query) use ($param, $language) {
+                $query->limit(($param['limit']) ?? 9);
+                $query->where('publish', 2);
+                $query->with('languages', function ($query) use ($language) {
+                    $query->where('language_id', $language);
+                });
+            };
+            $withCount[] = $model;
+        };
+
+
+
+
+
+            return [
+                'condition' => [
+                    config('apps.general.defaultPublish')
+                ],
+                'flag' => true,
+                'relation' => $relation,
+                'param' => [
+                    'whereIn' => $widget->model_id,
+                    'whereInField' => 'id'
+                ],
+                'withCount' => $withCount
+            ];
+    }
+
     private function paginateSelect()
     {
         return [
@@ -143,6 +196,4 @@ class WidgetService extends BaseService implements WidgetServiceInterface
             'publish'
         ];
     }
-
-
 }

@@ -40,6 +40,7 @@ return [
     'effect' => [
         'fade' => 'Fade',
         'cube' => 'Cube',
+        'wipe' => 'Wipe',
         'coverflow' => 'Coverflow',
         'flip' => 'Flip',
         'cards' => 'Cards',
@@ -48,7 +49,6 @@ return [
     'navigate' => [
         'hide' => 'Ẩn thanh điều hướng',
         'dots' => 'Hiển thị dạng dấu chấm',
-        'thumbnails' => 'Dạng ảnh Thumbnails'
     ],
 
 
