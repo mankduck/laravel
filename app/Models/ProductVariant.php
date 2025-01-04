@@ -12,6 +12,7 @@ class ProductVariant extends Model
     protected $fillable = [
         'product_id',
         'code',
+        'uuid',
         'quantity',
         'sku',
         'price',
@@ -24,6 +25,7 @@ class ProductVariant extends Model
     ];
 
     protected $table = 'product_variants';
+
 
     public function products()
     {

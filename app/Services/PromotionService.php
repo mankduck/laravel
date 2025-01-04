@@ -145,7 +145,7 @@ class PromotionService extends BaseService implements PromotionServiceInterface
                 foreach ($object['id'] as $key => $value) {
                     $payloadRelation[] = [
                         'product_id' => $value,
-                        'product_variant_id' => $object['product_variant_id'][$key],
+                        'variant_uuid' => $object['variant_uuid'][$key],
                         'model' => $request->input(PromotionEnum::MODULE_TYPE)
                     ];
                 }

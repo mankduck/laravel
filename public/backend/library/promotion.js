@@ -610,9 +610,10 @@
                 let sku = object.data[i].sku
                 let classBox = model + '_' + product_id + '_' + product_variant_id
                 let isChecked = $('.boxWrapper .' + classBox + '').length ? true : false
+                let uuid = object.data[i].uuid
 
                 html += `
-                    <div class="search-object-item" data-productid="${product_id}" data-variant_id="${product_variant_id}" data-name="${name}" >
+                    <div class="search-object-item" data-productid="${product_id}" data-variant_id="${product_variant_id}" data-uuid="${uuid}" data-name="${name}" >
                         <div class="uk-flex uk-flex-middle uk-flex-space-between">
                             <div class="object-info">
                                 <div class="uk-flex uk-flex-middle">
@@ -725,7 +726,8 @@
             let objectItem = {
                 product_id: _this.attr('data-productid'),
                 product_variant_id: _this.attr('data-variant_id'),
-                name: _this.attr('data-name')
+                name: _this.attr('data-name'),
+                uuid: _this.attr('data-uuid')
             }
             if (isChecked) {
                 objectChoose = objectChoose.filter(item => item.name !== objectItem.name)
@@ -744,13 +746,15 @@
         let preloadObject = JSON.parse($('.input_object').val()) ?? {
             id: [],
             product_variant_id: [],
-            name: []
+            name: [],
+            uuid: [],
         }
 
         let objectArray = preloadObject.id.map((id, index) => ({
             product_id: id,
             product_variant_id: preloadObject.product_variant_id[index] || 'null',
-            name: preloadObject.name[index]
+            name: preloadObject.name[index],
+            uuid: preloadObject.uuid[index] || 'null',
         }))
 
         if (objectArray.length && typeof objectArray !== 'undefined') {
@@ -776,7 +780,7 @@
 
         if (objectData.length) {
             for (let i = 0; i < objectData.length; i++) {
-                let { product_id, product_variant_id, name } = objectData[i]
+                let { product_id, product_variant_id, name, uuid } = objectData[i]
                 let classBox = `${model}_${product_id}_${product_variant_id}`
 
                 if (!$(`.boxWrapper.${classBox} `).length) {
@@ -794,6 +798,7 @@
                         <div class="hidden">
                             <input name="object[id][]" value="${product_id}">
                             <input name="object[product_variant_id][]" value="${product_variant_id}">
+                            <input name="object[variant_uuid][]" value="${uuid}">
                             <input name="object[name][]" value="${name}">
                         </div>
                     </div>
