@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests\Promotion;
 
+use App\Enums\PromotionEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\Promotion\OrderAmountRangeRule;
+use App\Rules\Promotion\ProductAndQuantityRule;
 
 class StorePromotionRequest extends FormRequest
 {
@@ -21,12 +24,27 @@ class StorePromotionRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required',
             'code' => 'required|unique:promotions',
             'startDate' => 'required',
-
         ];
+
+        $method = $this->only('method')['method'];
+        switch ($method) {
+            case PromotionEnum::ORDER_AMOUNT_RANGE:
+                $rules['method'] = [
+                    new OrderAmountRangeRule($this->input('promotion_order_amount_range'))
+                ];
+                break;
+            case PromotionEnum::PRODUCT_AND_QUANTITY:
+                $rules['method'] = [
+                    new ProductAndQuantityRule($this->only('product_and_quantity', 'object'))
+                ];
+                break;
+        }
+
+        return $rules;
     }
 
 

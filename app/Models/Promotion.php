@@ -4,21 +4,38 @@ namespace App\Models;
 
 use App\Traits\QueryScopes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Promotion extends Model
 {
-    use HasFactory, QueryScopes;
+    use HasFactory, QueryScopes, SoftDeletes;
 
     protected $fillable = [
+        'type',
         'name',
+        'code',
         'description',
-        'model_id',
-        'short_code',
-        'model',
-        'album',
-        'keyword',
+        'method',
+        'discountInformation',
+        'neverEndDate',
+        'startDate',
+        'endDate',
         'publish',
+        'order',
     ];
-    protected $table = 'promotion';
+    protected $table = 'promotions';
+
+    protected $casts = [
+        'discountInformation' => 'json',
+    ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Promotion::class, 'promotion_product_variant', 'promotion_id', 'product_id')
+            ->withPivot(
+                'product_variant_id',
+                'model',
+            )->withTimestamps();
+    }
 }

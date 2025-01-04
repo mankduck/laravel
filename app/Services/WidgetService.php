@@ -138,10 +138,15 @@ class WidgetService extends BaseService implements WidgetServiceInterface
             ['keyword', '=', $keyword],
             config('apps.general.defaultPublish')
         ]);
-        $class = loadClass($widget->model);
-        $agrument = $this->widgetAgrument($widget, $language, $param);
-        $object = $class->findByCondition(...$agrument);
-        return $object;
+
+        if(!is_null($widget)){
+            $class = loadClass($widget->model);
+            $agrument = $this->widgetAgrument($widget, $language, $param);
+            $object = $class->findByCondition(...$agrument);
+            return $object;
+        }
+
+
     }
 
     private function widgetAgrument($widget, $language, $param)
