@@ -378,7 +378,7 @@
                                 placeholder="0" id="">
                             <select name="promotion_order_amount_range[amountType][]" class="multipleSelect2" id="">
                                 <option value="cash" ${($amountType == 'cash') ? 'selected' : ''}>đ</option>
-                                <option value="percent" ${($amountType == 'cash') ? 'selected' : ''}>%</option>
+                                <option value="percent" ${($amountType == 'percent') ? 'selected' : ''}>%</option>
                             </select>
                         </div>
                     </td>
@@ -480,7 +480,7 @@
                                     value="${preloadData.discountValue}" placeholder="0" id="">
                                 <select name="product_and_quantity[discountType]" class="multipleSelect2" id="">
                                     <option value="cash" ${(preloadData.discountType == 'cash') ? 'selected' : ''}>đ</option>
-                                    <option value="percent" ${(preloadData.discountType == 'cash') ? 'selected' : ''}>%</option>
+                                    <option value="percent" ${(preloadData.discountType == 'percent') ? 'selected' : ''}>%</option>
                                 </select>
                             </div>
                         </td>

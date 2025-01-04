@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\Promotion\OrderAmountRangeRule;
 use App\Rules\Promotion\ProductAndQuantityRule;
 
-class StorePromotionRequest extends FormRequest
+class UpdatePromotionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,8 @@ class StorePromotionRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name' => 'required|unique:promotions,name',
-            'code' => 'required|unique:promotions,code',
+            'name' => 'required|unique:promotions,name,' . $this->id . '',
+            'code' => 'required|unique:promotions,code,' . $this->id . '',
             'startDate' => 'required',
         ];
 

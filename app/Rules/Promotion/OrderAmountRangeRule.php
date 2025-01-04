@@ -52,7 +52,7 @@ class OrderAmountRangeRule implements ValidationRule
                 $amountFrom_2 = convert_price($this->data['amountFrom'][$j]);
                 $amountTo2 = convert_price($this->data['amountTo'][$j]);
 
-                if ($amountFrom_1 <= $amountTo2 && $amountTo1 >= $amountFrom_2) {
+                if ($amountFrom_1 <= $amountTo2 && $amountTo1 <= $amountFrom_2) {
                     $conflict = true;
                     break 2;
                 }

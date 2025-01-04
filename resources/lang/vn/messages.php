@@ -293,9 +293,12 @@ return [
             'formPromotion' => 'Hình thức khuyến mãi'
         ],
         'tablePromotion' => [
-            'promotionName' => 'Tên Khuyến mãi',
-            'promotionKey' => 'Từ khóa',
-            'promotionModel' => 'Model',
+            'promotionName' => 'Tên chuong trinh',
+            'promotionDiscount' => 'Chiet khau',
+            'promotionInfo' => 'Thong tin',
+            'promotionStartDate' => 'Ngay bat dau',
+            'promotionEndDate' => 'Ngay ket thuc',
+
         ],
 
     ],
@@ -407,7 +410,7 @@ return [
     ],
     
     'generalTitle' => 'Thông tin chung',
-    'generalDescription' => 'Bạn đang muốn xóa ngôn ngữ có tên là:
+    'generalDescription' => 'Bạn đang muốn xóa bản ghi có tên là:
     Lưu ý: Không thể khôi phục dữ liệu sau khi xóa. Hãy chắc chắn bạn muốn thực hiện chức năng này',
 
 ];

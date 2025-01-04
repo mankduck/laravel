@@ -66,7 +66,6 @@
                                 </select>
                             </div>
                             <div class="promotion-container">
-
                             </div>
                         </div>
                     </div>
