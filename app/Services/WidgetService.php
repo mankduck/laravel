@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Repositories\Interfaces\PromotionRepositoryInterface as PromotionRepository;
 use App\Services\Interfaces\WidgetServiceInterface;
 use App\Repositories\Interfaces\WidgetRepositoryInterface as WidgetRepository;
 use Illuminate\Support\Facades\DB;
@@ -16,12 +17,15 @@ use Illuminate\Support\Facades\Hash;
 class WidgetService extends BaseService implements WidgetServiceInterface
 {
     protected $widgetRepository;
+    protected $promotionRepository;
 
 
     public function __construct(
-        WidgetRepository $widgetRepository
+        WidgetRepository $widgetRepository,
+        PromotionRepository $promotionRepository,
     ) {
         $this->widgetRepository = $widgetRepository;
+        $this->promotionRepository = $promotionRepository;
     }
 
 
@@ -139,14 +143,36 @@ class WidgetService extends BaseService implements WidgetServiceInterface
             config('apps.general.defaultPublish')
         ]);
 
-        if(!is_null($widget)){
+        if (!is_null($widget)) {
             $class = loadClass($widget->model);
             $agrument = $this->widgetAgrument($widget, $language, $param);
             $object = $class->findByCondition(...$agrument);
+
+            $model = lcfirst(str_replace('Catalogue', '', $widget->model));
+            if ($model == 'product') {
+                if (count($object)) {
+                    foreach ($object as $key_1 => $value) {
+                        if ($value->id != 4) continue;
+                        $productId = $value->products->pluck('id');
+                        // dd($productId);
+                        $promotions = $this->promotionRepository->findByProduct($productId);
+                        // dd($promotions);
+                        if ($promotions) {
+                            foreach ($value->products as $index => $product) {
+                                foreach ($promotions as $key => $promotion) {
+                                    // dd($promotion);
+                                    if ($promotion->product_id == $product->id) {
+                                        $object[$key_1]->products[$index]->promotions = $promotion;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+// dd($object->toArray());
             return $object;
         }
-
-
     }
 
     private function widgetAgrument($widget, $language, $param)
@@ -163,12 +189,45 @@ class WidgetService extends BaseService implements WidgetServiceInterface
         if (strpos($widget->model, 'Catalogue') && isset($param['children'])) {
             $model = lcfirst(str_replace('Catalogue', '', $widget->model)) . 's';
             $relation[$model] = function ($query) use ($param, $language) {
-                $query->limit(($param['limit']) ?? 9);
+                $limit = ($param['limit']) ?? 9;
+                $query->limit($limit);
                 $query->where('publish', 2);
                 $query->with('languages', function ($query) use ($language) {
                     $query->where('language_id', $language);
                 });
             };
+
+            // $query->with('promotions', function ($query) {
+            //     $query->select(
+            //         'promotions.id',
+            //         'promotions.discountType',
+            //         'promotions.discountValue',
+            //         'promotions.maxDiscountValue',
+            //         DB::raw(
+            //             "
+            //             IF(
+            //                 promotions.maxDiscountValue != 0,
+            //                 LEAST(
+            //                 CASE
+            //                     WHEN promotions.discountType = 'cash' THEN (SELECT price FROM products WHERE products.id = product_id) - promotions.discountValue
+            //                     WHEN promotions.discountType = 'percent' THEN (SELECT price FROM products WHERE products.id = product_id) - ((SELECT price FROM products WHERE products.id = product_id)*promotions.discountValue/100)
+            //                     ELSE (SELECT price FROM products WHERE products.id = product_id)
+            //                 END,
+            //                 promotions.maxDiscountValue
+            //                 ),
+            //                 CASE
+            //                     WHEN discountType = 'cash' THEN (SELECT price FROM products WHERE products.id = product_id) - promotions.discountValue
+            //                     WHEN discountType = 'percent' THEN (SELECT price FROM products WHERE products.id = product_id) - ((SELECT price FROM products WHERE products.id = product_id)*promotions.discountValue/100)
+            //                     ELSE (SELECT price FROM products WHERE products.id = product_id)
+            //                 END
+            //             )as discount
+            //             "
+            //         )
+            //     );
+            //     $query->where('publish', 2);
+            //     $query->whereDate('endDate', '>', now());
+            //     $query->orderBy('discount', 'asc');
+            // });
             $withCount[] = $model;
         };
 
@@ -176,18 +235,18 @@ class WidgetService extends BaseService implements WidgetServiceInterface
 
 
 
-            return [
-                'condition' => [
-                    config('apps.general.defaultPublish')
-                ],
-                'flag' => true,
-                'relation' => $relation,
-                'param' => [
-                    'whereIn' => $widget->model_id,
-                    'whereInField' => 'id'
-                ],
-                'withCount' => $withCount
-            ];
+        return [
+            'condition' => [
+                config('apps.general.defaultPublish')
+            ],
+            'flag' => true,
+            'relation' => $relation,
+            'param' => [
+                'whereIn' => $widget->model_id,
+                'whereInField' => 'id'
+            ],
+            'withCount' => $withCount
+        ];
     }
 
     private function paginateSelect()

@@ -117,8 +117,14 @@ class PromotionService extends BaseService implements PromotionServiceInterface
             'method',
             'startDate',
             'endDate',
+            'endDate',
+            'endDate',
+            'endDate',
             'neverEndDate'
         );
+        $payload['maxDiscountValue'] = convert_price($request->input(PromotionEnum::PRODUCT_AND_QUANTITY . '.maxDiscountValue'));
+        $payload['discountValue'] = convert_price($request->input(PromotionEnum::PRODUCT_AND_QUANTITY . '.discountValue'));
+        $payload['discountType'] = $request->input(PromotionEnum::PRODUCT_AND_QUANTITY . '.discountType');
 
         $payload['code'] = (empty($payload['code'])) ? time() : $payload['code'];
 
@@ -151,9 +157,7 @@ class PromotionService extends BaseService implements PromotionServiceInterface
                 }
             }
             if ($method == 'update') {
-                $promotion->products()->detach([
-
-                ]);
+                $promotion->products()->detach([]);
             }
             $promotion->products()->sync($payloadRelation);
         }

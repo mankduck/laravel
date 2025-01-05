@@ -23,6 +23,9 @@ class Promotion extends Model
         'endDate',
         'publish',
         'order',
+        'maxDiscountValue',
+        'discountValue',
+        'discountType',
     ];
     protected $table = 'promotions';
 
@@ -34,7 +37,7 @@ class Promotion extends Model
     {
         return $this->belongsToMany(Promotion::class, 'promotion_product_variant', 'promotion_id', 'product_id')
             ->withPivot(
-                'product_variant_id',
+                'variant_uuid',
                 'model',
             )->withTimestamps();
     }

@@ -343,6 +343,9 @@
         }
 
         console.log(order_amount_range);
+        
+
+        console.log(order_amount_range);
 
         for (let i = 0; i < order_amount_range.amountFrom.length; i++) {
             let $amountFrom = order_amount_range.amountFrom[i]
@@ -443,8 +446,8 @@
                     <tr>
                         <th class="text-right" style="width: 390px">Sản phẩm mua</th>
                         <th class="text-right" style="width: 100px">SL tối thiểu</th>
-                        <th class="text-right">Giới hạn KM</th>
-                        <th class="text-right" style="width: 150px">Chiết khấu</th>
+                        <th class="text-right"  style="width: 150px">Giới hạn KM</th>
+                        <th class="text-right">Chiết khấu</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -747,14 +750,14 @@
             id: [],
             product_variant_id: [],
             name: [],
-            uuid: [],
+            variant_uuid: [],
         }
 
         let objectArray = preloadObject.id.map((id, index) => ({
             product_id: id,
             product_variant_id: preloadObject.product_variant_id[index] || 'null',
             name: preloadObject.name[index],
-            uuid: preloadObject.uuid[index] || 'null',
+            uuid: preloadObject.variant_uuid[index] || 'null',
         }))
 
         if (objectArray.length && typeof objectArray !== 'undefined') {

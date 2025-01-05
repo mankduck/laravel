@@ -28,7 +28,9 @@ class HomeController extends FrontendController
         $language = $this->language;
 
         $widget = [
-            'new-product' => $this->widgetService->findWidgetByKeyword('new-product', $this->language, ['children' => true])
+            // 'new-product' => $this->widgetService->findWidgetByKeyword('new-product', $this->language, ['children' => true])
+            'category' => $this->widgetService->findWidgetByKeyword('category', $this->language, ['children' => true])
+
         ];
 
         $slides = $this->slideRepository->findByCondition(...$this->slideAgrument());

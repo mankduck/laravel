@@ -261,6 +261,7 @@ class ProductService extends BaseService implements ProductServiceInterface
         $payload['attributeCatalogue'] = $this->formatJson($request, 'attributeCatalogue');
         $payload['attribute'] = $this->formatJson($request, 'attribute');
         $payload['variant'] = $this->formatJson($request, 'variant');
+        // dd($payload);
         $product = $this->productRepository->create($payload);
         return $product;
     }
