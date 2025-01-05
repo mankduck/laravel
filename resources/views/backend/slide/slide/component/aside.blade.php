@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="row mb15">
-            <div class="col-lg-6">
+            {{-- <div class="col-lg-6">
                 <div class="setting-item mb20">
                     <div class="form-row">
                         <label for="" class="control-label text-left">Chiều rộng <span
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="col-lg-12">
                 <div class="setting-item mb20">
                     <div class="form-row">

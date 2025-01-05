@@ -1,6 +1,7 @@
 <?php
 
 /* ROUTE BACKEND */
+
 use App\Http\Controllers\Backend\AttributeCatalogueController;
 use App\Http\Controllers\Backend\AttributeController;
 use App\Http\Controllers\Backend\LanguageController;
@@ -30,8 +31,10 @@ use App\Http\Controllers\Ajax\DashboardController as AjaxDashboardController;
 use App\Http\Controllers\Ajax\MenuController as AjaxMenuController;
 use App\Http\Controllers\Ajax\LocationController;
 use App\Http\Controllers\Ajax\ProductController as AjaxProductController;
-
-
+use App\Http\Controllers\Ajax\SourceController as AjaxSourceController;
+use App\Http\Controllers\Backend\CustomerCatalogueController;
+use App\Http\Controllers\Backend\CustomerController;
+use App\Http\Controllers\Backend\SourceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,13 +50,14 @@ use App\Http\Controllers\Ajax\ProductController as AjaxProductController;
 
 
 /* FRONTEND ROUTE */
+
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
 
 
 /* BACKEND ROUTE */
 Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], function () {
-    
+
     Route::get('dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::group(['prefix' => 'user'], function () {
@@ -76,6 +80,28 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::delete('{id}/destroy', [UserCatalogueController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('user.catalogue.destroy');
         Route::get('permission', [UserCatalogueController::class, 'permission'])->name('user.catalogue.permission');
         Route::post('updatePermission', [UserCatalogueController::class, 'updatePermission'])->name('user.catalogue.updatePermission');
+    });
+
+    Route::group(['prefix' => 'customer'], function () {
+        Route::get('index', [CustomerController::class, 'index'])->name('customer.index');
+        Route::get('create', [CustomerController::class, 'create'])->name('customer.create');
+        Route::post('store', [CustomerController::class, 'store'])->name('customer.store');
+        Route::get('{id}/edit', [CustomerController::class, 'edit'])->where(['id' => '[0-9]+'])->name('customer.edit');
+        Route::post('{id}/update', [CustomerController::class, 'update'])->where(['id' => '[0-9]+'])->name('customer.update');
+        Route::get('{id}/delete', [CustomerController::class, 'delete'])->where(['id' => '[0-9]+'])->name('customer.delete');
+        Route::delete('{id}/destroy', [CustomerController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('customer.destroy');
+    });
+
+    Route::group(['prefix' => 'customer/catalogue'], function () {
+        Route::get('index', [CustomerCatalogueController::class, 'index'])->name('customer.catalogue.index');
+        Route::get('create', [CustomerCatalogueController::class, 'create'])->name('customer.catalogue.create');
+        Route::post('store', [CustomerCatalogueController::class, 'store'])->name('customer.catalogue.store');
+        Route::get('{id}/edit', [CustomerCatalogueController::class, 'edit'])->where(['id' => '[0-9]+'])->name('customer.catalogue.edit');
+        Route::post('{id}/update', [CustomerCatalogueController::class, 'update'])->where(['id' => '[0-9]+'])->name('customer.catalogue.update');
+        Route::get('{id}/delete', [CustomerCatalogueController::class, 'delete'])->where(['id' => '[0-9]+'])->name('customer.catalogue.delete');
+        Route::delete('{id}/destroy', [CustomerCatalogueController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('customer.catalogue.destroy');
+        Route::get('permission', [CustomerCatalogueController::class, 'permission'])->name('customer.catalogue.permission');
+        Route::post('updatePermission', [CustomerCatalogueController::class, 'updatePermission'])->name('customer.catalogue.updatePermission');
     });
 
     Route::group(['prefix' => 'language'], function () {
@@ -207,6 +233,16 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::post('saveTranslate', [WidgetController::class, 'saveTranslate'])->where(['languageId' => '[0-9]+'])->name('widget.translate.save');
     });
 
+    Route::group(['prefix' => 'source'], function () {
+        Route::get('index', [SourceController::class, 'index'])->name('source.index');
+        Route::get('create', [SourceController::class, 'create'])->name('source.create');
+        Route::post('store', [SourceController::class, 'store'])->name('source.store');
+        Route::get('{id}/edit', [SourceController::class, 'edit'])->where(['id' => '[0-9]+'])->name('source.edit');
+        Route::post('{id}/update', [SourceController::class, 'update'])->where(['id' => '[0-9]+'])->name('source.update');
+        Route::get('{id}/delete', [SourceController::class, 'delete'])->where(['id' => '[0-9]+'])->name('source.delete');
+        Route::delete('{id}/destroy', [SourceController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('source.destroy');
+    });
+
 
     Route::group(['prefix' => 'promotion'], function () {
         Route::get('index', [PromotionController::class, 'index'])->name('promotion.index');
@@ -230,7 +266,8 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
     Route::post('ajax/menu/createCatalogue', [AjaxMenuController::class, 'createCatalogue'])->name('ajax.menu.createCatalogue');
     Route::post('ajax/menu/drag', [AjaxMenuController::class, 'drag'])->name('ajax.menu.drag');
     Route::get('ajax/product/loadProductPromotion', [AjaxProductController::class, 'loadProductPromotion'])->name('ajax.product.loadProductPromotion');
-
+    Route::get('ajax/source/getAllSource', [AjaxSourceController::class, 'getAllSource'])->name('ajax.source.getAllSource');
+    Route::get('ajax/dashboard/getPromotionConditionValue', [AjaxDashboardController::class, 'getPromotionConditionValue'])->name('ajax.dashboard.getPromotionConditionValue');
 });
 
 
@@ -238,7 +275,3 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
 Route::get('admin', [AuthController::class, 'admin'])->name('auth.admin')->middleware('login');
 Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::post('login', [AuthController::class, 'login'])->name('auth.login');
-
-
-
-

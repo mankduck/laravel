@@ -18,11 +18,6 @@
             </div>
             <div class="col-lg-3">
                 <div class="header__right">
-                    {{-- <div class="header__right__auth">
-                        <select name="" id="">
-                            <option value="">Tieensg Viet</option>
-                        </select>
-                    </div> --}}
                     <div class="header__right__auth">
                         <a href="#">Login</a>
                         <a href="#">Register</a>

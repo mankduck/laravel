@@ -24,7 +24,6 @@ class StoreWidgetRequest extends FormRequest
         return [
             'name' => 'required',
             'keyword' => 'required|unique:widgets',
-            'short_code' => 'required|unique:widgets',
         ];
     }
 
@@ -35,7 +34,6 @@ class StoreWidgetRequest extends FormRequest
             'name.required' => 'Bạn chưa nhập vào tên Widget.',
             'keyword.required' => 'Bạn cần nhập vào từ khóa của Widget',
             'keyword.unique' => 'Từ khóa đã tồn tại!',
-            'short_code.required' => 'Short Code đã tồn tại!',
         ];
     }
 }

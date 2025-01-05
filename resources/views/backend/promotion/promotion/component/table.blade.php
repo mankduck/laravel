@@ -4,10 +4,12 @@
             <th style="width:50px;">
                 <input type="checkbox" value="" id="checkAll" class="input-checkbox">
             </th>
-            <th class="text-center">{{ __('messages.tablePromotion.promotionName') }}</th>
-            <th class="text-center">{{ __('messages.tablePromotion.promotionKey') }}</th>
-            @include('backend.dashboard.component.languageTh')
-            <th class="text-center">{{ __('messages.tablePromotion.promotionModel') }}</th>
+            <th class="text-center">{{ __('messages.promotion.tablePromotion.promotionName') }}</th>
+            <th class="text-center">{{ __('messages.promotion.tablePromotion.promotionDiscount') }}</th>
+            {{-- @include('backend.dashboard.component.languageTh') --}}
+            <th class="text-center">{{ __('messages.promotion.tablePromotion.promotionInfo') }}</th>
+            <th class="text-center">{{ __('messages.promotion.tablePromotion.promotionStartDate') }}</th>
+            <th class="text-center">{{ __('messages.promotion.tablePromotion.promotionEndDate') }}</th>
             <th class="text-center">{{ __('messages.tableStatus') }}</th>
             <th class="text-center">{{ __('messages.tableAction') }}</th>
         </tr>
@@ -15,17 +17,29 @@
     <tbody>
         @if (isset($promotions) && is_object($promotions))
             @foreach ($promotions as $promotion)
+                @php
+                    $status = '';
+                    if (
+                        $promotion->endDate !== null &&
+                        strtotime($promotion->endDate) - strtotime(now()) <= 0
+                    ) {
+                        $status = '<span class="text-danger">- Het han</span>';
+                    }
+                @endphp
                 <tr id="{{ $promotion->id }}">
                     <td>
                         <input type="checkbox" value="{{ $promotion->id }}" class="input-checkbox checkBoxItem">
                     </td>
                     <td>
-                        {{ $promotion->name }}
+                        <div class="">{{ $promotion->name }} {!! $status !!}</div>
+                        <div class="text-success">Ma KM: {{ $promotion->code }}</div>
                     </td>
                     <td>
-                        {{ $promotion->keyword }}
+                        <div class="discount-information text-center">
+                            {!! renderDiscountInformation($promotion) !!}
+                        </div>
                     </td>
-                    @foreach ($languages as $language)
+                    {{-- @foreach ($languages as $language)
                         @if (session('app_locale') === $language->canonical)
                             @continue
                         @endif
@@ -38,10 +52,16 @@
                                 {{ $translated == 1 ? 'Đã dịch' : 'Chưa dịch' }}
                             </a>
                         </td>
-                    @endforeach
+                    @endforeach --}}
 
                     <td>
-                        {{ $promotion->short_code ?? '-' }}
+                        <div class="">Loai KM: {{ __('module.promotion')[$promotion->method] }}</div>
+                    </td>
+                    <td>
+                        {{ formatDateTable($promotion->startDate) }}
+                    </td>
+                    <td>
+                        {{ $promotion->neverEndDate === 'accept' ? 'Khong gioi han' : formatDateTable($promotion->endDate) }}
                     </td>
                     <td class="text-center js-switch-{{ $promotion->id }}">
                         <input type="checkbox" value="{{ $promotion->publish }}" class="js-switch status "

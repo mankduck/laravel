@@ -7,6 +7,31 @@ return [
         'Product' => 'Sản phẩm',
 
     ],
+    'gender' => [
+        [
+            'id' => 1,
+            'name' => 'Nam'
+        ],
+        [
+            'id' => 2,
+            'name' => 'Nữ'
+        ]
+    ],
+
+    'applyStatus' => [
+        [
+            'id' => 'staff_take_care_customer',
+            'name' => 'Nhân viên phụ trách',
+        ],
+        [
+            'id' => 'customer_group',
+            'name' => 'Nhóm khách hàng',
+        ],
+        [
+            'id' => 'customer_gender',
+            'name' => 'Giới tính',
+        ],
+    ],
 
     'type' => [
         'dropdown-menu' => 'DropDown Menu',
@@ -15,6 +40,7 @@ return [
     'effect' => [
         'fade' => 'Fade',
         'cube' => 'Cube',
+        'wipe' => 'Wipe',
         'coverflow' => 'Coverflow',
         'flip' => 'Flip',
         'cards' => 'Cards',
@@ -23,7 +49,6 @@ return [
     'navigate' => [
         'hide' => 'Ẩn thanh điều hướng',
         'dots' => 'Hiển thị dạng dấu chấm',
-        'thumbnails' => 'Dạng ảnh Thumbnails'
     ],
 
 
@@ -37,4 +62,5 @@ return [
         'Product' => 'Phiên bản sản phẩm',
         'ProductCatalogue' => 'Loại sản phẩm',
     ],
+
 ];

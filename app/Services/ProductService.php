@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class ProductService
@@ -158,7 +159,7 @@ class ProductService extends BaseService implements ProductServiceInterface
     private function createVariant($product, $request, $languageId)
     {
         $payload = $request->only(['variant', 'productVariant', 'attribute']);
-        $variant = $this->createVariantArray($payload);
+        $variant = $this->createVariantArray($payload, $product);
         // dd($variant);
         $variants = $product->product_variants()->createMany($variant);
         $variantId = $variants->pluck('id');
@@ -227,13 +228,15 @@ class ProductService extends BaseService implements ProductServiceInterface
         return $combine;
     }
 
-    private function createVariantArray(array $payload = [])
+    private function createVariantArray(array $payload = [], $product)
     {
         $variant = [];
         $translate = [];
         if (isset($payload['variant']['sku']) && count($payload['variant']['sku'])) {
             foreach ($payload['variant']['sku'] as $key => $value) {
+                $uuid = Uuid::uuid5(Uuid::NAMESPACE_DNS, $product->id . ', ' . $payload['productVariant']['id'][$key]);
                 $variant[] = [
+                    'uuid' => $uuid,
                     'code' => ($payload['productVariant']['id'][$key]) ?? '',
                     'quantity' => ($payload['variant']['quantity'][$key]) ?? '',
                     'sku' => $value,
@@ -258,6 +261,7 @@ class ProductService extends BaseService implements ProductServiceInterface
         $payload['attributeCatalogue'] = $this->formatJson($request, 'attributeCatalogue');
         $payload['attribute'] = $this->formatJson($request, 'attribute');
         $payload['variant'] = $this->formatJson($request, 'variant');
+        // dd($payload);
         $product = $this->productRepository->create($payload);
         return $product;
     }
@@ -319,7 +323,6 @@ class ProductService extends BaseService implements ProductServiceInterface
                     [$request->integer('product_catalogue_id'), $request->integer('product_catalogue_id')]
                 ]
             ];
-
         }
         return $rawCondition;
     }
@@ -365,6 +368,4 @@ class ProductService extends BaseService implements ProductServiceInterface
             'canonical'
         ];
     }
-
-
 }
