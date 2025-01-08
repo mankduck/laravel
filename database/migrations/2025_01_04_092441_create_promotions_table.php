@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,6 +17,9 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('method');
             $table->json('discountInformation')->nullable();
+            $table->integer('discountValue')->default(0);
+            $table->string('discountType', 10);
+            $table->string('maxDiscountValue', 10);
             $table->string('neverEndDate')->nullable();
             $table->timestamp('startDate');
             $table->timestamp('endDate')->nullable();

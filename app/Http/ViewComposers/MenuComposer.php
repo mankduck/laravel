@@ -23,7 +23,7 @@ class MenuComposer
         $menuCatalogue = $this->menuCatalogueRepository->findByCondition(...$agrument);
 
         $menus = [];
-        $htmlType = ['menu-chinh'];
+        $htmlType = ['menu-header'];
         if (count($menuCatalogue)) {
             foreach ($menuCatalogue as $key => $val) {
                 $type = (in_array($val->keyword, $htmlType)) ? 'html' : 'array';

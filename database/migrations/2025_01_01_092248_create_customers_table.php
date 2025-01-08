@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -31,6 +30,8 @@ return new class extends Migration
             $table->rememberToken()->nullable();
             $table->bigInteger('customer_catalogue_id')->unsigned();
             $table->foreign('customer_catalogue_id')->references('id')->on('customer_catalogues')->onDelete('cascade');
+            $table->bigInteger('source_id')->unsigned()->default(1);
+            $table->foreign('source_id')->references('id')->on('sources')->onDelete('cascade');
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

@@ -27,20 +27,29 @@ class HomeController extends FrontendController
     {
         $language = $this->language;
 
-        $widget = [
+        $widgets = [
             // 'new-product' => $this->widgetService->findWidgetByKeyword('new-product', $this->language, ['children' => true])
-            'category' => $this->widgetService->findWidgetByKeyword('category', $this->language, ['children' => true])
+            'new-product' => $this->widgetService->findWidgetByKeyword('new-product', $this->language, ['children' => true, 'object' => true, 'countObject' => true]),
+            'hot-trend' => $this->widgetService->findWidgetByKeyword('hot-trend', $this->language)
+
 
         ];
+
+        // $widget = $this->widgetService->getWidget([
+        //     ['keyword' => 'new-product', 'children' => true, 'object' => true, 'countObject' => true]
+        // ], $this->language);
+
+
 
         $slides = $this->slideRepository->findByCondition(...$this->slideAgrument());
         if ($slides) {
             $slideItems = $slides->item[$this->language];
         } else {
             $slideItems = [];
-        };
+        }
+        ;
 
-        return view('frontend.homepage.home.index', compact('slides', 'slideItems'));
+        return view('frontend.homepage.home.index', compact('slides', 'slideItems', 'widgets'));
     }
 
     private function slideAgrument()

@@ -11,8 +11,8 @@
             </div>
             <div class="col-xl-6 col-lg-7">
                 <nav class="header__menu">
-                    @if (isset($menu['menu-chinh']))
-                        {!! $menu['menu-chinh'] !!}
+                    @if (isset($menu['menu-header']))
+                        {!! $menu['menu-header'] !!}
                     @endif
                 </nav>
             </div>

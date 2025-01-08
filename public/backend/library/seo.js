@@ -1,29 +1,37 @@
-(function($) {
-	"use strict";
-	var HT = {}; 
+(function ($) {
+    "use strict";
+    var HT = {};
+
+    HT.convertInput = () => {
+        $('input[name=name]').on('keyup', function () {
+            let input = $(this)
+            let value = HT.removeUtf8(input.val())
+            $('.seo-canonical').val(value)
+        });
+    }
 
     HT.seoPreview = () => {
-        $('input[name=meta_title]').on('keyup', function(){
+        $('input[name=meta_title]').on('keyup', function () {
             let input = $(this)
             let value = input.val()
             $('.meta-title').html(value)
         })
 
 
-       $('.seo-canonical').each(function(){
+        $('.seo-canonical').each(function () {
             let _this = $(this)
             _this.css({
-                'padding-left':   parseInt($('.baseUrl').outerWidth()) + 10
+                'padding-left': parseInt($('.baseUrl').outerWidth()) + 10
             })
-       })
-
-       $('input[name=canonical]').on('keyup', function(){
-            let input = $(this)
-            let value = HT.removeUtf8(input.val())
-            $('.canonical').html(BASE_URL + value + SUFFIX)
         })
 
-        $('textarea[name=meta_description]').on('keyup', function(){
+        // $('input[name=canonical]').on('keyup', function () {
+        //     let input = $(this)
+        //     let value = HT.removeUtf8(input.val())
+        //     $('.canonical').html(BASE_URL + value + SUFFIX)
+        // })
+
+        $('textarea[name=meta_description]').on('keyup', function () {
             let input = $(this)
             let value = input.val()
             $('.meta-description').html(value)
@@ -31,6 +39,7 @@
     }
 
     HT.removeUtf8 = (str) => {
+        console.log(123213);
         str = str.toLowerCase(); // chuyen ve ki tu biet thuong
         str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
         str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
@@ -48,10 +57,11 @@
 
 
 
-	$(document).ready(function(){
+    $(document).ready(function () {
         HT.seoPreview()
-	});
+        HT.convertInput()
+    });
 
-    
+
 
 })(jQuery);

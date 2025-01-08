@@ -288,7 +288,33 @@
                         <div class="section-title">
                             <h4>Hot Trend</h4>
                         </div>
-                        <div class="trend__item">
+                        @if (!is_null($widgets['hot-trend']))
+                            @foreach ($widgets['hot-trend'] as $key => $val)
+                                @php
+                                    $name = $val->languages->first()->pivot->name;
+                                    $canonical = write_url($val->languages->first()->pivot->canonical);
+                                    $image = $val->image;
+                                    $price = convert_price($val->price);
+                                @endphp
+                                <div class="trend__item">
+                                    <div class="trend__item__pic">
+                                        <img src="{{ $image }}" alt="" width="90px" height="90px">
+                                    </div>
+                                    <div class="trend__item__text">
+                                        <h6>{{ $name }}</h6>
+                                        <div class="rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
+                                        <div class="product__price">{{ $price }}</div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                        {{-- <div class="trend__item">
                             <div class="trend__item__pic">
                                 <img src="frontend/img/trend/ht-1.jpg" alt="">
                             </div>
@@ -335,7 +361,7 @@
                                 </div>
                                 <div class="product__price">$ 59.0</div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6">

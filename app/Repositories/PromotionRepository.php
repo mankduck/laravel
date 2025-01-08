@@ -34,7 +34,6 @@ class PromotionRepository extends BaseRepository implements PromotionRepositoryI
 
             ->selectRaw(
                 "
-                MAX(
                 IF(
                     promotions.maxDiscountValue != 0,
                     LEAST(
@@ -50,7 +49,6 @@ class PromotionRepository extends BaseRepository implements PromotionRepositoryI
                         WHEN discountType = 'percent' THEN products.price * discountValue / 100 
                         ELSE 0 
                     END 
-                    )
             ) AS discount
             "
             )
@@ -58,8 +56,10 @@ class PromotionRepository extends BaseRepository implements PromotionRepositoryI
             ->join('products', 'products.id', '=', 'ppv.product_id')
             ->where('products.publish', 2)
             ->where('promotions.publish', 2)
-            ->whereIn('products.id', $productId)
-            ->whereDate('promotions.endDate', '>', now())
+            ->whereIn('ppv.product_id', $productId)
+            ->where(function ($query) {
+                $query->whereDate('promotions.endDate', '>', now())->orWhereNull('promotions.endDate');
+            })
             ->orderBy('discount', 'asc')
 
             ->groupBy(
@@ -67,6 +67,6 @@ class PromotionRepository extends BaseRepository implements PromotionRepositoryI
                 'promotions.id',
             )
             // ->havingRaw('MAX(discount)')
-            ->get()->toArray();
+            ->get();
     }
 }
