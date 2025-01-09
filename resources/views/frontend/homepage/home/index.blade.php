@@ -309,7 +309,7 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                         </div>
-                                        <div class="product__price">{{ $price }}</div>
+                                        <div class="product__price">{{ number_format_custom($price) }}</div>
                                     </div>
                                 </div>
                             @endforeach

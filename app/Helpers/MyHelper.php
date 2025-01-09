@@ -11,6 +11,18 @@ if (!function_exists('convert_price')) {
 }
 
 
+if (!function_exists('number_format_custom')) {
+    function number_format_custom($price = '')
+    {
+
+        if (is_numeric($price)) {
+            return number_format($price) . 'đ';
+
+        }
+        return $price;
+    }
+}
+
 if (!function_exists('formatDateTable')) {
     function formatDateTable($amount)
     {
