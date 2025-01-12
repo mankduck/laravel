@@ -35,21 +35,23 @@ class HomeController extends FrontendController
 
         ];
 
-        // $widget = $this->widgetService->getWidget([
-        //     ['keyword' => 'new-product', 'children' => true, 'object' => true, 'countObject' => true]
-        // ], $this->language);
-
-
-
         $slides = $this->slideRepository->findByCondition(...$this->slideAgrument());
         if ($slides) {
             $slideItems = $slides->item[$this->language];
         } else {
             $slideItems = [];
-        }
-        ;
+        };
 
-        return view('frontend.homepage.home.index', compact('slides', 'slideItems', 'widgets'));
+        $system = $this->system;
+
+        $seo = [
+            'meta_title' => $system['seo_meta_title'],
+            'meta_keyword' => $system['seo_meta_keyword'],
+            'meta_description' => $system['seo_meta_description'],
+            'canonical' => config('app.url'),
+        ];
+
+        return view('frontend.homepage.home.index', compact('slides', 'slideItems', 'widgets', 'seo', 'system'));
     }
 
     private function slideAgrument()

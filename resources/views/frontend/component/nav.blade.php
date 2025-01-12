@@ -1,8 +1,5 @@
 <header class="header">
     <div class="container-fluid">
-        {{-- <div class="row">
-            a
-        </div> --}}
         <div class="row">
             <div class="col-xl-3 col-lg-2">
                 <div class="header__logo">

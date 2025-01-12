@@ -20,17 +20,17 @@
                         <input type="checkbox" value="{{ $slide->id }}" class="input-checkbox checkBoxItem">
                     </td>
                     <td>
-                        {{$slide->name}}
+                        {{ $slide->name }}
                     </td>
                     <td>
-                        {{$slide->keyword}}
+                        {{ $slide->keyword }}
                     </td>
                     <td>
-                        @foreach ($slide->item as $key => $val)
+                        {{-- @foreach ($slide->item as $key => $val)
                             @foreach ($val as $item)
-                                <img src="{{$item['image']}}" width="50px" height="30px" alt="">
+                                <img src="{{ $item['image'] }}" width="50px" height="30px" alt="">
                             @endforeach
-                        @endforeach
+                        @endforeach --}}
                     </td>
                     <td class="text-center js-switch-{{ $slide->id }}">
                         <input type="checkbox" value="{{ $slide->publish }}" class="js-switch status "

@@ -103,7 +103,7 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('frontend.layout', function ($view) use ($language) {
             $composerClasses = [
-                SystemComposer::class,
+                // SystemComposer::class,
                 MenuComposer::class,
                 LanguageComposer::class
             ];

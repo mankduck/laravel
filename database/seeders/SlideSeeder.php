@@ -20,32 +20,7 @@ class SlideSeeder extends Seeder
                 'name' => 'Main Slide',
                 'keyword' => 'main-slide',
                 'description' => null,
-                'item' => json_encode([
-                    [
-                        "image" => "/userfiles/image/Slides/banner-1.jpg",
-                        "name" => null,
-                        "description" => null,
-                        "canonical" => null,
-                        "alt" => null,
-                        "window" => ""
-                    ],
-                    [
-                        "image" => "/userfiles/image/Slides/banner-2.jpg",
-                        "name" => null,
-                        "description" => null,
-                        "canonical" => null,
-                        "alt" => null,
-                        "window" => ""
-                    ],
-                    [
-                        "image" => "/userfiles/image/Slides/banner-3.jpg",
-                        "name" => null,
-                        "description" => null,
-                        "canonical" => null,
-                        "alt" => null,
-                        "window" => ""
-                    ]
-                ]),
+                'item' => '{"1":[{"image":"\/userfiles\/image\/Slides\/banner-1.jpg","name":null,"description":null,"canonical":null,"alt":null,"window":""},{"image":"\/userfiles\/image\/Slides\/banner-2.jpg","name":null,"description":null,"canonical":null,"alt":null,"window":""},{"image":"\/userfiles\/image\/Slides\/banner-3.jpg","name":null,"description":null,"canonical":null,"alt":null,"window":""}]}',
                 'publish' => 1,
                 'setting' => json_encode([
                     "animation" => "coverflow",
