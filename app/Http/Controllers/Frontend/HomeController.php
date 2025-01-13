@@ -30,10 +30,12 @@ class HomeController extends FrontendController
         $widgets = [
             // 'new-product' => $this->widgetService->findWidgetByKeyword('new-product', $this->language, ['children' => true])
             'new-product' => $this->widgetService->findWidgetByKeyword('new-product', $this->language, ['children' => true, 'object' => true, 'countObject' => true]),
-            'hot-trend' => $this->widgetService->findWidgetByKeyword('hot-trend', $this->language)
+            'new-shirt' => $this->widgetService->findWidgetByKeyword('new-shirt', $this->language)
 
 
         ];
+
+        // dd($widgets['new-product']);
 
         $slides = $this->slideRepository->findByCondition(...$this->slideAgrument());
         if ($slides) {

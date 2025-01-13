@@ -53,7 +53,6 @@ use App\Http\Controllers\Frontend\RouterController;
 /* FRONTEND ROUTE */
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
-Route::get('{canonical}', [RouterController::class, 'index'])->name('router.index');
 
 
 
@@ -277,3 +276,7 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
 Route::get('admin', [AuthController::class, 'admin'])->name('auth.admin')->middleware('login');
 Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::post('login', [AuthController::class, 'login'])->name('auth.login');
+
+
+
+Route::get('{canonical}', [RouterController::class, 'index'])->name('router.index');

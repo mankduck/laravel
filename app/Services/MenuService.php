@@ -82,17 +82,16 @@ class MenuService extends BaseService implements MenuServiceInterface
                             );
                         }
                     }
-
-                    // dd($menuArray);
                     if ($menu->id > 0) {
                         $menu->languages()->detach([$languageId, $menu->id]);
-                        // dd($menu); die;
+                        // var_dump($menu->id);
                         $payloadLanguage = [
                             'language_id' => $languageId,
                             'name' => $val,
                             'canonical' => $payload['menu']['canonical'][$key]
                         ];
 
+                        // var_dump($payloadLanguage);
 
                         $this->menuRepository->createPivot($menu, $payloadLanguage, 'languages');
                     }

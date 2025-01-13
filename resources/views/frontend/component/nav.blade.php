@@ -6,14 +6,14 @@
                     <a href="./index.html"><img src="frontend/img/logo.png" alt=""></a>
                 </div>
             </div>
-            <div class="col-xl-6 col-lg-7">
+            <div class="col-xl-6 col-lg-8">
                 <nav class="header__menu">
                     @if (isset($menu['menu-header']))
                         {!! $menu['menu-header'] !!}
                     @endif
                 </nav>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <div class="header__right">
                     <div class="header__right__auth">
                         <a href="#">Login</a>

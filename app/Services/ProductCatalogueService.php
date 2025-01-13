@@ -116,7 +116,7 @@ class ProductCatalogueService extends BaseService implements ProductCatalogueSer
         DB::beginTransaction();
         try{
             $productCatalogue = $this->productCatalogueRepository->delete($id);
-            $this->routerRepository->deleteByCondition([
+            $this->routerRepository->forceDeleteByCondition([
                 ['module_id', '=', $id],
                 ['controllers', '=', 'App\Http\Controllers\Frontend\ProductCatalogueController'],
             ]);

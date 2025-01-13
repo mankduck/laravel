@@ -5,7 +5,7 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
                         <a href="/"><i class="fa fa-home"></i> Trang chủ</a>
-                        @if (!is_null($breadcrumb))
+                        @if (isset($breadcrumb) && !is_null($breadcrumb))
                             @php
                             @endphp
                             @foreach ($breadcrumb as $key => $val)

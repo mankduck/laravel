@@ -24,6 +24,7 @@ class ProductCatalogueController extends FrontendController
     public function index($id, $request)
     {
         $productCatalogue = $this->productCatalogueRepository->getProductCatalogueById($id, $this->language);
+        // dd($productCatalogue);
         $breadcrumb = $this->productCatalogueRepository->breadcrumb($productCatalogue, $this->language);
         $products = $this->productService->paginate($request, $this->language, $productCatalogue, ['path' => $productCatalogue->canonical]);
 
@@ -31,6 +32,7 @@ class ProductCatalogueController extends FrontendController
         if(count($productId) && !is_null($productId)){
             $products = $this->productService->comebineProductAndPromotion($productId, $products);
         }
+        // dd($products);
         $system = $this->system;
         $seo = seo($productCatalogue);
 
