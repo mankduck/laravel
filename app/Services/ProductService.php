@@ -44,7 +44,7 @@ class ProductService extends BaseService implements ProductServiceInterface
         $this->promotionRepository = $promotionRepository;
     }
 
-    public function paginate($request, $languageId)
+    public function paginate($request, $languageId, $productCatalogue = null, $extend = [])
     {
         $perPage = $request->integer('perpage');
         $condition = [
@@ -55,12 +55,12 @@ class ProductService extends BaseService implements ProductServiceInterface
             ],
         ];
         $paginationConfig = [
-            'path' => 'product.index',
+            'path' => ($extend['path']) ?? 'product.index',
             'groupBy' => $this->paginateSelect()
         ];
         $orderBy = ['products.id', 'DESC'];
         $relations = ['product_catalogues'];
-        $rawQuery = $this->whereRaw($request, $languageId);
+        $rawQuery = $this->whereRaw($request, $languageId, $productCatalogue);
         // dd($rawQuery);
         $joins = [
             ['product_language as tb2', 'tb2.product_id', '=', 'products.id'],
@@ -159,7 +159,8 @@ class ProductService extends BaseService implements ProductServiceInterface
         }
     }
 
-    public function comebineProductAndPromotion($productId = [], $products = []){
+    public function comebineProductAndPromotion($productId = [], $products = [])
+    {
         $promotions = $this->promotionRepository->findByProduct(productId: $productId);
         if ($promotions) {
             foreach ($products as $index => $product) {
@@ -173,6 +174,7 @@ class ProductService extends BaseService implements ProductServiceInterface
         }
         return $products;
     }
+
 
 
     private function createVariant($product, $request, $languageId)
@@ -229,6 +231,7 @@ class ProductService extends BaseService implements ProductServiceInterface
 
 
     }
+
 
 
     private function comebineAttribute($attributes = [], $index = 0)
@@ -325,10 +328,11 @@ class ProductService extends BaseService implements ProductServiceInterface
     }
 
 
-    private function whereRaw($request, $languageId)
+    private function whereRaw($request, $languageId, $productCatalogue = null)
     {
         $rawCondition = [];
-        if ($request->integer('product_catalogue_id') > 0) {
+        if ($request->integer('product_catalogue_id') > 0 || !is_null($productCatalogue)) {
+            $catId = ($request->integer('product_catalogue_id') > 0) ? $request->integer('product_catalogue_id') : $productCatalogue->id;
             $rawCondition['whereRaw'] = [
                 [
                     'tb3.product_catalogue_id IN (
@@ -339,7 +343,7 @@ class ProductService extends BaseService implements ProductServiceInterface
                         AND rgt <= (SELECT rgt FROM product_catalogues as pc WHERE pc.id = ?)
                         AND product_catalogue_language.language_id = ' . $languageId . '
                     )',
-                    [$request->integer('product_catalogue_id'), $request->integer('product_catalogue_id')]
+                    [$catId, $catId]
                 ]
             ];
         }

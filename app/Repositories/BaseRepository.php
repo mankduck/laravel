@@ -177,5 +177,15 @@ class BaseRepository implements BaseRepositoryInterface
     }
 
 
-
+    public function breadcrumb($model, $language){
+        return $this->findByCondition([
+            ['lft', '<=', $model->lft],
+            ['rgt', '>=', $model->rgt],
+            config('apps.general.defaultPublish')
+        ], true, [
+            'languages' => function($query) use ($language){
+                $query->where('language_id', $language);
+            }
+        ], ['lft', 'ASC']);
+    }
 }

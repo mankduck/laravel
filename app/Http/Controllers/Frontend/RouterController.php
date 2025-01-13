@@ -16,14 +16,14 @@ class RouterController extends FrontendController
         parent::__construct();
         $this->routerRepository = $routerRepository;
     }
-    public function index(string $canonical = '') {
+    public function index(string $canonical = '', Request $request) {
         $router = $this->routerRepository->findByCondition([
             ['canonical', '=', $canonical],
             ['language_id', '=', $this->language]
         ]);
         if(!is_null($router) && !empty($router)){
             $method = 'index';
-            echo app($router->controllers)->{$method}($router->module_id, $this->language);
+            echo app($router->controllers)->{$method}($router->module_id, $request);
         }
     }
 

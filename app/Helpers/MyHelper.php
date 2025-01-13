@@ -285,3 +285,15 @@ if (!function_exists('convertArrayByKey')) {
         return $temp;
     }
 }
+
+if (!function_exists('seo')) {
+    function seo($model = null)
+    {
+        return [
+            'meta_title' => ($model->meta_title) ?? $model->name,
+            'meta_keyword' => ($model->meta_keyword) ??'',
+            'meta_description' => ($model->meta_description) ?? $model->description,
+            'canonical' => $model->canonical,
+        ];
+    }
+}

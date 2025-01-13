@@ -1,7 +1,7 @@
 @extends('frontend.layout')
 @section('contentUser')
     {{-- @dd($productCatalogue->name) --}}
-    @include('frontend.component.breadcrumb', ['breadcrumb' => $productCatalogue->name])
+    @include('frontend.component.breadcrumb', ['name' => $productCatalogue->name, 'breadcrumb' => $breadcrumb])
 
     <section class="shop spad">
         <div class="container">
