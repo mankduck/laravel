@@ -1,9 +1,35 @@
 <?php
 
+use App\Enums\PromotionEnum;
+use Carbon\Carbon;
+
 if (!function_exists('convert_price')) {
     function convert_price(string $price = '')
     {
         return str_replace('.', '', $price);
+    }
+}
+
+
+if (!function_exists('number_format_custom')) {
+    function number_format_custom($price = '')
+    {
+
+        if (is_numeric($price)) {
+            return number_format($price) . 'đ';
+
+        }
+        return $price;
+    }
+}
+
+if (!function_exists('formatDateTable')) {
+    function formatDateTable($amount)
+    {
+        if ($amount == null || $amount == '') {
+            return '';
+        }
+        return Carbon::parse($amount)->format('d-m-Y H:i');
     }
 }
 
@@ -25,6 +51,22 @@ if (!function_exists('convert_array')) {
         }
 
         return $temp;
+    }
+}
+
+
+if (!function_exists('renderDiscountInformation')) {
+    function renderDiscountInformation($promotion)
+    {
+        // dd($promotion);
+        if ($promotion->method === PromotionEnum::PRODUCT_AND_QUANTITY) {
+            $discountValue = $promotion->discountInformation['info']['discountValue'];
+            $discountType = ($promotion->discountInformation['info']['discountType'] == 'percent') ? '%' : 'đ';
+
+
+            return '<div class="label label-success">' . $discountValue . $discountType . '</div>';
+        }
+        return '<div><a href="' . route('promotion.edit', $promotion->id) . '">Xem chi tiet</a></div>';
     }
 }
 
@@ -177,12 +219,9 @@ if (!function_exists('recursive_menu')) {
                     $html .= "<ol class='dd-list'>";
                     $html .= recursive_menu($val['children']);
                     $html .= "</ol>";
-
                 }
 
                 $html .= "</li>";
-
-
             }
         }
 
@@ -222,7 +261,6 @@ if (!function_exists('loadClass')) {
 
         return $serviceInstance;
     }
-
 }
 
 if (!function_exists('convertArrayByKey')) {
@@ -246,6 +284,16 @@ if (!function_exists('convertArrayByKey')) {
 
         return $temp;
     }
-
 }
 
+if (!function_exists('seo')) {
+    function seo($model = null)
+    {
+        return [
+            'meta_title' => ($model->meta_title) ?? $model->name,
+            'meta_keyword' => ($model->meta_keyword) ??'',
+            'meta_description' => ($model->meta_description) ?? $model->description,
+            'canonical' => $model->canonical,
+        ];
+    }
+}

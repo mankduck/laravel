@@ -63,6 +63,7 @@ class SlideController extends Controller
             'model' => 'Slide'
         ];
         $slides = $this->slideService->paginate($request);
+        // dd($slides);
 
         // dd($users);
         $config['seo'] = __('messages.slide');

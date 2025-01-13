@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\PromotionEnum;
 use App\Services\Interfaces\PromotionServiceInterface;
 use App\Repositories\Interfaces\PromotionRepositoryInterface as PromotionRepository;
 use Illuminate\Support\Facades\DB;
@@ -49,14 +50,13 @@ class PromotionService extends BaseService implements PromotionServiceInterface
         DB::beginTransaction();
         try {
 
-            $payload = $request->only('name', 'keyword', 'short_code', 'description', 'album', 'model');
-            $payload['model_id'] = $request->input('modelItem.id');
-            $payload['description'] = [
+            $payload = $this->requestPayload($request);
 
-                $languageId => $payload['description']
-            ];
-            // dd($payload);
             $promotion = $this->promotionRepository->create($payload);
+
+            if ($promotion->id > 0) {
+                $this->handlePromotion($request, $promotion);
+            }
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -69,18 +69,17 @@ class PromotionService extends BaseService implements PromotionServiceInterface
     }
 
 
+
     public function update($id, $request, $languageId)
     {
         DB::beginTransaction();
         try {
 
-            $payload = $request->only('name', 'keyword', 'short_code', 'description', 'album', 'model');
-            $payload['model_id'] = $request->input('modelItem.id');
-            $payload['description'] = [
-
-                $languageId => $payload['description']
-            ];
+            $payload = $this->requestPayload($request);
             $promotion = $this->promotionRepository->update($id, $payload);
+            if ($promotion->id > 0) {
+                $this->handlePromotion($request, $promotion, 'update');
+            }
             DB::commit();
             return true;
         } catch (\Exception $e) {
@@ -96,7 +95,7 @@ class PromotionService extends BaseService implements PromotionServiceInterface
     {
         DB::beginTransaction();
         try {
-            $promotion = $this->promotionRepository->SoftDeletes($id);
+            $promotion = $this->promotionRepository->delete($id);
 
             DB::commit();
             return true;
@@ -109,6 +108,102 @@ class PromotionService extends BaseService implements PromotionServiceInterface
         }
     }
 
+    private function requestPayload($request)
+    {
+        $payload = $request->only(
+            'name',
+            'code',
+            'description',
+            'method',
+            'startDate',
+            'endDate',
+            'endDate',
+            'endDate',
+            'endDate',
+            'neverEndDate'
+        );
+        $payload['maxDiscountValue'] = convert_price($request->input(PromotionEnum::PRODUCT_AND_QUANTITY . '.maxDiscountValue'));
+        $payload['discountValue'] = convert_price($request->input(PromotionEnum::PRODUCT_AND_QUANTITY . '.discountValue'));
+        $payload['discountType'] = $request->input(PromotionEnum::PRODUCT_AND_QUANTITY . '.discountType');
+
+        $payload['code'] = (empty($payload['code'])) ? time() : $payload['code'];
+
+        switch ($payload['method']) {
+            case PromotionEnum::ORDER_AMOUNT_RANGE:
+                $payload[PromotionEnum::DISCOUNT_INFORMATION] = $this->orderAmountRange($request);
+                break;
+            case PromotionEnum::PRODUCT_AND_QUANTITY:
+                $payload[PromotionEnum::DISCOUNT_INFORMATION] = $this->productAndQuantity($request);
+                break;
+        }
+
+        return $payload;
+    }
+
+
+    private function handlePromotion($request, $promotion, $method = 'create')
+    {
+        if ($request->input('method') === PromotionEnum::PRODUCT_AND_QUANTITY) {
+
+            $object = $request->input('object');
+            $payloadRelation = [];
+            if (!is_null($object)) {
+                foreach ($object['id'] as $key => $value) {
+                    $payloadRelation[] = [
+                        'product_id' => $value,
+                        'variant_uuid' => $object['variant_uuid'][$key],
+                        'model' => $request->input(PromotionEnum::MODULE_TYPE)
+                    ];
+                }
+            }
+            if ($method == 'update') {
+                $promotion->products()->detach([]);
+            }
+            $promotion->products()->sync($payloadRelation);
+        }
+    }
+
+    private function handleSourceAndCondition($request)
+    {
+        $data = [
+            'source' => [
+                'status' => $request->input('source'),
+                'data' => $request->input('sourceValue'),
+            ],
+            'apply' => [
+                'status' => $request->input('applyStatus'),
+                'data' => $request->input('applyValue'),
+            ]
+        ];
+
+        if (!is_null($data['apply']['data'])) {
+            foreach ($data['apply']['data'] as $key => $value) {
+                $data['apply']['condition'][$value] = $request->input($value);
+            }
+        }
+
+        return $data;
+    }
+
+
+    private function orderAmountRange($request)
+    {
+        $data['info'] = $request->input('promotion_order_amount_range');
+
+        return $data + $this->handleSourceAndCondition($request);
+    }
+
+    private function productAndQuantity($request)
+    {
+        $data['info'] = $request->input('product_and_quantity');
+        $data['info']['model'] = $request->input(PromotionEnum::MODULE_TYPE);
+        $data['info']['object'] = $request->input('object');
+
+        return $data + $this->handleSourceAndCondition($request);
+    }
+
+
+
     public function saveTranslate($request, $languageId)
     {
         DB::beginTransaction();
@@ -118,7 +213,7 @@ class PromotionService extends BaseService implements PromotionServiceInterface
             $promotion = $this->promotionRepository->findById($request->input('promotionId'));
             $temp = $promotion->description;
             $temp[$translateId] = $request->input('translate_description');
-            $payload ['description'] = $temp;
+            $payload['description'] = $temp;
             $promotion = $this->promotionRepository->update($promotion->id, $payload);
 
             DB::commit();
@@ -136,13 +231,15 @@ class PromotionService extends BaseService implements PromotionServiceInterface
     {
         return [
             'id',
-            'keyword',
-            'short_code',
-            'description',
             'name',
-            'publish'
+            'code',
+            'discountInformation',
+            'method',
+            'neverEndDate',
+            'startDate',
+            'endDate',
+            'publish',
+            'order',
         ];
     }
-
-
 }

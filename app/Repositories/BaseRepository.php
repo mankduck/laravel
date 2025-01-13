@@ -125,7 +125,8 @@ class BaseRepository implements BaseRepositoryInterface
         $flag = false,
         $relation = [],
         array $orderBy = ['id', 'desc'],
-        array $param = []
+        array $param = [],
+        array $withCount = []
     ) {
         $query = $this->model->newQuery();
         foreach ($condition as $key => $val) {
@@ -137,6 +138,7 @@ class BaseRepository implements BaseRepositoryInterface
         }
 
         $query->with($relation);
+        $query->withCount($withCount);
         $query->orderBy($orderBy[0], $orderBy[1]);
         return ($flag == false) ? $query->first() : $query->get();
     }
@@ -175,5 +177,15 @@ class BaseRepository implements BaseRepositoryInterface
     }
 
 
-
+    public function breadcrumb($model, $language){
+        return $this->findByCondition([
+            ['lft', '<=', $model->lft],
+            ['rgt', '>=', $model->rgt],
+            config('apps.general.defaultPublish')
+        ], true, [
+            'languages' => function($query) use ($language){
+                $query->where('language_id', $language);
+            }
+        ], ['lft', 'ASC']);
+    }
 }

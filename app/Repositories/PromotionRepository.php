@@ -19,4 +19,54 @@ class PromotionRepository extends BaseRepository implements PromotionRepositoryI
     ) {
         $this->model = $model;
     }
+
+    public function findByProduct($productId = [])
+    {
+        // dd($productId);
+        return $this->model->select(
+            'promotions.id as promotion_id',
+            'promotions.discountValue',
+            'promotions.discountType',
+            'promotions.maxDiscountValue',
+            'products.id as product_id',
+            'products.price'
+        )
+
+            ->selectRaw(
+                "
+                IF(
+                    promotions.maxDiscountValue != 0,
+                    LEAST(
+                    CASE 
+                        WHEN discountType = 'cash' THEN discountValue 
+                        WHEN discountType = 'percent' THEN products.price * discountValue / 100 
+                        ELSE 0 
+                        END, 
+                        promotions.maxDiscountValue
+                    ),
+                    CASE 
+                        WHEN discountType = 'cash' THEN discountValue 
+                        WHEN discountType = 'percent' THEN products.price * discountValue / 100 
+                        ELSE 0 
+                    END 
+            ) AS discount
+            "
+            )
+            ->join('promotion_product_variant as ppv', 'ppv.promotion_id', '=', 'promotions.id')
+            ->join('products', 'products.id', '=', 'ppv.product_id')
+            ->where('products.publish', 2)
+            ->where('promotions.publish', 2)
+            ->whereIn('ppv.product_id', $productId)
+            ->where(function ($query) {
+                $query->whereDate('promotions.endDate', '>', now())->orWhereNull('promotions.endDate');
+            })
+            ->orderBy('discount', 'asc')
+
+            ->groupBy(
+                'product_id',
+                'promotions.id',
+            )
+            // ->havingRaw('MAX(discount)')
+            ->get();
+    }
 }

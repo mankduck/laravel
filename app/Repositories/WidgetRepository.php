@@ -20,5 +20,14 @@ class WidgetRepository extends BaseRepository implements WidgetRepositoryInterfa
         $this->model = $model;
     }
 
-
+    public function getWidgetByWhereIn($whereIn = [], $whereInField = 'keyword')
+    {
+        // dd($whereIn);
+        return $this->model->where([
+            config('apps.general.defaultPublish')
+        ])
+            ->whereIn($whereInField, $whereIn)
+            ->orderByRaw("FIELD(keyword, '" . implode("','", $whereIn) . "')")
+            ->get();
+    }
 }

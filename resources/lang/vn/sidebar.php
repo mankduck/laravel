@@ -1,6 +1,41 @@
 <?php
 return [
     'module' => [
+
+        [
+            'title' => 'QL Nhóm Thành Viên',
+            'icon' => 'fa fa-user',
+            'name' => ['user', 'permission'],
+            'subModule' => [
+                [
+                    'title' => 'QL Nhóm Thành Viên',
+                    'route' => 'user/catalogue/index'
+                ],
+                [
+                    'title' => 'QL Thành Viên',
+                    'route' => 'user/index'
+                ],
+                [
+                    'title' => 'QL Quyền',
+                    'route' => 'permission/index'
+                ]
+            ]
+        ],
+        [
+            'title' => 'QL Nhóm Khách Hàng',
+            'icon' => 'fa fa-user',
+            'name' => ['customer', 'permission'],
+            'subModule' => [
+                [
+                    'title' => 'QL Nhóm Khách Hàng',
+                    'route' => 'customer/catalogue/index'
+                ],
+                [
+                    'title' => 'QL Khách Hàng',
+                    'route' => 'customer/index'
+                ],
+            ]
+        ],
         [
             'title' => 'QL Sản Phẩm',
             'icon' => 'fa fa-cube',
@@ -53,25 +88,6 @@ return [
                 [
                     'title' => 'QL Bài Viết',
                     'route' => 'post/index'
-                ]
-            ]
-        ],
-        [
-            'title' => 'QL Nhóm Thành Viên',
-            'icon' => 'fa fa-user',
-            'name' => ['user', 'permission'],
-            'subModule' => [
-                [
-                    'title' => 'QL Nhóm Thành Viên',
-                    'route' => 'user/catalogue/index'
-                ],
-                [
-                    'title' => 'QL Thành Viên',
-                    'route' => 'user/index'
-                ],
-                [
-                    'title' => 'QL Quyền',
-                    'route' => 'permission/index'
                 ]
             ]
         ],

@@ -343,11 +343,15 @@
     }
 
     HT.deleteVariantAlbum = () => {
+        
         $(document).on('click', '.variant-delete-image', function () {
+
             let _this = $(this)
             _this.parents('.ui-state-default').remove()
+            
             if ($('.ui-state-default').length == 0) {
                 $('.click-to-upload-variant').removeClass('hidden')
+                
                 $('.upload-variant-list').addClass('hidden')
             }
         })

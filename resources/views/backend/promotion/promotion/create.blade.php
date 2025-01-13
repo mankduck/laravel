@@ -3,7 +3,7 @@
     @include('backend.dashboard.component.breadcrumb', ['title' => $config['seo']['create']['title']])
     @include('backend.dashboard.component.formError')
     @php
-        $url = $config['method'] == 'create' ? route('widget.store') : route('widget.update', $widget->id);
+        $url = $config['method'] == 'create' ? route('promotion.store') : route('promotion.update', $promotion->id);
     @endphp
     <form action="{{ $url }}" method="post" class="box">
         @csrf
@@ -29,11 +29,10 @@
                                 <div class="col-lg-6">
                                     <div class="form-row">
                                         <label for=""
-                                            class="control-label text-left">{{ __('messages.promotion.createPromotion.code') }}<span
-                                                class="text-danger">(*)</span></label>
+                                            class="control-label text-left">{{ __('messages.promotion.createPromotion.code') }}</label>
                                         <input type="text" name="code"
                                             value="{{ old('code', $promotion->code ?? '') }}" class="form-control"
-                                            placeholder="" autocomplete="off" {{ isset($disabled) ? 'disabled' : '' }}>
+                                            placeholder="{{ __('messages.promotion.createPromotion.placeholder') }}" autocomplete="off" {{ isset($disabled) ? 'disabled' : '' }}>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -59,7 +58,7 @@
                                 <label for=""
                                     class="control-label text-left mb10">{{ __('messages.promotion.createPromotion.formPromotion') }}<span
                                         class="text-danger">(*)</span></label>
-                                <select name="" class="setupSelect2 promotionMethod" id="">
+                                <select name="method" class="setupSelect2 promotionMethod" id="">
                                     <option value="">Chọn hình thức</option>
                                     @foreach (__('module.promotion') as $key => $val)
                                         <option value="{{ $key }}">{{ $val }}</option>
@@ -67,7 +66,6 @@
                                 </select>
                             </div>
                             <div class="promotion-container">
-                                
                             </div>
                         </div>
                     </div>

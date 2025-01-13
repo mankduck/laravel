@@ -16,7 +16,7 @@
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__close">+</div>
         <ul class="offcanvas__widget">
-            <li><span class="icon_search search-switch"></span></li>
+            {{-- <li><span class="icon_search search-switch"></span></li> --}}
             <li><a href="#"><span class="icon_heart_alt"></span>
                     <div class="tip">2</div>
                 </a></li>
@@ -50,19 +50,21 @@
     <!-- Footer Section End -->
 
     <!-- Search Begin -->
-    <div class="search-model">
+    {{-- <div class="search-model">
         <div class="h-100 d-flex align-items-center justify-content-center">
             <div class="search-close-switch">+</div>
             <form class="search-model-form">
                 <input type="text" id="search-input" placeholder="Search here.....">
             </form>
         </div>
-    </div>
+    </div> --}}
     <!-- Search End -->
 
     <!-- Js Plugins -->
     <script src="{{ asset('frontend/js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('frontend/js/bootstrap.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="{{ asset('frontend/js/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ asset('frontend/js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('frontend/js/mixitup.min.js') }}"></script>

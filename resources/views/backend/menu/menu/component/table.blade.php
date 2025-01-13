@@ -33,8 +33,8 @@
                     <td class="text-center">
                         <a href="{{ route('menu.edit', $menuCatalogue->id) }}" class="btn btn-success"><i
                                 class="fa fa-edit"></i></a>
-                        <a href="{{ route('menu.delete', $menuCatalogue->id) }}" class="btn btn-danger"><i
-                                class="fa fa-trash"></i></a>
+                        {{-- <a href="{{ route('menu.delete', $menuCatalogue->id) }}" class="btn btn-danger"><i
+                                class="fa fa-trash"></i></a> --}}
                     </td>
                 </tr>
             @endforeach

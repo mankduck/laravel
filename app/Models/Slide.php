@@ -28,5 +28,4 @@ class Slide extends Model
         'item' => 'json',
         'setting' => 'json'
     ];
-
 }

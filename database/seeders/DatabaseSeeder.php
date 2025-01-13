@@ -18,7 +18,11 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             PermissionSeeder::class,
             LanguageSeeder::class,
-            SystemSeeder::class
+            SystemSeeder::class,
+            ProductCatalogueSeeder::class,
+            AttributeCatalogueSeeder::class,
+            MenuSeeder::class,
+            SlideSeeder::class
         ]);
     }
 }
