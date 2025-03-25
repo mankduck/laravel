@@ -122,6 +122,12 @@ return [
                 ],
 
             ]
-        ]
+            ],
+            [
+                'title' => 'Về Trang Chủ',
+                'icon' => 'fa fa-home',
+                'name' => ['home'],
+                'route' => '/'
+            ]
     ],
 ];

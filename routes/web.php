@@ -276,7 +276,8 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
 
 
 
-Route::get('admin', [AuthController::class, 'admin'])->name('auth.admin')->middleware('login');
+// Route::get('admin', [AuthController::class, 'admin'])->name('auth.admin')->middleware('login');
+Route::get('signin', [AuthController::class, 'signin'])->name('auth.signin');
 Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::post('login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('my-cart', [CartController::class, 'index'])->name('cart.index');

@@ -37,13 +37,13 @@
                                                     </h6>
                                                 </div>
                                             </td>
-                                            <td class="cart__price">${{ $item->price }}</td>
+                                            <td class="cart__price">{{ $item->price }}đ</td>
                                             <td class="cart__quantity">
                                                 <div class="pro-qty">
                                                     <input type="text" value="{{ $item->total }}">
                                                 </div>
                                             </td>
-                                            <td class="cart__total">${{ $item->price * $item->total }}</td>
+                                            <td class="cart__total">{{ $item->price * $item->total }}đ</td>
                                             <td class="cart__close"><span class="icon_close"></span></td>
                                         </tr>
                                     @endforeach

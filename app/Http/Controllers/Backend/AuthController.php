@@ -17,6 +17,13 @@ class AuthController extends Controller
         return view('backend.auth.login');
     }
 
+    public function signin(){
+        if (Auth::id() > 0) {
+            return redirect()->route('home.index');
+        }
+        return view('backend.auth.login');
+    }
+
     public function login(AuthRequest $request)
     {
         $credentials = [
@@ -24,9 +31,9 @@ class AuthController extends Controller
             'password' => $request->input('password')
         ];
         if (Auth::attempt($credentials)) {
-            return redirect()->route('dashboard.index')->with('success', 'Đăng nhập thành công');
+            return redirect()->route('home.index')->with('success', 'Đăng nhập thành công');
         }
-        return redirect()->route('auth.admin')->with('error', 'Email hoặc Mật khẩu không chính xác');
+        return redirect()->route('auth.signin')->with('error', 'Email hoặc Mật khẩu không chính xác');
     }
 
     public function logout(Request $request)
@@ -34,7 +41,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('auth.admin')->with('success', 'Đăng xuất thành công');
+        return redirect()->route('home.index')->with('success', 'Đăng xuất thành công');
 
     }
 }
