@@ -92,6 +92,7 @@ class ProductService extends BaseService implements ProductServiceInterface
     {
         DB::beginTransaction();
         try {
+            
             $product = $this->createProduct($request);
             if ($product->id > 0) {
                 $this->updateLanguageForProduct($product, $request, $languageId);

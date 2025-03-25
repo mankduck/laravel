@@ -1,4 +1,14 @@
 @extends('frontend.layout')
+@section('styleCustom')
+    <style>
+        .selected {
+            border: 2px solid red;
+            /* Viền màu đỏ khi được chọn */
+            background-color: #f8d7da;
+            /* Màu nền nhạt để dễ nhận biết */
+        }
+    </style>
+@endsection
 @section('contentUser')
     {{-- @dd($productCatalogue->name) --}}
     @include('frontend.component.breadcrumb', [
@@ -58,29 +68,54 @@
                             <div class="product__details__price">{{ $price }}</div>
                             <p>{!! $description !!}</p>
                             <div class="product__details__button">
-                                <div class="quantity">
+                                {{-- <div class="quantity">
                                     <span>Quantity:</span>
                                     <div class="pro-qty">
                                         <input type="text" value="1">
                                     </div>
-                                </div>
-                                <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Thêm vào giỏ</a>
+                                </div> --}}
+                                <button type="button" class="cart-btn btn chooseProductBtn" data-toggle="modal"
+                                    data-target="#choosePrdModal"><span class="icon_bag_alt"></span> Thêm vào giỏ</button>
+                                {{-- <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> Thêm vào giỏ</a> --}}
                                 <ul>
-                                    <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                    <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
+                                    {{-- <li><a href="#"><span class="icon_heart_alt"></span></a></li> --}}
                                 </ul>
                             </div>
-                            @if (!is_null($attributeCatalogue))
+                            <!-- Modal -->
+                            <div class="modal fade" id="choosePrdModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Chọn sản phẩm</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body choose-prd-modal-body">
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-warning btnAddToCart" data-dismiss="modal"
+                                                data-user-id="{{ Auth::user()->id ?? 0 }}">Thêm vào giỏ</button>
+                                            <button type="button" class="btn btn-danger btnBuyNow">Mua ngay</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- @if (!is_null($attributeCatalogue))
                                 <div class="product__details__widget">
                                     <ul>
                                         @foreach ($attributeCatalogue as $key => $val)
                                             <li>
                                                 <span>{{ $val->name }}:</span>
-                                                <div class="size__btn {{$val->id}}_btn">
+                                                <div class="size__btn {{ $val->id }}_btn">
                                                     @if (!is_null($val->attribute))
                                                         @foreach ($val->attribute as $attr)
                                                             <label for="" class="">
-                                                                <input data-attribute-id="{{$attr->id}}" type="radio" name="{{$val->id}}__radio" id="">
+                                                                <input data-attribute-id="{{ $attr->id }}"
+                                                                    type="radio" name="{{ $key }}__radio"
+                                                                    id="">
                                                                 {{ $attr->name }}
                                                             </label>
                                                         @endforeach
@@ -91,7 +126,7 @@
 
                                     </ul>
                                 </div>
-                            @endif
+                            @endif --}}
 
                         </div>
                     </div>
@@ -248,5 +283,32 @@
                 </div>
             </div>
         </section>
+        @php
+            ($attributeCatalogue == '') ? $attributeCatalogue = [] : $attributeCatalogue;
+            if(isset($attributeCatalogue) && !is_null($attributeCatalogue)){
+                foreach ($attributeCatalogue as $key => $val) {
+                if (!is_null($val->attribute)) {
+                    foreach ($val->attribute as $attr) {
+                        $name = $attr->attribute_language->first()->name;
+                        $attributeNames[$key][] = [
+                            'id' => $attr->id,
+                            'name' => $name,
+                        ];
+                    }
+                }
+            }
+            }
+        @endphp
     @endif
+
+    <script>
+        var attributeItem = '{!! addslashes(json_encode(isset($attributeNames) ? $attributeNames : [])) !!}'
+        var product = '{!! addslashes($product) !!}'
+        var attribute = '{!! addslashes(json_encode(value: isset($product->attribute) ? $product->attribute : [])) !!}'
+        var variant =
+            '{{ base64_encode(json_encode(isset($product->variant) ? json_decode($product->variant, true) : [])) }}'
+    </script>
 @endsection
+@section('scriptFrontend')
+    <script src="{{ asset('frontend/custom/add-to-cart.js') }}"></script>
+@endSection()

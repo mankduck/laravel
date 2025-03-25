@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\ViewComposers\CartComposer;
 use App\Http\ViewComposers\LanguageComposer;
 use App\Http\ViewComposers\MenuComposer;
 use App\Http\ViewComposers\SystemComposer;
@@ -105,7 +106,8 @@ class AppServiceProvider extends ServiceProvider
             $composerClasses = [
                 // SystemComposer::class,
                 MenuComposer::class,
-                LanguageComposer::class
+                LanguageComposer::class,
+                CartComposer::class
             ];
 
             foreach ($composerClasses as $key => $val) {

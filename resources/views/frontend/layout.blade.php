@@ -3,6 +3,7 @@
 
 <head>
     @include('frontend.component.head')
+    @yield('styleCustom')
 </head>
 
 <body>
@@ -75,6 +76,8 @@
     <script src="{{ asset('frontend/js/main.js') }}"></script>
     <script src="{{ asset('frontend/js/function.js') }}"></script>
     <script src="{{ asset('frontend/js/library.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @yield('scriptFrontend')
 </body>
 
 </html>

@@ -186,7 +186,6 @@
                 $('<img>').attr('src', 'https://daks2k3a4ib2z.cloudfront.net/6343da4ea0e69336d8375527/6343da5f04a965c89988b149_1665391198377-image16-p-500.jpg').addClass('imageSrc')
             )
         )
-        console.log(attributeId)
 
         row.append(td)
         Object.values(attributeItem).forEach(value => {

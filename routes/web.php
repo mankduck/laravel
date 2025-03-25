@@ -17,6 +17,7 @@ use App\Http\Controllers\Backend\SystemController;
 use App\Http\Controllers\Backend\UserCatalogueController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\WidgetController;
+use App\Http\Controllers\Frontend\CartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\Ajax\MenuController as AjaxMenuController;
 use App\Http\Controllers\Ajax\LocationController;
 use App\Http\Controllers\Ajax\ProductController as AjaxProductController;
 use App\Http\Controllers\Ajax\SourceController as AjaxSourceController;
+use App\Http\Controllers\Ajax\FrontendController as AjaxFrontendController;
 use App\Http\Controllers\Backend\CustomerCatalogueController;
 use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\SourceController;
@@ -269,6 +271,7 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
     Route::get('ajax/product/loadProductPromotion', [AjaxProductController::class, 'loadProductPromotion'])->name('ajax.product.loadProductPromotion');
     Route::get('ajax/source/getAllSource', [AjaxSourceController::class, 'getAllSource'])->name('ajax.source.getAllSource');
     Route::get('ajax/dashboard/getPromotionConditionValue', [AjaxDashboardController::class, 'getPromotionConditionValue'])->name('ajax.dashboard.getPromotionConditionValue');
+    Route::post('ajax/frontend/addToCart', [AjaxFrontendController::class, 'addToCart'])->name('ajax.frontend.addToCart');
 });
 
 
@@ -276,7 +279,5 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
 Route::get('admin', [AuthController::class, 'admin'])->name('auth.admin')->middleware('login');
 Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::post('login', [AuthController::class, 'login'])->name('auth.login');
-
-
-
+Route::get('my-cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('{canonical}', [RouterController::class, 'index'])->name('router.index');

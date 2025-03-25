@@ -67,4 +67,9 @@ class Product extends Model
                 'model',
             )->withTimestamps();
     }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class, 'product_id', 'id');
+    }
 }

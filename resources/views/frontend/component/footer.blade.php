@@ -9,7 +9,7 @@
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                         cilisis.</p>
                     <div class="footer__payment">
-                        
+
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@
             <div class="col-lg-12">
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 <div class="footer__copyright__text">
-                    <p>Cần hỗ trợ? Liên hệ cho chúng tôi: {{ $system['contact_hotline'] }} <i class="fa fa-heart"
+                    <p>Cần hỗ trợ? Liên hệ cho chúng tôi: {{ $system['contact_hotline'] ?? '' }} <i class="fa fa-heart"
                             aria-hidden="true"></i> Design by <a href="https://colorlib.com" target="_blank">Phgmnhd</a>
                     </p>
                 </div>
