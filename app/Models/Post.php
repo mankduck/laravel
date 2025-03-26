@@ -43,5 +43,14 @@ class Post extends Model
         return $this->belongsToMany(PostCatalogue::class, 'post_catalogue_post', 'post_id', 'post_catalogue_id');
     }
 
+    public function post_language()
+    {
+        return $this->hasMany(PostLanguage::class, 'post_id', 'id')->where('language_id', '=', 1);
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 
 }

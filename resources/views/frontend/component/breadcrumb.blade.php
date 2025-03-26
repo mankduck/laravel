@@ -6,8 +6,6 @@
                     <div class="breadcrumb__links">
                         <a href="/"><i class="fa fa-home"></i> Trang chủ</a>
                         @if (isset($breadcrumb) && !is_null($breadcrumb))
-                            @php
-                            @endphp
                             @foreach ($breadcrumb as $key => $val)
                                 @php
                                     $nameBre = $val->languages->first()->pivot->name;
@@ -15,6 +13,9 @@
                                 @endphp
                                 <span>{{ $nameBre }} {{ $arrow }}</span>
                             @endforeach
+                        @endif
+                        @if (isset($name))
+                            <span>{{ $name }}</span>
                         @endif
                     </div>
                 </div>

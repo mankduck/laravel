@@ -21,7 +21,35 @@
         </div>
     </section>
 @endif --}}
+@section('styleCustom')
+    <style>
+        .slide-item {
+            position: relative;
+            text-align: center;
+        }
 
+        .slide-content {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .slide-title {
+            font-size: 30px;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .slide-description {
+            font-size: 20px;
+        }
+    </style>
+@endsection
 @if (count($slideItems))
     <div class="panel-slide page-setup" data-setting='{{ json_encode($slides->setting) }}'>
         <div class="uk-container uk-container-center">
@@ -33,6 +61,10 @@
                         <div class="swiper-slide">
                             <div class="slide-item">
                                 <span class="image"><img src="{{ $val['image'] }}" alt=""></span>
+                                <div class="slide-content">
+                                    <h2 class="slide-title">{{ $val['name'] ?? '' }}</h2>
+                                    <p class="slide-description">{{ $val['alt'] ?? '' }}</p>
+                                </div>
                             </div>
                         </div>
                     @endforeach

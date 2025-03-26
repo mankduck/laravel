@@ -3,7 +3,7 @@
     var HT = {};
     var _token = $('meta[name="csrf-token"]').attr('content');
 
-    let variantData = JSON.parse(atob(variant))
+    let variantData = JSON.parse(variant)
     let attrData = JSON.parse(attribute)
     let productData = JSON.parse(product)
 
@@ -47,6 +47,7 @@
             'quantity': hiddenInput.attr('data-variant-quantity'),
             'image': hiddenInput.attr('data-variant-image'),
             'sku': hiddenInput.attr('data-variant-sku'),
+            'uuid': hiddenInput.attr('data-variant-uuid'),
             '_token': _token
         }
 
@@ -93,29 +94,48 @@
         html += '<div class="row">'
 
         if (attrData && Object.keys(attrData).length > 0) {
-            let length = variantData.quantity.length
+            let length = variantData.length
             let inputHiddenFields = []
 
-            for (let index = 0; index < length; index++) {
-                const skuParts = variantData.sku[index].split("-");
+            variantData.forEach(element => {
+                const skuParts = element.sku.split("-");
                 const lastIds = skuParts.slice(-2).map(Number);
 
                 const attributeNames = attributeItems.flat().filter(attr => lastIds.includes(attr.id)).map(attr => attr.name);
-                console.log(variantData.album[index]);
                 html += `
                     <div class="col-md-4">
                         <div class="card card-choose-prd">
-                            <img src="${variantData.album[index]}" class="card-img-top img-custom" alt="Ảnh sản phẩm">
+                            <img src="${element.album}" class="card-img-top img-custom" alt="Ảnh sản phẩm">
                             <div class="card-body">
                                 <p class="card-text m-1">Mẫu: ${attributeNames}</p>
-                                <p class="card-text m-1">Giá: ${variantData.price[index]}</p>
-                                <p class="card-text m-1">Số lượng: ${variantData.quantity[index]}</p>
-                                <input type="hidden" class="dataHidden" data-variant-name="${attributeNames}" data-variant-sku="${variantData.sku[index]}" data-variant-price="${removeDots(variantData.price[index])}" data-variant-image="${variantData.album[index]}" data-variant-quantity="${variantData.quantity[index]}" data-variant-total="">
+                                <p class="card-text m-1">Giá: ${element.price}</p>
+                                <p class="card-text m-1">Số lượng: ${element.quantity}</p>
+                                <input type="hidden" class="dataHidden" data-variant-name="${attributeNames}" data-variant-uuid="${element.uuid}" data-variant-sku="${element.sku}" data-variant-price="${element.price}" data-variant-image="${element.album}" data-variant-quantity="${element.quantity}" data-variant-total="">
                             </div>
                         </div>
                     </div>
                 `
-            }
+            });
+            // for (let index = 0; index < length; index++) {
+            //     const skuParts = variantData.sku[index].split("-");
+            //     const lastIds = skuParts.slice(-2).map(Number);
+
+            //     const attributeNames = attributeItems.flat().filter(attr => lastIds.includes(attr.id)).map(attr => attr.name);
+            //     console.log(variantData.album[index]);
+            //     html += `
+            //         <div class="col-md-4">
+            //             <div class="card card-choose-prd">
+            //                 <img src="${variantData.album[index]}" class="card-img-top img-custom" alt="Ảnh sản phẩm">
+            //                 <div class="card-body">
+            //                     <p class="card-text m-1">Mẫu: ${attributeNames}</p>
+            //                     <p class="card-text m-1">Giá: ${variantData.price[index]}</p>
+            //                     <p class="card-text m-1">Số lượng: ${variantData.quantity[index]}</p>
+            //                     <input type="hidden" class="dataHidden" data-variant-name="${attributeNames}" data-variant-sku="${variantData.sku[index]}" data-variant-price="${removeDots(variantData.price[index])}" data-variant-image="${variantData.album[index]}" data-variant-quantity="${variantData.quantity[index]}" data-variant-total="">
+            //                 </div>
+            //             </div>
+            //         </div>
+            //     `
+            // }
         } else {
             html += `
             <div class="col-md-4">
@@ -124,31 +144,13 @@
                     <div class="card-body">
                         <p class="card-text m-1">Giá: ${productData.price}</p>
                         <p class="card-text m-1">Số lượng: 100</p>
-                        <input type="hidden" class="dataHidden" data-variant-name="" data-variant-sku="" data-variant-price="${productData.price}" data-variant-image="${productData.image}" data-variant-quantity="" data-variant-total="">
+                        <input type="hidden" class="dataHidden" data-variant-name="" data-variant-uuid="" data-variant-sku="" data-variant-price="${productData.price}" data-variant-image="${productData.image}" data-variant-quantity="" data-variant-total="">
                     </div>
                 </div>
             </div>
             `
         }
-
-
-
         html += '</div>'
-
-        //     html += `
-
-        //     <div class="row">
-        //     <div class="product__details__button">
-        //     <div class="quantity">
-        //         <span>Quantity:</span>
-        //         <div class="pro-qty">
-        //             <input type="text" value="1">
-        //         </div>
-        //     </div>
-        // </div>
-        //     </div>
-        //     `
-
         $(this).toggleClass('selected')
         return html
     }

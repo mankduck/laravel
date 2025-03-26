@@ -1,65 +1,5 @@
 @extends('frontend.layout')
 @section('contentUser')
-    <!-- Categories Section Begin -->
-    {{-- <section class="categories">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-6 p-0">
-                    <div class="categories__item categories__large__item set-bg"
-                        data-setbg="frontend/img/categories/category-1.jpg">
-                        <div class="categories__text">
-                            <h1>Women’s fashion</h1>
-                            <p>Sitamet, consectetur adipiscing elit, sed do eiusmod tempor incidid-unt labore
-                                edolore magna aliquapendisse ultrices gravida.</p>
-                            <a href="#">Shop now</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                            <div class="categories__item set-bg" data-setbg="frontend/img/categories/category-2.jpg">
-                                <div class="categories__text">
-                                    <h4>Men’s fashion</h4>
-                                    <p>358 items</p>
-                                    <a href="#">Shop now</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                            <div class="categories__item set-bg" data-setbg="frontend/img/categories/category-3.jpg">
-                                <div class="categories__text">
-                                    <h4>Kid’s fashion</h4>
-                                    <p>273 items</p>
-                                    <a href="#">Shop now</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                            <div class="categories__item set-bg" data-setbg="frontend/img/categories/category-4.jpg">
-                                <div class="categories__text">
-                                    <h4>Cosmetics</h4>
-                                    <p>159 items</p>
-                                    <a href="#">Shop now</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                            <div class="categories__item set-bg" data-setbg="frontend/img/categories/category-5.jpg">
-                                <div class="categories__text">
-                                    <h4>Accessories</h4>
-                                    <p>792 items</p>
-                                    <a href="#">Shop now</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> --}}
-    <!-- Categories Section End -->
-
 
     <!-- Banner Section Begin -->
     @include('frontend.component.banner')
@@ -133,8 +73,8 @@
                         <div class="section-title">
                             <h4>Hot Trend</h4>
                         </div>
-                        @if (!is_null($widgets['new-shirt']))
-                            @foreach ($widgets['new-shirt'] as $key => $val)
+                        @if (isset($widgets['hot-trend']) && !is_null($widgets['hot-trend']))
+                            @foreach ($widgets['hot-trend'] as $key => $val)
                                 @php
                                     $name = $val->languages->first()->pivot->name;
                                     $canonical = write_url($val->languages->first()->pivot->canonical);
@@ -146,7 +86,7 @@
                                         <img src="{{ $image }}" alt="" width="90px" height="90px">
                                     </div>
                                     <div class="trend__item__text">
-                                        <h6>{{ $name }}</h6>
+                                        <h6><a href="{{ $canonical }}" class="text-dark">{{ $name }}</a></h6>
                                         <div class="rating">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
@@ -158,6 +98,8 @@
                                     </div>
                                 </div>
                             @endforeach
+                        @else
+                            <h5>Chưa có sản phẩm</h5>
                         @endif
                     </div>
                 </div>
@@ -166,54 +108,34 @@
                         <div class="section-title">
                             <h4>Best seller</h4>
                         </div>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img src="frontend/img/trend/bs-1.jpg" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>Cotton T-Shirt</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                        @if (isset($widgets['best-seller']) && !is_null($widgets['best-seller']))
+                            @foreach ($widgets['best-seller'] as $key => $val)
+                                @php
+                                    $name = $val->languages->first()->pivot->name;
+                                    $canonical = write_url($val->languages->first()->pivot->canonical);
+                                    $image = $val->image;
+                                    $price = number_format_custom($val->price);
+                                @endphp
+                                <div class="trend__item">
+                                    <div class="trend__item__pic">
+                                        <img src="{{ $image }}" alt="" width="90px" height="90px">
+                                    </div>
+                                    <div class="trend__item__text">
+                                        <h6><a href="{{ $canonical }}" class="text-dark">{{ $name }}</a></h6>
+                                        <div class="rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
+                                        <div class="product__price">{{ $price }}</div>
+                                    </div>
                                 </div>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img src="frontend/img/trend/bs-2.jpg" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>Zip-pockets pebbled tote <br />briefcase</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img src="frontend/img/trend/bs-3.jpg" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>Round leather bag</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
+                            @endforeach
+                        @else
+                            <h5>Chưa có sản phẩm</h5>
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6">
@@ -221,54 +143,34 @@
                         <div class="section-title">
                             <h4>Feature</h4>
                         </div>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img src="frontend/img/trend/f-1.jpg" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>Bow wrap skirt</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                        @if (isset($widgets['feature']) && !is_null($widgets['feature']))
+                            @foreach ($widgets['feature'] as $key => $val)
+                                @php
+                                    $name = $val->languages->first()->pivot->name;
+                                    $canonical = write_url($val->languages->first()->pivot->canonical);
+                                    $image = $val->image;
+                                    $price = number_format_custom($val->price);
+                                @endphp
+                                <div class="trend__item">
+                                    <div class="trend__item__pic">
+                                        <img src="{{ $image }}" alt="" width="90px" height="90px">
+                                    </div>
+                                    <div class="trend__item__text">
+                                        <h6><a href="{{ $canonical }}" class="text-dark">{{ $name }}</a></h6>
+                                        <div class="rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
+                                        <div class="product__price">{{ $price }}</div>
+                                    </div>
                                 </div>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img src="frontend/img/trend/f-2.jpg" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>Metallic earrings</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                        <div class="trend__item">
-                            <div class="trend__item__pic">
-                                <img src="frontend/img/trend/f-3.jpg" alt="">
-                            </div>
-                            <div class="trend__item__text">
-                                <h6>Flap cross-body bag</h6>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
+                            @endforeach
+                        @else
+                            <h5>Chưa có sản phẩm</h5>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -288,8 +190,8 @@
                 <div class="col-lg-6 p-0">
                     <div class="discount__text">
                         <div class="discount__text__title">
-                            <span>Discount</span>
-                            <h2>Summer 2019</h2>
+                            <span>Giảm giá</span>
+                            <h2>Summer 2025</h2>
                             <h5><span>Sale</span> 50%</h5>
                         </div>
                         <div class="discount__countdown" id="countdown-time">
@@ -310,7 +212,6 @@
                                 <p>Sec</p>
                             </div>
                         </div>
-                        <a href="#">Shop now</a>
                     </div>
                 </div>
             </div>

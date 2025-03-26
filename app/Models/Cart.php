@@ -17,7 +17,8 @@ class Cart extends Model
         'total',
         'quantity',
         'image',
-        'sku'
+        'sku',
+        'uuid'
     ];
 
     public function product()

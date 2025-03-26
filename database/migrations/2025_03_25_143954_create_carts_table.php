@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('quantity')->nullable();
             $table->string('image')->nullable();
             $table->string('sku')->nullable();
+            $table->string('uuid')->nullable();
             $table->timestamps();
         });
     }

@@ -48,6 +48,7 @@ class FrontendController extends Controller
                     'quantity' => $data['quantity'],
                     'image' => $data['image'],
                     'sku' => $data['sku'], // Nếu không có SKU thì để null
+                    'uuid' => $data['uuid']
                 ]);
                 $type = 'create';
             }

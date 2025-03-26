@@ -33,9 +33,10 @@ class ProductController extends FrontendController
         if(isset($product->attribute) && count($product->attribute)){
             $product = $this->productService->getAttribute($product, $this->language);
         }
+        $variant = $product->product_variants->toArray();
         $system = $this->system;
         $seo = seo($product);
 
-        return view('frontend.homepage.product.product_index', compact('product', 'system', 'seo', 'breadcrumb'));
+        return view('frontend.homepage.product.product_index', compact('product', 'system', 'seo', 'breadcrumb', 'variant'));
     }
 }

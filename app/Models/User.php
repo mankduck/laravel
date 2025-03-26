@@ -67,7 +67,9 @@ class User extends Authenticatable
         return $this->user_catalogues->permissions->contains('canonical', $permissionCanonical);
     }
 
-
-
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'user_id', 'id');
+    }
 
 }

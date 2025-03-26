@@ -30,9 +30,7 @@ class HomeController extends FrontendController
         $widgets = [
             // 'new-product' => $this->widgetService->findWidgetByKeyword('new-product', $this->language, ['children' => true])
             'new-product' => $this->widgetService->findWidgetByKeyword('new-product', $this->language, ['children' => true, 'object' => true, 'countObject' => true]),
-            'new-shirt' => $this->widgetService->findWidgetByKeyword('new-shirt', $this->language)
-
-
+            'hot-trend' => $this->widgetService->findWidgetByKeyword('hot-trend', $this->language)
         ];
 
         // dd($widgets['new-product']);

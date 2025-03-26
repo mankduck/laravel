@@ -23,35 +23,35 @@
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
                                     <p>Họ và tên <span>*</span></p>
-                                    <input type="text" name="name" value="{{old('name')}}">
+                                    <input type="text" name="name" value="{{ old('name') }}">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
                                     <p>Thành phố <span>*</span></p>
-                                    <input type="text" name="country" value="{{old('country')}}">
+                                    <input type="text" name="country" value="{{ old('country') }}">
                                 </div>
                                 <div class="checkout__form__input">
                                     <p>Địa chỉ <span>*</span></p>
-                                    <input type="text" name="address" value="{{old('address')}}">
+                                    <input type="text" name="address" value="{{ old('address') }}">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
                                     <p>Số điện thoại <span>*</span></p>
-                                    <input type="text" name="phone" value="{{old('phone')}}">
+                                    <input type="text" name="phone" value="{{ old('phone') }}">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
                                     <p>Email <span>*</span></p>
-                                    <input type="text" name="email" value="{{old('email')}}">
+                                    <input type="text" name="email" value="{{ old('email') }}">
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
                                     <p>Ghi chú <span>*</span></p>
-                                    <input type="text" name="description" value="{{old('description')}}">
+                                    <input type="text" name="description" value="{{ old('description') }}">
                                 </div>
                             </div>
                         </div>
@@ -76,7 +76,13 @@
                                             <input type="hidden" name="product[{{ $key }}][]"
                                                 value="{{ $val->product->languages->first()->pivot->name . ' - ' . ($val->attribute_name == '' ? '' : $val->attribute_name) }}">
                                             <input type="hidden" name="product[{{ $key }}][]"
+                                                value="{{ $val->product_id }}">
+                                            <input type="hidden" name="product[{{ $key }}][]"
                                                 value="{{ number_format_custom($val->price * $val->total) }}">
+                                            <input type="hidden" name="product[{{ $key }}][]"
+                                                value="{{ $val->total }}">
+                                            <input type="hidden" name="product[{{ $key }}][]"
+                                                value="{{ $val->uuid }}">
                                         @endforeach
                                     @endif
                                 </ul>

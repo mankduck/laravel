@@ -12,7 +12,6 @@
 @section('contentUser')
     {{-- @dd($productCatalogue->name) --}}
     @include('frontend.component.breadcrumb', [
-        'name' => $product->name,
         'breadcrumb' => $breadcrumb,
     ])
 
@@ -306,7 +305,7 @@
         var product = '{!! addslashes($product) !!}'
         var attribute = '{!! addslashes(json_encode(value: isset($product->attribute) ? $product->attribute : [])) !!}'
         var variant =
-            '{{ base64_encode(json_encode(isset($product->variant) ? json_decode($product->variant, true) : [])) }}'
+            '{!! addslashes(json_encode(value: isset($variant) ? $variant : [])) !!}'
     </script>
 @endsection
 @section('scriptFrontend')

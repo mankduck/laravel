@@ -2,7 +2,6 @@
 @section('contentUser')
     {{-- @dd($productCatalogue->name) --}}
     @include('frontend.component.breadcrumb', [
-        'name' => $productCatalogue->name,
         'breadcrumb' => $breadcrumb,
     ])
 

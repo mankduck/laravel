@@ -176,7 +176,7 @@ if (!function_exists('frontend_recursive_menu')) {
         $html = '';
         if (count($data)) {
             if ($type == 'html') {
-                $html = '<ul>';
+                // $html = '<ul>';
                 foreach ($data as $key => $val) {
                     $name = $val['item']->languages->first()->pivot->name;
                     $canonical = write_url($val['item']->languages->first()->pivot->canonical, false, false);
@@ -188,7 +188,7 @@ if (!function_exists('frontend_recursive_menu')) {
                     }
                     $html .= '</li>';
                 }
-                $html .= '</ul>';
+                // $html .= '</ul>';
                 return $html;
             }
         }
