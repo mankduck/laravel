@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 15, 2024 at 12:04 PM
+-- Generation Time: Mar 26, 2025 at 07:09 AM
 -- Server version: 8.0.30
--- PHP Version: 8.1.10
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -89,7 +89,7 @@ INSERT INTO `administrative_units` (`id`, `full_name`, `full_name_en`, `short_na
 
 CREATE TABLE `attributes` (
   `id` bigint UNSIGNED NOT NULL,
-  `attribute_catalogue_id` int NOT NULL DEFAULT '0',
+  `attribute_catalogue_id` bigint UNSIGNED NOT NULL,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `icon` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `album` text COLLATE utf8mb4_unicode_ci,
@@ -97,19 +97,20 @@ CREATE TABLE `attributes` (
   `follow` tinyint NOT NULL DEFAULT '1',
   `order` int NOT NULL DEFAULT '0',
   `user_id` bigint UNSIGNED NOT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `attributes`
 --
 
-INSERT INTO `attributes` (`id`, `attribute_catalogue_id`, `image`, `icon`, `album`, `publish`, `follow`, `order`, `user_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(5, 4, NULL, NULL, '', 0, 1, 0, 1, NULL, '2024-04-18 00:01:58', '2024-04-18 00:01:58'),
-(6, 4, NULL, NULL, '', 0, 1, 0, 1, NULL, '2024-04-18 00:02:21', '2024-04-18 00:02:21'),
-(7, 3, NULL, NULL, '', 0, 1, 0, 1, NULL, '2024-04-18 00:02:51', '2024-04-18 00:02:51');
+INSERT INTO `attributes` (`id`, `attribute_catalogue_id`, `image`, `icon`, `album`, `publish`, `follow`, `order`, `user_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, NULL, NULL, '', 2, 1, 0, 1, '2025-01-08 07:09:16', '2025-01-08 07:09:16', NULL),
+(2, 1, NULL, NULL, '', 2, 1, 0, 1, '2025-01-08 07:09:40', '2025-01-08 07:09:40', NULL),
+(3, 2, NULL, NULL, '', 2, 1, 0, 1, '2025-01-08 07:10:04', '2025-01-08 07:10:04', NULL),
+(4, 2, NULL, NULL, '', 2, 1, 0, 1, '2025-01-08 07:10:27', '2025-01-08 07:10:27', NULL);
 
 -- --------------------------------------------------------
 
@@ -130,18 +131,18 @@ CREATE TABLE `attribute_catalogues` (
   `follow` tinyint NOT NULL DEFAULT '0',
   `order` int NOT NULL DEFAULT '0',
   `user_id` bigint UNSIGNED NOT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `attribute_catalogues`
 --
 
-INSERT INTO `attribute_catalogues` (`id`, `parent_id`, `lft`, `rgt`, `level`, `image`, `icon`, `album`, `publish`, `follow`, `order`, `user_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(3, 0, 4, 5, 1, '/userfiles/image/languages/Flag_of_Vietnam_svg.webp', NULL, '', 2, 1, 0, 1, NULL, '2024-04-18 00:01:00', '2024-04-18 00:01:00'),
-(4, 0, 2, 3, 1, '/userfiles/image/languages/Flag_of_Vietnam_svg.webp', NULL, '', 1, 1, 0, 1, NULL, '2024-04-18 00:01:13', '2024-05-12 04:40:49');
+INSERT INTO `attribute_catalogues` (`id`, `parent_id`, `lft`, `rgt`, `level`, `image`, `icon`, `album`, `publish`, `follow`, `order`, `user_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 0, 4, 5, 1, NULL, NULL, '', 2, 1, 0, 1, '2025-01-08 06:26:48', '2025-01-08 06:26:48', NULL),
+(2, 0, 2, 3, 1, NULL, NULL, '', 2, 1, 0, 1, '2025-01-08 06:27:11', '2025-01-08 06:27:11', NULL);
 
 -- --------------------------------------------------------
 
@@ -159,9 +160,10 @@ CREATE TABLE `attribute_catalogue_attribute` (
 --
 
 INSERT INTO `attribute_catalogue_attribute` (`attribute_catalogue_id`, `attribute_id`) VALUES
-(4, 5),
-(4, 6),
-(3, 7);
+(1, 1),
+(1, 2),
+(2, 3),
+(2, 4);
 
 -- --------------------------------------------------------
 
@@ -188,10 +190,8 @@ CREATE TABLE `attribute_catalogue_language` (
 --
 
 INSERT INTO `attribute_catalogue_language` (`attribute_catalogue_id`, `language_id`, `name`, `description`, `content`, `meta_title`, `meta_keyword`, `meta_description`, `canonical`, `created_at`, `updated_at`) VALUES
-(3, 1, 'Chất liệu', NULL, NULL, NULL, NULL, NULL, 'chat-lieu', '2024-04-18 00:01:00', '2024-04-18 00:01:00'),
-(4, 1, 'Màu sắc', NULL, NULL, NULL, NULL, NULL, 'mau-sac', '2024-04-18 00:01:13', '2024-04-18 00:01:13'),
-(4, 2, 'Color', NULL, NULL, NULL, NULL, NULL, 'color', '2024-04-18 00:01:23', '2024-04-18 00:01:23'),
-(3, 2, 'Material', NULL, NULL, NULL, NULL, NULL, 'material', '2024-04-18 00:01:40', '2024-04-18 00:01:40');
+(1, 1, 'Màu sắc', NULL, NULL, 'Màu sắc', NULL, NULL, 'mau-sac', '2025-01-08 06:26:48', '2025-01-08 06:26:48'),
+(2, 1, 'Chất liệu', NULL, NULL, 'Chất liệu', NULL, NULL, 'chat-lieu', '2025-01-08 06:27:11', '2025-01-08 06:27:11');
 
 -- --------------------------------------------------------
 
@@ -218,12 +218,121 @@ CREATE TABLE `attribute_language` (
 --
 
 INSERT INTO `attribute_language` (`attribute_id`, `language_id`, `name`, `description`, `content`, `meta_title`, `meta_keyword`, `meta_description`, `canonical`, `created_at`, `updated_at`) VALUES
-(5, 1, 'Đen', NULL, NULL, NULL, NULL, NULL, 'den', '2024-04-18 00:01:58', '2024-04-18 00:01:58'),
-(5, 2, 'Black', NULL, NULL, NULL, NULL, NULL, 'black', '2024-04-18 00:02:08', '2024-04-18 00:02:08'),
-(6, 1, 'Trắng', NULL, NULL, NULL, NULL, NULL, 'trang', '2024-04-18 00:02:21', '2024-04-18 00:02:21'),
-(6, 2, 'White', NULL, NULL, NULL, NULL, NULL, 'white', '2024-04-18 00:02:31', '2024-04-18 00:02:31'),
-(7, 1, 'Cotton', NULL, NULL, NULL, NULL, NULL, 'cotton', '2024-04-18 00:02:51', '2024-04-18 00:02:51'),
-(7, 2, 'Material Cotton', NULL, NULL, NULL, NULL, NULL, 'material-cotton', '2024-04-18 00:03:10', '2024-04-18 00:03:10');
+(1, 1, 'Đen', NULL, NULL, 'Đen', NULL, NULL, 'den', '2025-01-08 07:09:16', '2025-01-08 07:09:16'),
+(2, 1, 'Trắng', NULL, NULL, 'Trắng', NULL, NULL, 'trang', '2025-01-08 07:09:40', '2025-01-08 07:09:40'),
+(3, 1, 'Cotton', NULL, NULL, 'Cotton', NULL, NULL, 'cotton', '2025-01-08 07:10:04', '2025-01-08 07:10:04'),
+(4, 1, 'Vải Kaki', NULL, NULL, 'Vải Kaki', NULL, NULL, 'vai-kaki', '2025-01-08 07:10:27', '2025-01-08 07:10:27');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `carts`
+--
+
+CREATE TABLE `carts` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `product_id` bigint UNSIGNED NOT NULL,
+  `attribute_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `price` bigint DEFAULT NULL,
+  `total` int DEFAULT NULL,
+  `quantity` int DEFAULT NULL,
+  `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sku` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uuid` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `checkouts`
+--
+
+CREATE TABLE `checkouts` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `country` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product` json NOT NULL,
+  `payment_method` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('pending','confirmed','inprocess','canceled','completed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `checkouts`
+--
+
+INSERT INTO `checkouts` (`id`, `user_id`, `name`, `country`, `phone`, `address`, `email`, `description`, `product`, `payment_method`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Phùng Mạnh Đức', 'Hà Nội', '0889564869', 'Vật Lại', 'admin@gmail.com', 'Test', '[[\"Áo sơ mi vải kaki nam hot trend 2024 hai màu - Trắng,Vải Kaki\", \"400.000đ\"], [\"Áo phông nam vải cotton thấm nước - Trắng,Cotton\", \"1.050.000đ\"]]', 'direct_payment', 'pending', '2025-03-26 04:48:31', '2025-03-26 04:48:31'),
+(2, 1, 'Phùng Mạnh Đức', 'Hà Nội', '0889564869', 'Vật Lại', 'admin@example.com', 'Test', '[[\"Áo sơ mi vải kaki nam hot trend 2024 hai màu - Trắng,Vải Kaki\", \"400.000đ\"], [\"Sản phẩm test - Đen\", \"450.000đ\"]]', 'direct_payment', 'pending', '2025-03-26 04:51:22', '2025-03-26 04:51:22'),
+(3, 1, 'Phùng Mạnh Đức', 'Hà Nội', '0889564869', 'Vật Lại', 'admin@example.com', 'Test', '[[\"Áo sơ mi vải kaki nam hot trend 2024 hai màu - Trắng,Vải Kaki\", \"400.000đ\"], [\"Sản phẩm test - Đen\", \"450.000đ\"]]', 'direct_payment', 'pending', '2025-03-26 04:53:57', '2025-03-26 04:53:57'),
+(4, 1, 'Phùng Mạnh Đức', 'Hà Nội', '0889564869', 'Vật Lại', 'admin@example.com', NULL, '[[\"Áo sơ mi vải kaki nam hot trend 2024 hai màu - Trắng,Vải Kaki\", \"400.000đ\"], [\"Sản phẩm test - Đen\", \"450.000đ\"]]', 'direct_payment', 'pending', '2025-03-26 04:54:42', '2025-03-26 04:54:42'),
+(5, 1, 'Phùng Mạnh Đức', 'Hà Nội', '0889564869', 'Vật Lại', 'admin@example.com', NULL, '[[\"Áo sơ mi vải kaki nam hot trend 2024 hai màu - Đen,Vải Kaki\", \"800.000đ\", \"2\", \"cd54f2d9-010e-57df-9d2f-2dc813e6b8b6\"], [\"Quần nữ form rộng vải kaki -\", \"900.000đ\", \"2\", null]]', 'direct_payment', 'pending', '2025-03-26 05:44:58', '2025-03-26 05:44:58'),
+(12, 1, 'Phùng Mạnh Đức', 'Hà Nội', '0889564869', 'Vật Lại', 'manhduc@gmail.com', NULL, '[[\"Áo sơ mi vải kaki nam hot trend 2024 hai màu - Đen,Vải Kaki\", \"2\", \"400.000đ\", \"1\", \"cd54f2d9-010e-57df-9d2f-2dc813e6b8b6\"]]', 'direct_payment', 'pending', '2025-03-26 05:50:48', '2025-03-26 05:50:48');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customers`
+--
+
+CREATE TABLE `customers` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `province_id` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `district_id` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ward_id` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `birthday` datetime DEFAULT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `user_agent` text COLLATE utf8mb4_unicode_ci,
+  `ip` text COLLATE utf8mb4_unicode_ci,
+  `publish` tinyint NOT NULL DEFAULT '1',
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `customer_catalogue_id` bigint UNSIGNED NOT NULL,
+  `source_id` bigint UNSIGNED NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_catalogues`
+--
+
+CREATE TABLE `customer_catalogues` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `publish` tinyint NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `customer_catalogues`
+--
+
+INSERT INTO `customer_catalogues` (`id`, `name`, `description`, `publish`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Khách lẻ', 'Khách hàng mua lẻ', 2, '2025-01-08 06:09:08', '2025-01-08 06:09:10', NULL),
+(2, 'Khách buôn', 'Khách hàng mua buôn', 2, '2025-01-08 06:09:23', '2025-01-08 06:09:25', NULL),
+(3, 'Khách Vip', 'Khách hàng vip', 2, '2025-01-08 06:09:39', '2025-01-08 06:09:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -962,7 +1071,7 @@ INSERT INTO `districts` (`code`, `name`, `name_en`, `full_name`, `full_name_en`,
 
 CREATE TABLE `failed_jobs` (
   `id` bigint UNSIGNED NOT NULL,
-  `uuid` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -996,21 +1105,21 @@ CREATE TABLE `languages` (
   `canonical` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `image` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
+  `publish` tinyint NOT NULL DEFAULT '1',
+  `current` tinyint NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  `publish` tinyint NOT NULL DEFAULT '1',
-  `current` tinyint NOT NULL DEFAULT '0'
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `languages`
 --
 
-INSERT INTO `languages` (`id`, `name`, `canonical`, `image`, `user_id`, `created_at`, `updated_at`, `deleted_at`, `publish`, `current`) VALUES
-(1, 'Tiếng Việt', 'vn', '/userfiles/image/languages/Flag_of_Vietnam_svg.webp', 1, '2024-03-24 20:34:39', '2024-05-06 19:25:20', NULL, 2, 1),
-(2, 'Tiếng Anh', 'en', '/userfiles/image/languages/england.png', 1, '2024-03-25 01:29:14', '2024-05-06 19:25:20', NULL, 2, 0),
-(3, 'Tiếng Trung Quốc', 'cn', '/userfiles/image/languages/china.png', 1, '2024-04-03 06:02:14', '2024-05-11 21:56:36', NULL, 1, 0);
+INSERT INTO `languages` (`id`, `name`, `canonical`, `image`, `user_id`, `publish`, `current`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Vietnamese', 'vn', '/userfiles/image/languages/Flag_of_Vietnam_svg.webp', 1, 2, 1, '2025-01-08 05:56:25', '2025-03-24 07:57:57', NULL),
+(2, 'English', 'en', '/userfiles/image/languages/england.png', 1, 2, 0, '2025-01-08 05:56:25', '2025-03-24 07:57:57', NULL),
+(3, 'Chinese', 'cn', '/userfiles/image/languages/china.png', 1, 2, 0, '2025-01-08 05:56:25', '2025-03-24 07:58:24', NULL);
 
 -- --------------------------------------------------------
 
@@ -1020,7 +1129,7 @@ INSERT INTO `languages` (`id`, `name`, `canonical`, `image`, `user_id`, `created
 
 CREATE TABLE `menus` (
   `id` bigint UNSIGNED NOT NULL,
-  `parent_id` int NOT NULL DEFAULT '0',
+  `parent_id` bigint NOT NULL DEFAULT '0',
   `menu_catalogue_id` bigint UNSIGNED DEFAULT NULL,
   `lft` int NOT NULL DEFAULT '0',
   `rgt` int NOT NULL DEFAULT '0',
@@ -1032,27 +1141,24 @@ CREATE TABLE `menus` (
   `publish` tinyint NOT NULL DEFAULT '1',
   `order` int NOT NULL DEFAULT '0',
   `user_id` bigint UNSIGNED NOT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `menus`
 --
 
-INSERT INTO `menus` (`id`, `parent_id`, `menu_catalogue_id`, `lft`, `rgt`, `level`, `type`, `image`, `icon`, `album`, `publish`, `order`, `user_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(87, 0, 10, 16, 17, 1, NULL, NULL, NULL, NULL, 1, 2, 1, NULL, '2024-05-11 20:19:30', '2024-05-12 04:57:41'),
-(88, 89, 10, 19, 20, 2, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, '2024-05-11 20:19:30', '2024-05-12 04:57:37'),
-(89, 0, 10, 18, 21, 1, NULL, NULL, NULL, NULL, 1, 3, 1, NULL, '2024-05-11 20:19:30', '2024-05-12 04:57:41'),
-(90, 0, 10, 22, 23, 1, NULL, NULL, NULL, NULL, 1, 4, 1, NULL, '2024-05-11 20:19:30', '2024-05-12 04:57:41'),
-(91, 0, 11, 12, 13, 1, NULL, NULL, NULL, NULL, 1, 0, 1, NULL, '2024-05-11 20:41:32', '2024-05-11 20:41:32'),
-(92, 0, 11, 14, 15, 1, NULL, NULL, NULL, NULL, 1, 0, 1, NULL, '2024-05-11 20:41:32', '2024-05-11 20:41:32'),
-(93, 0, 11, 10, 11, 1, NULL, NULL, NULL, NULL, 1, 0, 1, NULL, '2024-05-11 20:50:49', '2024-05-11 20:50:49'),
-(94, 0, 12, 8, 9, 1, NULL, NULL, NULL, NULL, 1, 0, 1, NULL, '2024-05-11 21:00:45', '2024-05-11 21:00:45'),
-(95, 0, 12, 4, 5, 1, NULL, NULL, NULL, NULL, 1, 0, 1, NULL, '2024-05-11 21:01:10', '2024-05-11 21:01:10'),
-(96, 0, 12, 6, 7, 1, NULL, NULL, NULL, NULL, 1, 0, 1, NULL, '2024-05-11 21:01:10', '2024-05-11 21:01:10'),
-(97, 0, 10, 2, 3, 1, NULL, NULL, NULL, NULL, 1, 1, 1, NULL, '2024-05-12 04:57:37', '2024-05-12 04:57:41');
+INSERT INTO `menus` (`id`, `parent_id`, `menu_catalogue_id`, `lft`, `rgt`, `level`, `type`, `image`, `icon`, `album`, `publish`, `order`, `user_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 0, 1, 2, 3, 1, NULL, NULL, NULL, NULL, 1, 6, 1, '2025-01-08 06:31:06', '2025-01-08 06:31:11', NULL),
+(2, 0, 1, 4, 9, 1, NULL, NULL, NULL, NULL, 1, 4, 1, '2025-01-08 06:31:06', '2025-01-08 06:31:14', NULL),
+(3, 2, 1, 5, 6, 2, NULL, NULL, NULL, NULL, 1, 2, 1, '2025-01-08 06:31:06', '2025-03-26 06:44:22', NULL),
+(4, 2, 1, 7, 8, 2, NULL, NULL, NULL, NULL, 1, 1, 1, '2025-01-08 06:31:06', '2025-03-26 06:44:22', NULL),
+(5, 0, 1, 10, 11, 1, NULL, NULL, NULL, NULL, 1, 3, 1, '2025-01-08 06:31:06', '2025-01-08 06:31:14', NULL),
+(6, 0, 1, 12, 13, 1, NULL, NULL, NULL, NULL, 1, 1, 1, '2025-01-08 06:31:06', '2025-01-08 06:33:55', NULL),
+(7, 0, 1, 14, 15, 1, NULL, NULL, NULL, NULL, 1, 2, 1, '2025-01-08 06:31:06', '2025-01-08 06:33:55', NULL),
+(8, 0, 1, 16, 17, 1, NULL, NULL, NULL, NULL, 1, 5, 1, '2025-01-08 06:31:06', '2025-01-08 06:31:14', NULL);
 
 -- --------------------------------------------------------
 
@@ -1065,20 +1171,17 @@ CREATE TABLE `menu_catalogues` (
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `keyword` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `publish` tinyint NOT NULL DEFAULT '1',
-  `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `menu_catalogues`
 --
 
-INSERT INTO `menu_catalogues` (`id`, `name`, `keyword`, `publish`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(10, 'Menu Chính', 'menu-chinh', 2, NULL, '2024-05-11 20:18:00', '2024-05-11 21:07:07'),
-(11, 'Menu Footer 1', 'menu-footer-1', 2, NULL, '2024-05-11 20:18:21', '2024-05-11 21:07:08'),
-(12, 'Menu Footer 2', 'menu-footer-2', 2, NULL, '2024-05-11 20:18:42', '2024-05-11 21:07:08'),
-(13, 'Menu Sản Phẩm', 'menu-san-pham', 1, NULL, '2024-05-11 20:25:32', '2024-05-11 21:07:09');
+INSERT INTO `menu_catalogues` (`id`, `name`, `keyword`, `publish`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Menu Header', 'menu-header', 2, NULL, '2025-01-08 06:29:28', NULL);
 
 -- --------------------------------------------------------
 
@@ -1089,8 +1192,8 @@ INSERT INTO `menu_catalogues` (`id`, `name`, `keyword`, `publish`, `deleted_at`,
 CREATE TABLE `menu_language` (
   `menu_id` bigint UNSIGNED NOT NULL,
   `language_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `canonical` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `canonical` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1100,17 +1203,14 @@ CREATE TABLE `menu_language` (
 --
 
 INSERT INTO `menu_language` (`menu_id`, `language_id`, `name`, `canonical`, `created_at`, `updated_at`) VALUES
-(88, 1, 'Áo Phông', 'ao-phong', '2024-05-11 20:19:30', '2024-05-11 20:19:30'),
-(91, 1, 'Blogs', 'blogs', '2024-05-11 20:50:49', '2024-05-11 20:50:49'),
-(92, 1, 'Liên Hệ', 'lien-he', '2024-05-11 20:50:49', '2024-05-11 20:50:49'),
-(93, 1, 'FAQ', 'faq', '2024-05-11 20:50:49', '2024-05-11 20:50:49'),
-(94, 1, 'Orders Tracking', 'orders-tracking', '2024-05-11 21:01:10', '2024-05-11 21:01:10'),
-(95, 1, 'Checkout', 'checkout', '2024-05-11 21:01:10', '2024-05-11 21:01:10'),
-(96, 1, 'Wishlist', 'wishlist', '2024-05-11 21:01:10', '2024-05-11 21:01:10'),
-(90, 1, 'Trang Chủ', 'trang-chu', '2024-05-12 04:57:37', '2024-05-12 04:57:37'),
-(89, 1, 'Áo', 'ao', '2024-05-12 04:57:37', '2024-05-12 04:57:37'),
-(87, 1, 'Quần', 'quan', '2024-05-12 04:57:37', '2024-05-12 04:57:37'),
-(97, 1, 'Bài Viết', 'bai-viet', '2024-05-12 04:57:37', '2024-05-12 04:57:37');
+(3, 1, 'Thời trang nữ', 'thoi-trang-nu', '2025-01-08 06:31:06', '2025-01-08 06:31:06'),
+(4, 1, 'Thời trang nam', 'thoi-trang-nam', '2025-01-08 06:31:06', '2025-01-08 06:31:06'),
+(1, 1, 'Trang chủ', '/', '2025-03-26 06:44:22', '2025-03-26 06:44:22'),
+(8, 1, 'Giới thiệu', 'about', '2025-03-26 06:44:22', '2025-03-26 06:44:22'),
+(2, 1, 'Thời trang', '/', '2025-03-26 06:44:22', '2025-03-26 06:44:22'),
+(5, 1, 'Phụ kiện', 'phu-kien', '2025-03-26 06:44:22', '2025-03-26 06:44:22'),
+(7, 1, 'Bài viết', 'blog', '2025-03-26 06:44:22', '2025-03-26 06:44:22'),
+(6, 1, 'Liên hệ', 'contact', '2025-03-26 06:44:22', '2025-03-26 06:44:22');
 
 -- --------------------------------------------------------
 
@@ -1120,7 +1220,7 @@ INSERT INTO `menu_language` (`menu_id`, `language_id`, `name`, `canonical`, `cre
 
 CREATE TABLE `migrations` (
   `id` int UNSIGNED NOT NULL,
-  `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1133,56 +1233,45 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
 (4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(5, '2024_03_24_085759_add_user_catalogue_id_to_users', 2),
-(6, '2024_03_24_090213_add_publish_at_to_users', 3),
-(7, '2024_03_24_090844_create_user_catalogues_table', 4),
-(8, '2024_03_24_095013_add_publish_at_to_user_catalogues', 5),
-(9, '2024_03_24_095144_add_deleted_at_at_to_users', 6),
-(10, '2024_03_24_134512_add_foreign_key_to_users', 7),
-(11, '2024_03_25_023104_create_languages_table', 8),
-(12, '2024_03_25_023401_create_post_catalogues_table', 9),
-(13, '2024_03_25_023734_create_post_catalogue_translate_table', 10),
-(14, '2024_03_25_023903_create_posts_table', 11),
-(15, '2024_03_25_024100_create_post_language_table', 12),
-(16, '2024_03_25_024311_rename_post_catalogue_translate_to_post_catalogue_language', 13),
-(17, '2024_03_25_024523_add_deleted_at_to_languages_table', 14),
-(18, '2024_03_25_033549_add_publish_at_to_table', 15),
-(19, '2024_03_26_141440_add_follow_to_post_catalogues', 16),
-(20, '2024_03_26_141925_add_canonical_to_post_catalogue_language', 17),
-(21, '2024_03_26_164402_add_timestams_at_post_catalogue_language', 18),
-(22, '2024_03_28_122611_create_post_catalogue_post_table', 19),
-(23, '2024_04_01_164553_add_timestams_at_post_language', 20),
-(24, '2024_04_01_164605_add_current_at_languages', 20),
-(25, '2024_04_01_164721_create_routers_table', 21),
-(26, '2024_04_01_164729_create_permissions_table', 21),
-(27, '2024_04_01_164747_create_user_catalogue_permission_table', 21),
-(28, '2024_04_01_164758_create_generates_table', 21),
-(29, '2024_04_01_164807_create_product_catalogues_table', 21),
-(30, '2024_04_01_164819_create_product_catalogue_language_table', 21),
-(31, '2024_04_01_164829_create_products_table', 21),
-(32, '2024_04_01_164840_create_product_catalogue_product_table', 21),
-(33, '2024_04_01_164849_create_product_language_table', 21),
-(34, '2024_04_01_165152_add_code_made_in_price_to_products_table', 22),
-(35, '2024_04_01_165203_create_attribute_catalogues_table', 22),
-(36, '2024_04_01_165211_create_attribute_catalogue_language_table', 22),
-(37, '2024_04_01_165218_add_language_id_at_routers_table', 22),
-(38, '2024_04_01_165227_create_attributes_table', 22),
-(39, '2024_04_01_165234_create_attribute_catalogue_attribute_table', 22),
-(40, '2024_04_01_165243_create_attribute_language_table', 22),
-(41, '2024_04_06_120344_create_titles_table', 23),
-(42, '2024_04_06_121603_create_knows_table', 24),
-(43, '2024_04_09_035845_create_product_variants_table', 25),
-(44, '2024_04_09_041205_create_product_variant_language_table', 26),
-(45, '2024_04_09_041726_create_product_variant_attribute_table', 27),
-(46, '2024_04_09_105146_add_variants_to_products_table', 28),
-(47, '2024_04_09_130049_add_attribute_value_to_products_table', 29),
-(48, '2024_04_09_131653_add_variant_to_products_table', 30),
-(50, '2024_04_10_132133_create_systems_table', 31),
-(51, '2024_04_11_045053_create_menu_catalogues_table', 32),
-(52, '2024_04_11_152421_create_menus_table', 33),
-(53, '2024_04_11_153116_create_menu_language_table', 34),
-(56, '2024_04_18_152929_create_slides_table', 35),
-(57, '2024_05_13_184727_create_widgets_table', 36);
+(5, '2024_12_31_194523_create_user_catalogues_table', 1),
+(6, '2024_12_31_194654_add_user_catalogue_id_to_users_table', 1),
+(7, '2024_12_31_194727_create_languages_table', 1),
+(8, '2024_12_31_194923_create_permissions_table', 1),
+(9, '2024_12_31_195118_create_user_catalogue_permission_table', 1),
+(10, '2024_12_31_195556_create_post_catalogues_table', 1),
+(11, '2024_12_31_195634_create_posts_table', 1),
+(12, '2024_12_31_195801_create_post_catalogue_language_table', 1),
+(13, '2024_12_31_200342_create_post_language_table', 1),
+(14, '2024_12_31_200942_create_post_catalogue_post_table', 1),
+(15, '2024_12_31_201425_create_routers_table', 1),
+(16, '2024_12_31_204002_create_generates_table', 1),
+(17, '2024_12_31_204233_create_product_catalogues_table', 1),
+(18, '2024_12_31_204442_create_product_catalogue_language_table', 1),
+(19, '2024_12_31_204724_create_products_table', 1),
+(20, '2024_12_31_204940_create_product_catalogue_product_table', 1),
+(21, '2024_12_31_205043_create_product_language_table', 1),
+(22, '2024_12_31_205245_create_attribute_catalogues_table', 1),
+(23, '2024_12_31_205449_create_attribute_catalogue_language_table', 1),
+(24, '2024_12_31_205624_create_attributes_table', 1),
+(25, '2024_12_31_205943_create_attribute_catalogue_attribute_table', 1),
+(26, '2024_12_31_210050_create_attribute_language_table', 1),
+(27, '2024_12_31_210202_create_product_variants_table', 1),
+(28, '2024_12_31_210257_create_product_variant_language_table', 1),
+(29, '2024_12_31_210344_create_product_variant_attribute_table', 1),
+(30, '2024_12_31_210804_create_systems_table', 1),
+(31, '2024_12_31_210906_create_menu_catalogues_table', 1),
+(32, '2024_12_31_211016_create_menus_table', 1),
+(33, '2024_12_31_211054_create_menu_language_table', 1),
+(34, '2024_12_31_211107_create_slides_table', 1),
+(35, '2024_12_31_211121_create_widgets_table', 1),
+(36, '2025_01_01_085926_create_sources_table', 1),
+(37, '2025_01_01_092150_create_customer_catalogues_table', 1),
+(38, '2025_01_01_092248_create_customers_table', 1),
+(39, '2025_01_04_092441_create_promotions_table', 1),
+(40, '2025_01_04_093016_create_promotion_product_variant_table', 1),
+(41, '2025_01_04_093508_create_promotion_conditionable_table', 1),
+(46, '2025_03_25_143954_create_carts_table', 2),
+(48, '2025_03_26_112607_create_checkouts_table', 3);
 
 -- --------------------------------------------------------
 
@@ -1191,8 +1280,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1207,72 +1296,77 @@ CREATE TABLE `permissions` (
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `canonical` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `permissions`
 --
 
-INSERT INTO `permissions` (`id`, `name`, `canonical`, `created_at`, `updated_at`) VALUES
-(1, 'Thêm mới nhóm thành viên', 'user.catalogue.create', '2024-04-03 20:11:34', '2024-04-03 21:30:25'),
-(2, 'Xem danh sách nhóm thành viên', 'user.catalogue.index', '2024-04-03 20:13:29', '2024-04-03 21:30:38'),
-(3, 'Chỉnh sửa nhóm thành viên', 'user.catalogue.edit', '2024-04-03 20:14:58', '2024-04-03 21:31:26'),
-(4, 'Xóa nhóm thành viên', 'user.catalogue.delete', '2024-04-03 20:15:27', '2024-04-03 21:31:17'),
-(5, 'Quản lý phân quyền User', 'user.catalogue.permission', '2024-04-03 20:15:58', '2024-04-03 21:25:31'),
-(6, 'Thêm mới thành viên', 'user.create', '2024-04-03 21:22:49', '2024-04-03 21:31:48'),
-(7, 'Xam danh sách thành viên', 'user.index', '2024-04-03 21:23:05', '2024-04-03 21:32:01'),
-(8, 'Chỉnh sửa thành viên', 'user.edit', '2024-04-03 21:23:20', '2024-04-03 21:32:15'),
-(9, 'Xóa thành viên', 'user.delete', '2024-04-03 21:23:32', '2024-04-03 21:32:27'),
-(10, 'Xem danh sách phân quyền', 'permission.index', '2024-04-03 21:24:27', '2024-04-03 21:24:27'),
-(11, 'Thêm mới phân quyền', 'permission.create', '2024-04-03 21:26:38', '2024-04-03 21:26:38'),
-(12, 'Chỉnh sửa phân quyền', 'permission.edit', '2024-04-03 21:26:58', '2024-04-03 21:26:58'),
-(13, 'Xóa phân quyền', 'permission.delete', '2024-04-03 21:27:11', '2024-04-03 21:27:11'),
-(14, 'Xem danh sách bài viết', 'post.index', '2024-04-03 21:40:52', '2024-04-03 21:40:52'),
-(15, 'Thêm mới bài viết', 'post.create', '2024-04-03 21:41:06', '2024-04-03 21:41:06'),
-(16, 'Chỉnh sửa bài viết', 'post.edit', '2024-04-03 21:41:17', '2024-04-03 21:41:17'),
-(17, 'Xóa bài viết', 'post.delete', '2024-04-03 21:41:48', '2024-04-03 21:41:48'),
-(18, 'Xem danh sách nhóm bài viết', 'post.catalogue.index', '2024-04-03 21:42:13', '2024-04-03 21:42:13'),
-(19, 'Thêm mới nhóm bài viết', 'post.catalogue.create', '2024-04-03 21:42:34', '2024-04-03 21:42:34'),
-(20, 'Chỉnh sửa nhóm bài viết', 'post.catalogue.edit', '2024-04-03 21:42:53', '2024-04-03 21:42:53'),
-(21, 'Xóa nhóm bài viết', 'post.catalogue.delete', '2024-04-03 21:43:09', '2024-04-03 21:43:09'),
-(22, 'Quản lý loại thuộc tính', 'attribute.catalogue.index', '2024-05-12 04:41:18', '2024-05-12 04:41:35'),
-(23, 'Thêm mới loại thuộc tính', 'attribute.catalogue.create', '2024-05-12 04:42:00', '2024-05-12 04:42:00'),
-(24, 'Chỉnh sửa loại thuộc tính', 'attribute.catalogue.edit', '2024-05-12 04:42:25', '2024-05-12 04:42:25'),
-(25, 'Xóa loại thuộc tính', 'attribute.catalogue.delete', '2024-05-12 04:42:38', '2024-05-12 04:42:38'),
-(26, 'Quản lý thuộc tính', 'attribute.index', '2024-05-12 04:46:17', '2024-05-12 04:46:17'),
-(27, 'Chỉnh sửa thuộc tính', 'attribute.edit', '2024-05-12 04:46:29', '2024-05-12 04:46:29'),
-(28, 'Thêm mới thuộc tính', 'attribute.create', '2024-05-12 04:46:54', '2024-05-12 04:46:54'),
-(29, 'Xóa thuộc tính', 'attribute.delete', '2024-05-12 04:47:06', '2024-05-12 04:47:06'),
-(30, 'Quản lý ngôn ngữ', 'language.index', '2024-05-12 04:50:18', '2024-05-12 04:50:18'),
-(31, 'Thêm mới ngôn ngữ', 'language.create', '2024-05-12 04:50:29', '2024-05-12 04:50:29'),
-(32, 'Chỉnh sửa ngôn ngữ', 'language.edit', '2024-05-12 04:50:39', '2024-05-12 04:50:39'),
-(33, 'Xóa ngôn ngữ', 'language.delete', '2024-05-12 04:50:49', '2024-05-12 04:50:49'),
-(34, 'Tạo bản dịch', 'language.translate', '2024-05-12 04:51:30', '2024-05-12 04:51:30'),
-(35, 'Quản lý Menu', 'menu.index', '2024-05-12 05:01:38', '2024-05-12 05:01:38'),
-(36, 'Thêm mới Menu', 'menu.create', '2024-05-12 05:01:48', '2024-05-12 05:01:48'),
-(37, 'Chỉnh sửa Menu', 'menu.edit', '2024-05-12 05:02:01', '2024-05-12 05:02:01'),
-(38, 'Chỉnh sửa Menu cấp 1', 'menu.editMenu', '2024-05-12 05:02:14', '2024-05-12 05:02:14'),
-(39, 'Quản lý Menu con', 'menu.children', '2024-05-12 05:02:41', '2024-05-12 05:02:41'),
-(40, 'Tạo bản dịch cho Menu', 'menu.translate', '2024-05-12 05:03:04', '2024-05-12 05:03:04'),
-(41, 'Quản lý nhóm sản phẩm', 'product.catalogue.index', '2024-05-12 05:06:48', '2024-05-12 05:06:48'),
-(42, 'Thêm mới nhóm sản phẩm', 'product.catalogue.create', '2024-05-12 05:07:04', '2024-05-12 05:07:04'),
-(43, 'Chỉnh sửa nhóm sản phẩm', 'product.catalogue.edit', '2024-05-12 05:07:16', '2024-05-12 05:07:16'),
-(44, 'Xóa nhóm sản phẩm', 'product.catalogue.delete', '2024-05-12 05:07:27', '2024-05-12 05:07:27'),
-(45, 'Quản lý sản phẩm', 'product.index', '2024-05-12 05:08:35', '2024-05-12 05:08:35'),
-(46, 'Thêm mới sản phẩm', 'product.create', '2024-05-12 05:08:45', '2024-05-12 05:08:45'),
-(47, 'Chỉnh sửa sản phẩm', 'product.edit', '2024-05-12 05:08:56', '2024-05-12 05:08:56'),
-(48, 'Xóa sản phẩm', 'product.delete', '2024-05-12 05:09:05', '2024-05-12 05:09:05'),
-(49, 'Quản lý Slide, Banner', 'slide.index', '2024-05-12 05:12:03', '2024-05-12 05:12:03'),
-(50, 'Thêm mới Slide, Banner', 'slide.create', '2024-05-12 05:12:18', '2024-05-12 05:12:18'),
-(51, 'Chỉnh sửa Slide, Banner', 'slide.edit', '2024-05-12 05:12:31', '2024-05-12 05:12:31'),
-(52, 'Xóa Slide, Banner', 'slide.delete', '2024-05-12 05:12:44', '2024-05-12 05:12:44'),
-(53, 'Quản lý cấu hình hệ thống', 'system.index', '2024-05-12 05:14:19', '2024-05-12 05:14:19'),
-(54, 'Tạo bản dịch cho cấu hình hệ thống', 'system.translate', '2024-05-12 05:14:34', '2024-05-12 05:14:34'),
-(55, 'Quản lý Widget', 'widget.index', '2024-05-13 10:22:17', '2024-05-13 10:22:17'),
-(56, 'Thêm mới Widget', 'widget.create', '2024-05-13 10:22:32', '2024-05-13 10:22:32'),
-(57, 'Chỉnh sửa Widget', 'widget.edit', '2024-05-13 10:22:43', '2024-05-13 10:22:43'),
-(58, 'Xóa Widget', 'widget.delete', '2024-05-13 10:22:54', '2024-05-13 10:22:54');
+INSERT INTO `permissions` (`id`, `name`, `canonical`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Thêm mới nhóm thành viên', 'user.catalogue.create', NULL, NULL, NULL),
+(2, 'Xem danh sách nhóm thành viên', 'user.catalogue.index', NULL, NULL, NULL),
+(3, 'Chỉnh sửa nhóm thành viên', 'user.catalogue.edit', NULL, NULL, NULL),
+(4, 'Xóa nhóm thành viên', 'user.catalogue.delete', NULL, NULL, NULL),
+(5, 'Quản lý phân quyền User', 'user.catalogue.permission', NULL, NULL, NULL),
+(6, 'Thêm mới thành viên', 'user.create', NULL, NULL, NULL),
+(7, 'Xam danh sách thành viên', 'user.index', NULL, NULL, NULL),
+(8, 'Chỉnh sửa thành viên', 'user.edit', NULL, NULL, NULL),
+(9, 'Xóa thành viên', 'user.delete', NULL, NULL, NULL),
+(10, 'Xem danh sách phân quyền', 'permission.index', NULL, NULL, NULL),
+(11, 'Thêm mới phân quyền', 'permission.create', NULL, NULL, NULL),
+(12, 'Chỉnh sửa phân quyền', 'permission.edit', NULL, NULL, NULL),
+(13, 'Xóa phân quyền', 'permission.delete', NULL, NULL, NULL),
+(14, 'Xem danh sách bài viết', 'post.index', NULL, NULL, NULL),
+(15, 'Thêm mới bài viết', 'post.create', NULL, NULL, NULL),
+(16, 'Chỉnh sửa bài viết', 'post.edit', NULL, NULL, NULL),
+(17, 'Xóa bài viết', 'post.delete', NULL, NULL, NULL),
+(18, 'Xem danh sách nhóm bài viết', 'post.catalogue.index', NULL, NULL, NULL),
+(19, 'Thêm mới nhóm bài viết', 'post.catalogue.create', NULL, NULL, NULL),
+(20, 'Chỉnh sửa nhóm bài viết', 'post.catalogue.edit', NULL, NULL, NULL),
+(21, 'Xóa nhóm bài viết', 'post.catalogue.delete', NULL, NULL, NULL),
+(22, 'Quản lý loại thuộc tính', 'attribute.catalogue.index', NULL, NULL, NULL),
+(23, 'Thêm mới loại thuộc tính', 'attribute.catalogue.create', NULL, NULL, NULL),
+(24, 'Chỉnh sửa loại thuộc tính', 'attribute.catalogue.edit', NULL, NULL, NULL),
+(25, 'Xóa loại thuộc tính', 'attribute.catalogue.delete', NULL, NULL, NULL),
+(26, 'Quản lý thuộc tính', 'attribute.index', NULL, NULL, NULL),
+(27, 'Chỉnh sửa thuộc tính', 'attribute.edit', NULL, NULL, NULL),
+(28, 'Thêm mới thuộc tính', 'attribute.create', NULL, NULL, NULL),
+(29, 'Xóa thuộc tính', 'attribute.delete', NULL, NULL, NULL),
+(30, 'Quản lý ngôn ngữ', 'language.index', NULL, NULL, NULL),
+(31, 'Thêm mới ngôn ngữ', 'language.create', NULL, NULL, NULL),
+(32, 'Chỉnh sửa ngôn ngữ', 'language.edit', NULL, NULL, NULL),
+(33, 'Xóa ngôn ngữ', 'language.delete', NULL, NULL, NULL),
+(34, 'Tạo bản dịch', 'language.translate', NULL, NULL, NULL),
+(35, 'Quản lý Menu', 'menu.index', NULL, NULL, NULL),
+(36, 'Thêm mới Menu', 'menu.create', NULL, NULL, NULL),
+(37, 'Chỉnh sửa Menu', 'menu.edit', NULL, NULL, NULL),
+(38, 'Chỉnh sửa Menu cấp 1', 'menu.editMenu', NULL, NULL, NULL),
+(39, 'Quản lý Menu con', 'menu.children', NULL, NULL, NULL),
+(40, 'Tạo bản dịch cho Menu', 'menu.translate', NULL, NULL, NULL),
+(41, 'Quản lý nhóm sản phẩm', 'product.catalogue.index', NULL, NULL, NULL),
+(42, 'Thêm mới nhóm sản phẩm', 'product.catalogue.create', NULL, NULL, NULL),
+(43, 'Chỉnh sửa nhóm sản phẩm', 'product.catalogue.edit', NULL, NULL, NULL),
+(44, 'Xóa nhóm sản phẩm', 'product.catalogue.delete', NULL, NULL, NULL),
+(45, 'Quản lý sản phẩm', 'product.index', NULL, NULL, NULL),
+(46, 'Thêm mới sản phẩm', 'product.create', NULL, NULL, NULL),
+(47, 'Chỉnh sửa sản phẩm', 'product.edit', NULL, NULL, NULL),
+(48, 'Xóa sản phẩm', 'product.delete', NULL, NULL, NULL),
+(49, 'Quản lý Slide, Banner', 'slide.index', NULL, NULL, NULL),
+(50, 'Thêm mới Slide, Banner', 'slide.create', NULL, NULL, NULL),
+(51, 'Chỉnh sửa Slide, Banner', 'slide.edit', NULL, NULL, NULL),
+(52, 'Xóa Slide, Banner', 'slide.delete', NULL, NULL, NULL),
+(53, 'Quản lý cấu hình hệ thống', 'system.index', NULL, NULL, NULL),
+(54, 'Tạo bản dịch cho cấu hình hệ thống', 'system.translate', NULL, NULL, NULL),
+(55, 'Quản lý Widget', 'widget.index', NULL, NULL, NULL),
+(56, 'Thêm mới Widget', 'widget.create', NULL, NULL, NULL),
+(57, 'Chỉnh sửa Widget', 'widget.edit', NULL, NULL, NULL),
+(58, 'Xóa Widget', 'widget.delete', NULL, NULL, NULL),
+(59, 'Quản lý khuyến mãi', 'promotion.index', '2025-01-08 07:18:40', '2025-01-08 07:18:40', NULL),
+(60, 'Thêm mới khuyến mãi', 'promotion.create', '2025-01-08 07:18:55', '2025-01-08 07:18:55', NULL),
+(61, 'Chỉnh sửa khuyến mãi', 'promotion.edit', '2025-01-08 07:19:11', '2025-01-08 07:19:11', NULL),
+(62, 'Xóa khuyến mãi', 'promotion.delete', '2025-01-08 07:19:22', '2025-01-08 07:19:22', NULL);
 
 -- --------------------------------------------------------
 
@@ -1282,9 +1376,9 @@ INSERT INTO `permissions` (`id`, `name`, `canonical`, `created_at`, `updated_at`
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint UNSIGNED NOT NULL,
-  `tokenable_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tokenable_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `abilities` text COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
@@ -1301,18 +1395,25 @@ CREATE TABLE `personal_access_tokens` (
 
 CREATE TABLE `posts` (
   `id` bigint UNSIGNED NOT NULL,
-  `post_catalogue_id` int NOT NULL DEFAULT '0',
+  `post_catalogue_id` int UNSIGNED NOT NULL DEFAULT '0',
   `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `icon` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `album` text COLLATE utf8mb4_unicode_ci,
   `publish` tinyint NOT NULL DEFAULT '1',
-  `order` int NOT NULL DEFAULT '0',
+  `order` int UNSIGNED NOT NULL DEFAULT '0',
   `follow` tinyint NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `posts`
+--
+
+INSERT INTO `posts` (`id`, `post_catalogue_id`, `image`, `icon`, `album`, `publish`, `order`, `follow`, `user_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, '/userfiles/image/Slides/banner-2.jpg', NULL, '[\"\\/userfiles\\/image\\/products\\/ao_somi\\/2\\/ws25ss12p-ldbb_grey_ck__10__767709ae4e874017bd87f8bcc0e78424_master.webp\",\"\\/userfiles\\/image\\/products\\/ao_somi\\/2\\/ws25ss12p-ldbb_grey_ck__1__3068bf22580147d7b250df1ed12e9eec_master.webp\"]', 2, 0, 1, 1, '2025-03-26 06:52:52', '2025-03-26 06:52:52', NULL);
 
 -- --------------------------------------------------------
 
@@ -1322,21 +1423,28 @@ CREATE TABLE `posts` (
 
 CREATE TABLE `post_catalogues` (
   `id` bigint UNSIGNED NOT NULL,
-  `parent_id` int NOT NULL DEFAULT '0',
-  `lft` int NOT NULL DEFAULT '0',
-  `rgt` int NOT NULL DEFAULT '0',
-  `level` int NOT NULL DEFAULT '0',
+  `parent_id` int UNSIGNED NOT NULL DEFAULT '0',
+  `lft` int UNSIGNED NOT NULL DEFAULT '0',
+  `rgt` int UNSIGNED NOT NULL DEFAULT '0',
+  `level` int UNSIGNED NOT NULL DEFAULT '0',
   `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `icon` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `album` text COLLATE utf8mb4_unicode_ci,
   `publish` tinyint NOT NULL DEFAULT '1',
-  `order` int NOT NULL DEFAULT '0',
+  `order` int UNSIGNED NOT NULL DEFAULT '0',
+  `follow` tinyint NOT NULL DEFAULT '0',
   `user_id` bigint UNSIGNED NOT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `follow` tinyint NOT NULL DEFAULT '0'
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `post_catalogues`
+--
+
+INSERT INTO `post_catalogues` (`id`, `parent_id`, `lft`, `rgt`, `level`, `image`, `icon`, `album`, `publish`, `order`, `follow`, `user_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 0, 2, 3, 1, NULL, NULL, '', 2, 0, 1, 1, '2025-03-26 06:52:41', '2025-03-26 06:52:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -1348,15 +1456,22 @@ CREATE TABLE `post_catalogue_language` (
   `post_catalogue_id` bigint UNSIGNED NOT NULL,
   `language_id` bigint UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `meta_title` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `meta_keyword` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `meta_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `content` longtext COLLATE utf8mb4_unicode_ci,
+  `meta_title` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_keyword` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_description` text COLLATE utf8mb4_unicode_ci,
   `canonical` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `post_catalogue_language`
+--
+
+INSERT INTO `post_catalogue_language` (`post_catalogue_id`, `language_id`, `name`, `description`, `content`, `meta_title`, `meta_keyword`, `meta_description`, `canonical`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Tin tức', NULL, NULL, 'Tin tức', NULL, NULL, 'tin-tuc', '2025-03-26 06:52:41', '2025-03-26 06:52:41');
 
 -- --------------------------------------------------------
 
@@ -1369,6 +1484,13 @@ CREATE TABLE `post_catalogue_post` (
   `post_id` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `post_catalogue_post`
+--
+
+INSERT INTO `post_catalogue_post` (`post_catalogue_id`, `post_id`) VALUES
+(1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -1379,15 +1501,22 @@ CREATE TABLE `post_language` (
   `post_id` bigint UNSIGNED NOT NULL,
   `language_id` bigint UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `meta_title` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `meta_keyword` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `meta_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `content` longtext COLLATE utf8mb4_unicode_ci,
+  `meta_title` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_keyword` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `meta_description` text COLLATE utf8mb4_unicode_ci,
   `canonical` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `post_language`
+--
+
+INSERT INTO `post_language` (`post_id`, `language_id`, `name`, `description`, `content`, `meta_title`, `meta_keyword`, `meta_description`, `canonical`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Bai viet moi', '<p>Xin chao tat ca moi nguoi day la bai viet dau tien</p>', '<p>Xin chao tat ca moi nguoi day la bai viet dau tien</p>', 'Bài Viết Mới', NULL, NULL, 'bai-viet-moi', '2025-03-26 06:52:52', '2025-03-26 06:52:52');
 
 -- --------------------------------------------------------
 
@@ -1405,23 +1534,26 @@ CREATE TABLE `products` (
   `follow` tinyint NOT NULL DEFAULT '1',
   `order` int NOT NULL DEFAULT '0',
   `user_id` bigint UNSIGNED NOT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
   `code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `made_in` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `price` double(8,2) NOT NULL DEFAULT '0.00',
   `attributeCatalogue` text COLLATE utf8mb4_unicode_ci,
   `attribute` text COLLATE utf8mb4_unicode_ci,
-  `variant` text COLLATE utf8mb4_unicode_ci
+  `variant` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `product_catalogue_id`, `image`, `icon`, `album`, `publish`, `follow`, `order`, `user_id`, `deleted_at`, `created_at`, `updated_at`, `code`, `made_in`, `price`, `attributeCatalogue`, `attribute`, `variant`) VALUES
-(41, 8, '/userfiles/image/languages/Flag_of_Vietnam_svg.webp', NULL, '', 2, 1, 0, 1, NULL, '2024-04-18 00:04:01', '2024-04-18 00:04:01', '1713423796', NULL, 90000.00, '[\"3\",\"4\"]', '{\"3\":[\"7\"],\"4\":[\"5\"]}', '{\"quantity\":[\"20\"],\"sku\":[\"1713423796-7-5\"],\"price\":[\"90.000\"],\"barcode\":[null],\"file_name\":[null],\"file_url\":[null],\"album\":[\"\\/userfiles\\/image\\/languages\\/Flag_of_Vietnam_svg.webp,\\/userfiles\\/image\\/languages\\/england.png,\\/userfiles\\/image\\/languages\\/china.png\"]}');
+INSERT INTO `products` (`id`, `product_catalogue_id`, `image`, `icon`, `album`, `publish`, `follow`, `order`, `user_id`, `code`, `made_in`, `price`, `attributeCatalogue`, `attribute`, `variant`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, '/userfiles/image/products/product1/sp1.webp', NULL, '[\"\\/userfiles\\/image\\/products\\/product1\\/sp1.webp\",\"\\/userfiles\\/image\\/products\\/product1\\/sp1_3.webp\",\"\\/userfiles\\/image\\/products\\/product1\\/sp1_2.webp\",\"\\/userfiles\\/image\\/products\\/product1\\/sp1_1.webp\",\"\\/userfiles\\/image\\/products\\/product1\\/sp1_4.webp\"]', 2, 1, 0, 1, '1736320232', 'Việt Nam', 350000.00, '[\"1\",\"2\"]', '{\"1\":[\"1\",\"2\"],\"2\":[\"3\"]}', '{\"quantity\":[\"12\",\"12\"],\"sku\":[\"1736320232-1-3\",\"1736320232-2-3\"],\"price\":[\"350.000\",\"350.000\"],\"barcode\":[null,null],\"file_name\":[null,null],\"file_url\":[null,null],\"album\":[null,null]}', '2025-01-08 07:12:22', '2025-01-08 07:12:22', NULL),
+(2, 1, '/userfiles/image/products/product2/sp2_1.webp', NULL, '[\"\\/userfiles\\/image\\/products\\/product2\\/sp2.webp\",\"\\/userfiles\\/image\\/products\\/product2\\/sp2_4.webp\",\"\\/userfiles\\/image\\/products\\/product2\\/sp2_3.webp\",\"\\/userfiles\\/image\\/products\\/product2\\/sp2_2.webp\",\"\\/userfiles\\/image\\/products\\/product2\\/sp2_1.webp\",\"\\/userfiles\\/image\\/products\\/product2\\/sp2_5.webp\"]', 2, 1, 0, 1, '1736320345', 'Việt Nam', 400000.00, '[\"2\",\"1\"]', '{\"2\":[\"4\"],\"1\":[\"1\",\"2\"]}', '{\"quantity\":[\"22\",\"22\"],\"sku\":[\"1736320345-1-4\",\"1736320345-2-4\"],\"price\":[\"400.000\",\"400.000\"],\"barcode\":[\"0\",\"0\"],\"file_name\":[\"0\",\"0\"],\"file_url\":[\"0\",\"0\"],\"album\":[\"\\/userfiles\\/image\\/products\\/ao_somi\\/2\\/ws25ss12p-ldbb_grey_ck__1__3068bf22580147d7b250df1ed12e9eec_master.webp\",\"\\/userfiles\\/image\\/products\\/ao_somi\\/2\\/ws25ss12p-ldbb_grey_ck__5__f8756b8c23b44416b5916d30b68f961f_master.jpg\"]}', '2025-01-08 07:14:09', '2025-03-25 02:33:14', NULL),
+(3, 2, '/userfiles/image/products/product3/vn-11134207-7r98o-lxp97eqqk6vv77.webp', NULL, '[\"\\/userfiles\\/image\\/products\\/product3\\/vn-11134207-7r98o-lxp97eqqk6vv77.webp\",\"\\/userfiles\\/image\\/products\\/product3\\/vn-11134207-7r98o-lxpt54jk2guz52.webp\",\"\\/userfiles\\/image\\/products\\/product3\\/vn-11134207-7r98o-lxpt54jk12ajeb.webp\",\"\\/userfiles\\/image\\/products\\/product3\\/vn-11134207-7r98o-lxpsxc9km09l6f.webp\",\"\\/userfiles\\/image\\/products\\/product3\\/vn-11134207-7r98o-lxpsxc9k7ye3c1.webp\",\"\\/userfiles\\/image\\/products\\/product3\\/vn-11134207-7r98o-lybqncq8i0f59d.webp\"]', 2, 1, 0, 1, '1736320659', 'Việt Nam', 450000.00, '', '', '', '2025-01-08 07:18:09', '2025-01-08 07:18:09', NULL),
+(5, 2, '/userfiles/image/products/product1/sp1_1.webp', NULL, '[\"\\/userfiles\\/image\\/products\\/product1\\/sp1.webp\",\"\\/userfiles\\/image\\/products\\/product1\\/sp1_1.webp\",\"\\/userfiles\\/image\\/products\\/product1\\/sp1_1.webp\"]', 2, 1, 0, 1, '1742802652', 'Việt Nam', 90000.00, '[\"1\"]', '{\"1\":[\"1\",\"2\"]}', '{\"quantity\":[\"100\",\"10\"],\"sku\":[\"1742802652-1\",\"1742802652-2\"],\"price\":[\"90.000\",\"90.000\"],\"barcode\":[null,null],\"file_name\":[null,null],\"file_url\":[null,null],\"album\":[\"\\/userfiles\\/image\\/products\\/product1\\/sp1.webp\",null]}', '2025-03-24 07:52:33', '2025-03-24 07:52:33', NULL);
 
 -- --------------------------------------------------------
 
@@ -1431,7 +1563,7 @@ INSERT INTO `products` (`id`, `product_catalogue_id`, `image`, `icon`, `album`, 
 
 CREATE TABLE `product_catalogues` (
   `id` bigint UNSIGNED NOT NULL,
-  `parent_id` int NOT NULL DEFAULT '0',
+  `parent_id` bigint NOT NULL DEFAULT '0',
   `lft` int NOT NULL DEFAULT '0',
   `rgt` int NOT NULL DEFAULT '0',
   `level` int NOT NULL DEFAULT '0',
@@ -1442,19 +1574,19 @@ CREATE TABLE `product_catalogues` (
   `follow` tinyint NOT NULL DEFAULT '0',
   `order` int NOT NULL DEFAULT '0',
   `user_id` bigint UNSIGNED NOT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `product_catalogues`
 --
 
-INSERT INTO `product_catalogues` (`id`, `parent_id`, `lft`, `rgt`, `level`, `image`, `icon`, `album`, `publish`, `follow`, `order`, `user_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(6, 0, 2, 5, 1, '/userfiles/image/languages/Flag_of_Vietnam_svg.webp', NULL, '', 0, 1, 0, 1, NULL, '2024-04-17 23:59:48', '2024-04-17 23:59:48'),
-(7, 0, 6, 7, 1, NULL, NULL, '', 0, 1, 0, 1, NULL, '2024-04-17 23:59:57', '2024-04-17 23:59:57'),
-(8, 6, 3, 4, 2, NULL, NULL, '', 0, 1, 0, 1, NULL, '2024-04-18 00:00:11', '2024-04-18 00:00:11');
+INSERT INTO `product_catalogues` (`id`, `parent_id`, `lft`, `rgt`, `level`, `image`, `icon`, `album`, `publish`, `follow`, `order`, `user_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 0, 6, 7, 1, NULL, NULL, '', 2, 1, 0, 1, '2025-01-08 06:10:22', '2025-01-08 06:10:22', NULL),
+(2, 0, 4, 5, 1, NULL, NULL, '', 2, 1, 0, 1, '2025-01-08 06:25:30', '2025-01-08 06:25:30', NULL),
+(3, 0, 2, 3, 1, NULL, NULL, '', 1, 1, 0, 1, '2025-01-08 06:25:49', '2025-01-08 06:25:52', NULL);
 
 -- --------------------------------------------------------
 
@@ -1481,10 +1613,9 @@ CREATE TABLE `product_catalogue_language` (
 --
 
 INSERT INTO `product_catalogue_language` (`product_catalogue_id`, `language_id`, `name`, `description`, `content`, `meta_title`, `meta_keyword`, `meta_description`, `canonical`, `created_at`, `updated_at`) VALUES
-(6, 1, 'Áo', NULL, NULL, NULL, NULL, NULL, 'ao', '2024-04-17 23:59:48', '2024-04-17 23:59:48'),
-(7, 1, 'Quần', NULL, NULL, NULL, NULL, NULL, 'quan', '2024-04-17 23:59:57', '2024-04-17 23:59:57'),
-(8, 1, 'Áo Phông', NULL, NULL, NULL, NULL, NULL, 'ao-phong', '2024-04-18 00:00:11', '2024-04-18 00:00:11'),
-(6, 2, 'Shirt', NULL, NULL, NULL, NULL, NULL, 'shirt', '2024-04-18 00:28:09', '2024-04-18 00:28:09');
+(1, 1, 'Thời trang nam', NULL, NULL, 'Thời trang nam', NULL, NULL, 'thoi-trang-nam', '2025-01-08 06:10:22', '2025-01-08 06:10:22'),
+(2, 1, 'Thời trang nữ', NULL, NULL, 'Thời trang nữ', NULL, NULL, 'thoi-trang-nu', '2025-01-08 06:25:30', '2025-01-08 06:25:30'),
+(3, 1, 'Phụ kiện', NULL, NULL, 'Phụ kiện', NULL, NULL, 'phu-kien', '2025-01-08 06:25:49', '2025-01-08 06:25:49');
 
 -- --------------------------------------------------------
 
@@ -1502,7 +1633,10 @@ CREATE TABLE `product_catalogue_product` (
 --
 
 INSERT INTO `product_catalogue_product` (`product_catalogue_id`, `product_id`) VALUES
-(8, 41);
+(1, 1),
+(1, 2),
+(2, 3),
+(2, 5);
 
 -- --------------------------------------------------------
 
@@ -1529,8 +1663,10 @@ CREATE TABLE `product_language` (
 --
 
 INSERT INTO `product_language` (`product_id`, `language_id`, `name`, `description`, `content`, `meta_title`, `meta_keyword`, `meta_description`, `canonical`, `created_at`, `updated_at`) VALUES
-(41, 1, 'Áo Phông Nam', NULL, NULL, NULL, NULL, NULL, 'ao-phong-nam', '2024-04-18 00:04:01', '2024-04-18 00:04:01'),
-(41, 2, 'Man Test', NULL, NULL, NULL, NULL, NULL, 'man-test', '2024-04-18 00:04:25', '2024-04-18 00:04:25');
+(1, 1, 'Áo phông nam vải cotton thấm nước', NULL, NULL, 'Áo phông nam vải cotton thấm nước', NULL, NULL, 'ao-phong-nam-vai-cotton-tham-nuoc', '2025-01-08 07:12:22', '2025-01-08 07:12:22'),
+(5, 1, 'Sản phẩm test', '<p>Sản phẩm test</p>', '<p>Sản phẩm test</p>', 'Sản phẩm test', NULL, NULL, 'san-pham-test', '2025-03-24 07:52:33', '2025-03-24 07:52:33'),
+(2, 1, 'Áo sơ mi vải kaki nam hot trend 2024 hai màu', NULL, NULL, 'Áo sơ mi vải kaki nam hot trend 2024 hai màu', NULL, NULL, 'ao-so-mi-vai-kaki-nam-hot-trend-2024-hai-mau', '2025-03-25 02:33:14', '2025-03-25 02:33:14'),
+(3, 1, 'Quần nữ form rộng vải kaki', NULL, NULL, 'Quần nữ form rộng vải kaki', NULL, NULL, 'quan-nu-form-rong-vai-kaki', '2025-03-25 04:48:43', '2025-03-25 04:48:43');
 
 -- --------------------------------------------------------
 
@@ -1540,6 +1676,7 @@ INSERT INTO `product_language` (`product_id`, `language_id`, `name`, `descriptio
 
 CREATE TABLE `product_variants` (
   `id` bigint UNSIGNED NOT NULL,
+  `uuid` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_id` bigint UNSIGNED NOT NULL,
   `code` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `quantity` int NOT NULL DEFAULT '0',
@@ -1551,17 +1688,22 @@ CREATE TABLE `product_variants` (
   `album` text COLLATE utf8mb4_unicode_ci,
   `publish` tinyint NOT NULL DEFAULT '1',
   `user_id` bigint UNSIGNED NOT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `product_variants`
 --
 
-INSERT INTO `product_variants` (`id`, `product_id`, `code`, `quantity`, `sku`, `price`, `barcode`, `file_name`, `file_url`, `album`, `publish`, `user_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(29, 41, '7, 5', 20, '1713423796-7-5', 90000.00, '', '', '', '/userfiles/image/languages/Flag_of_Vietnam_svg.webp,/userfiles/image/languages/england.png,/userfiles/image/languages/china.png', 1, 1, NULL, '2024-04-18 00:04:01', '2024-04-18 00:04:01');
+INSERT INTO `product_variants` (`id`, `uuid`, `product_id`, `code`, `quantity`, `sku`, `price`, `barcode`, `file_name`, `file_url`, `album`, `publish`, `user_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, '6422926b-4890-59b4-9e74-585d715431a4', 1, '1, 3', 12, '1736320232-1-3', 350000.00, '', '', '', '', 1, 1, '2025-01-08 07:12:23', '2025-01-08 07:12:23', NULL),
+(2, '06cd59e0-b289-589f-ab0a-c7f2e25897f1', 1, '2, 3', 12, '1736320232-2-3', 350000.00, '', '', '', '', 1, 1, '2025-01-08 07:12:23', '2025-01-08 07:12:23', NULL),
+(5, '95d1fb25-b29c-549f-aa5b-6ea58c2f499b', 5, '1', 100, '1742802652-1', 90000.00, '', '', '', '/userfiles/image/products/product1/sp1.webp', 1, 1, '2025-03-24 07:52:33', '2025-03-24 07:52:33', NULL),
+(6, '57e5f58c-c2b7-5e66-ad61-eb8f2fa0a732', 5, '2', 10, '1742802652-2', 90000.00, '', '', '', '', 1, 1, '2025-03-24 07:52:33', '2025-03-24 07:52:33', NULL),
+(7, 'cd54f2d9-010e-57df-9d2f-2dc813e6b8b6', 2, '1, 4', 21, '1736320345-1-4', 400000.00, '0', '0', '0', '/userfiles/image/products/ao_somi/2/ws25ss12p-ldbb_grey_ck__1__3068bf22580147d7b250df1ed12e9eec_master.webp', 1, 1, '2025-03-25 02:33:15', '2025-03-26 05:50:48', NULL),
+(8, 'f4ca685f-fcb9-5b39-9fdc-56973a8fa247', 2, '2, 4', 22, '1736320345-2-4', 400000.00, '0', '0', '0', '/userfiles/image/products/ao_somi/2/ws25ss12p-ldbb_grey_ck__5__f8756b8c23b44416b5916d30b68f961f_master.jpg', 1, 1, '2025-03-25 02:33:15', '2025-03-25 02:33:15', NULL);
 
 -- --------------------------------------------------------
 
@@ -1581,8 +1723,16 @@ CREATE TABLE `product_variant_attribute` (
 --
 
 INSERT INTO `product_variant_attribute` (`product_variant_id`, `attribute_id`, `created_at`, `updated_at`) VALUES
-(29, 7, NULL, NULL),
-(29, 5, NULL, NULL);
+(1, 1, NULL, NULL),
+(1, 3, NULL, NULL),
+(2, 2, NULL, NULL),
+(2, 3, NULL, NULL),
+(5, 1, NULL, NULL),
+(6, 2, NULL, NULL),
+(7, 4, NULL, NULL),
+(7, 1, NULL, NULL),
+(8, 4, NULL, NULL),
+(8, 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1604,7 +1754,95 @@ CREATE TABLE `product_variant_language` (
 --
 
 INSERT INTO `product_variant_language` (`id`, `product_variant_id`, `language_id`, `name`, `created_at`, `updated_at`) VALUES
-(18, 29, 1, 'Cotton, Đen', NULL, NULL);
+(1, 1, 1, 'Đen, Cotton', NULL, NULL),
+(2, 2, 1, 'Trắng, Cotton', NULL, NULL),
+(5, 5, 1, 'Đen', NULL, NULL),
+(6, 6, 1, 'Trắng', NULL, NULL),
+(7, 7, 1, 'Vải Kaki, Đen', NULL, NULL),
+(8, 8, 1, 'Vải Kaki, Trắng', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `promotions`
+--
+
+CREATE TABLE `promotions` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `method` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `discountInformation` json DEFAULT NULL,
+  `discountValue` int NOT NULL DEFAULT '0',
+  `discountType` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `maxDiscountValue` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `neverEndDate` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `startDate` timestamp NOT NULL,
+  `endDate` timestamp NULL DEFAULT NULL,
+  `publish` tinyint NOT NULL DEFAULT '1',
+  `order` int NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `promotions`
+--
+
+INSERT INTO `promotions` (`id`, `name`, `code`, `description`, `method`, `discountInformation`, `discountValue`, `discountType`, `maxDiscountValue`, `neverEndDate`, `startDate`, `endDate`, `publish`, `order`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Khuyến mãi mừng khai chương', 'KHAICHUONG', '<p>Khuyến m&atilde;i mừng khai chương</p>', 'product_and_quantity', '{\"info\": {\"model\": \"Product\", \"object\": {\"id\": [\"3\", \"2\", \"2\"], \"name\": [\"Quần nữ form rộng vải kaki -  Default\", \"Áo sơ mi vải kaki nam hot trend 2024 hai màu - Vải Kaki, Trắng\", \"Áo sơ mi vải kaki nam hot trend 2024 hai màu - Vải Kaki, Đen\"], \"variant_uuid\": [\"null\", \"f4ca685f-fcb9-5b39-9fdc-56973a8fa247\", \"cd54f2d9-010e-57df-9d2f-2dc813e6b8b6\"], \"product_variant_id\": [\"null\", \"4\", \"3\"]}, \"quantity\": \"1\", \"discountType\": \"percent\", \"discountValue\": \"30\", \"maxDiscountValue\": \"200.000\"}, \"apply\": {\"data\": null, \"status\": \"all\"}, \"source\": {\"data\": null, \"status\": \"all\"}}', 30, 'percent', '200000', 'accept', '2025-01-08 14:11:00', NULL, 2, 0, '2025-01-08 07:20:48', '2025-01-08 14:11:35', NULL),
+(2, 'Khuyến mãi sản phẩm mới', 'SANPHAMMOI', '<p>Khuyến m&atilde;i sản phẩm mới</p>', 'product_and_quantity', '{\"info\": {\"model\": \"Product\", \"object\": {\"id\": [\"2\", \"2\", \"1\", \"1\"], \"name\": [\"Áo sơ mi vải kaki nam hot trend 2024 hai màu - Vải Kaki, Trắng\", \"Áo sơ mi vải kaki nam hot trend 2024 hai màu - Vải Kaki, Đen\", \"Áo phông nam vải cotton thấm nước - Trắng, Cotton\", \"Áo phông nam vải cotton thấm nước - Đen, Cotton\"], \"variant_uuid\": [\"f4ca685f-fcb9-5b39-9fdc-56973a8fa247\", \"cd54f2d9-010e-57df-9d2f-2dc813e6b8b6\", \"06cd59e0-b289-589f-ab0a-c7f2e25897f1\", \"6422926b-4890-59b4-9e74-585d715431a4\"], \"product_variant_id\": [\"4\", \"3\", \"2\", \"1\"]}, \"quantity\": \"1\", \"discountType\": \"percent\", \"discountValue\": \"20\", \"maxDiscountValue\": \"300.000\"}, \"apply\": {\"data\": null, \"status\": \"all\"}, \"source\": {\"data\": null, \"status\": \"all\"}}', 20, 'percent', '300000', 'accept', '2025-01-08 07:20:00', NULL, 2, 0, '2025-01-08 07:22:27', '2025-01-08 07:22:30', NULL),
+(3, 'Khuyến mãi sản phẩm đặc biệt', 'PREPRODUCT', '<p>Khuyến m&atilde;i sản phẩm đặc biệt&nbsp;200.000</p>', 'product_and_quantity', '{\"info\": {\"model\": \"Product\", \"object\": {\"id\": [\"3\"], \"name\": [\"Quần nữ form rộng vải kaki -  Default\"], \"variant_uuid\": [\"null\"], \"product_variant_id\": [\"null\"]}, \"quantity\": \"1\", \"discountType\": \"cash\", \"discountValue\": \"200.000\", \"maxDiscountValue\": \"150.000\"}, \"apply\": {\"data\": null, \"status\": \"all\"}, \"source\": {\"data\": null, \"status\": \"all\"}}', 200000, 'cash', '150000', 'accept', '2025-01-08 13:43:00', NULL, 2, 0, '2025-01-08 07:24:34', '2025-01-08 13:43:55', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `promotion_conditionable`
+--
+
+CREATE TABLE `promotion_conditionable` (
+  `id` bigint UNSIGNED NOT NULL,
+  `promotion_id` bigint UNSIGNED NOT NULL,
+  `conditionable_value` int NOT NULL,
+  `conditionable_type` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `promotion_product_variant`
+--
+
+CREATE TABLE `promotion_product_variant` (
+  `id` bigint UNSIGNED NOT NULL,
+  `promotion_id` bigint UNSIGNED NOT NULL,
+  `product_id` bigint UNSIGNED NOT NULL,
+  `variant_uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `promotion_product_variant`
+--
+
+INSERT INTO `promotion_product_variant` (`id`, `promotion_id`, `product_id`, `variant_uuid`, `model`, `created_at`, `updated_at`) VALUES
+(2, 1, 2, 'cd54f2d9-010e-57df-9d2f-2dc813e6b8b6', 'Product', '2025-01-08 07:20:48', '2025-01-08 14:11:35'),
+(3, 1, 2, 'cd54f2d9-010e-57df-9d2f-2dc813e6b8b6', 'Product', '2025-01-08 07:20:48', '2025-01-08 14:11:35'),
+(4, 2, 2, 'f4ca685f-fcb9-5b39-9fdc-56973a8fa247', 'Product', '2025-01-08 07:22:27', '2025-01-08 07:22:27'),
+(5, 2, 2, 'cd54f2d9-010e-57df-9d2f-2dc813e6b8b6', 'Product', '2025-01-08 07:22:27', '2025-01-08 07:22:27'),
+(6, 2, 1, '06cd59e0-b289-589f-ab0a-c7f2e25897f1', 'Product', '2025-01-08 07:22:27', '2025-01-08 07:22:27'),
+(7, 2, 1, '6422926b-4890-59b4-9e74-585d715431a4', 'Product', '2025-01-08 07:22:27', '2025-01-08 07:22:27'),
+(9, 3, 3, 'null', 'Product', '2025-01-08 13:43:55', '2025-01-08 13:43:55'),
+(11, 1, 2, 'cd54f2d9-010e-57df-9d2f-2dc813e6b8b6', 'Product', '2025-01-08 13:44:40', '2025-01-08 14:11:35'),
+(13, 1, 2, 'cd54f2d9-010e-57df-9d2f-2dc813e6b8b6', 'Product', '2025-01-08 14:11:24', '2025-01-08 14:11:35'),
+(14, 1, 3, 'null', 'Product', '2025-01-08 14:11:35', '2025-01-08 14:11:35'),
+(15, 1, 2, 'cd54f2d9-010e-57df-9d2f-2dc813e6b8b6', 'Product', '2025-01-08 14:11:35', '2025-01-08 14:11:35');
 
 -- --------------------------------------------------------
 
@@ -1703,32 +1941,31 @@ CREATE TABLE `routers` (
   `canonical` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `module_id` bigint UNSIGNED NOT NULL,
   `controllers` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `language_id` bigint UNSIGNED NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `language_id` bigint UNSIGNED NOT NULL DEFAULT '1'
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `routers`
 --
 
-INSERT INTO `routers` (`id`, `canonical`, `module_id`, `controllers`, `created_at`, `updated_at`, `language_id`) VALUES
-(72, 'ao', 6, 'App\\Http\\Controllers\\Frontend\\ProductCatalogueController', '2024-04-17 23:59:48', '2024-04-17 23:59:48', 1),
-(73, 'quan', 7, 'App\\Http\\Controllers\\Frontend\\ProductCatalogueController', '2024-04-17 23:59:57', '2024-04-17 23:59:57', 1),
-(74, 'ao-phong', 8, 'App\\Http\\Controllers\\Frontend\\ProductCatalogueController', '2024-04-18 00:00:11', '2024-04-18 00:00:11', 1),
-(75, 'chat-lieu', 3, 'App\\Http\\Controllers\\Frontend\\AttributeCatalogueController', '2024-04-18 00:01:00', '2024-04-18 00:01:00', 1),
-(76, 'mau-sac', 4, 'App\\Http\\Controllers\\Frontend\\AttributeCatalogueController', '2024-04-18 00:01:13', '2024-04-18 00:01:13', 1),
-(77, 'color', 4, 'App\\Http\\Controllers\\Frontend\\AttributeCatalogueController', '2024-04-18 00:01:23', '2024-04-18 00:01:23', 2),
-(78, 'material', 3, 'App\\Http\\Controllers\\Frontend\\AttributeCatalogueController', '2024-04-18 00:01:40', '2024-04-18 00:01:40', 2),
-(79, 'den', 5, 'App\\Http\\Controllers\\Frontend\\AttributeController', '2024-04-18 00:01:58', '2024-04-18 00:01:58', 1),
-(80, 'black', 5, 'App\\Http\\Controllers\\Frontend\\AttributeController', '2024-04-18 00:02:08', '2024-04-18 00:02:08', 2),
-(81, 'trang', 6, 'App\\Http\\Controllers\\Frontend\\AttributeController', '2024-04-18 00:02:21', '2024-04-18 00:02:21', 1),
-(82, 'white', 6, 'App\\Http\\Controllers\\Frontend\\AttributeController', '2024-04-18 00:02:31', '2024-04-18 00:02:31', 2),
-(83, 'cotton', 7, 'App\\Http\\Controllers\\Frontend\\AttributeController', '2024-04-18 00:02:51', '2024-04-18 00:02:51', 1),
-(84, 'material-cotton', 7, 'App\\Http\\Controllers\\Frontend\\AttributeController', '2024-04-18 00:03:10', '2024-04-18 00:03:10', 2),
-(85, 'ao-phong-nam', 41, 'App\\Http\\Controllers\\Frontend\\ProductController', '2024-04-18 00:04:01', '2024-04-18 00:04:01', 1),
-(86, 'man-test', 41, 'App\\Http\\Controllers\\Frontend\\ProductController', '2024-04-18 00:04:25', '2024-04-18 00:04:25', 2),
-(87, 'shirt', 6, 'App\\Http\\Controllers\\Frontend\\ProductCatalogueController', '2024-04-18 00:28:09', '2024-04-18 00:28:09', 2);
+INSERT INTO `routers` (`id`, `canonical`, `module_id`, `controllers`, `language_id`, `created_at`, `updated_at`) VALUES
+(1, 'thoi-trang-nam', 1, 'App\\Http\\Controllers\\Frontend\\ProductCatalogueController', 1, '2025-01-08 06:10:22', '2025-01-08 06:10:22'),
+(2, 'thoi-trang-nu', 2, 'App\\Http\\Controllers\\Frontend\\ProductCatalogueController', 1, '2025-01-08 06:25:30', '2025-01-08 06:25:30'),
+(3, 'phu-kien', 3, 'App\\Http\\Controllers\\Frontend\\ProductCatalogueController', 1, '2025-01-08 06:25:49', '2025-01-08 06:25:49'),
+(4, 'mau-sac', 1, 'App\\Http\\Controllers\\Frontend\\AttributeCatalogueController', 1, '2025-01-08 06:26:48', '2025-01-08 06:26:48'),
+(5, 'chat-lieu', 2, 'App\\Http\\Controllers\\Frontend\\AttributeCatalogueController', 1, '2025-01-08 06:27:11', '2025-01-08 06:27:11'),
+(6, 'den', 1, 'App\\Http\\Controllers\\Frontend\\AttributeController', 1, '2025-01-08 07:09:16', '2025-01-08 07:09:16'),
+(7, 'trang', 2, 'App\\Http\\Controllers\\Frontend\\AttributeController', 1, '2025-01-08 07:09:40', '2025-01-08 07:09:40'),
+(8, 'cotton', 3, 'App\\Http\\Controllers\\Frontend\\AttributeController', 1, '2025-01-08 07:10:04', '2025-01-08 07:10:04'),
+(9, 'vai-kaki', 4, 'App\\Http\\Controllers\\Frontend\\AttributeController', 1, '2025-01-08 07:10:27', '2025-01-08 07:10:27'),
+(10, 'ao-phong-nam-vai-cotton-tham-nuoc', 1, 'App\\Http\\Controllers\\Frontend\\ProductController', 1, '2025-01-08 07:12:22', '2025-01-08 07:12:22'),
+(11, 'ao-so-mi-vai-kaki-nam-hot-trend-2024-hai-mau', 2, 'App\\Http\\Controllers\\Frontend\\ProductController', 1, '2025-01-08 07:14:09', '2025-01-08 07:14:09'),
+(12, 'quan-nu-form-rong-vai-kaki', 3, 'App\\Http\\Controllers\\Frontend\\ProductController', 1, '2025-01-08 07:18:09', '2025-01-08 07:18:09'),
+(14, 'san-pham-test', 5, 'App\\Http\\Controllers\\Frontend\\ProductController', 1, '2025-03-24 07:52:33', '2025-03-24 07:52:33'),
+(15, 'tin-tuc', 1, 'App\\Http\\Controllers\\Frontend\\PostCatalogueController', 1, '2025-03-26 06:52:41', '2025-03-26 06:52:41'),
+(16, 'bai-viet-moi', 1, 'App\\Http\\Controllers\\Frontend\\PostController', 1, '2025-03-26 06:52:52', '2025-03-26 06:52:52');
 
 -- --------------------------------------------------------
 
@@ -1738,13 +1975,13 @@ INSERT INTO `routers` (`id`, `canonical`, `module_id`, `controllers`, `created_a
 
 CREATE TABLE `slides` (
   `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `keyword` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `keyword` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
   `item` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `publish` tinyint NOT NULL DEFAULT '1',
   `setting` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `short_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `short_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1755,7 +1992,24 @@ CREATE TABLE `slides` (
 --
 
 INSERT INTO `slides` (`id`, `name`, `keyword`, `description`, `item`, `publish`, `setting`, `short_code`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(5, 'Slide Chính', 'main-slide', NULL, '{\"1\":[{\"image\":\"\\/userfiles\\/image\\/Slides\\/banner-1.jpg\",\"name\":\"FREESHIP FOR 30-4!\",\"description\":\"English texts for beginners to practice reading and comprehension online and for free. Practicing your comprehension of written English will both improve your\",\"canonical\":null,\"alt\":null,\"window\":\"\"},{\"image\":\"\\/userfiles\\/image\\/Slides\\/banner-2.jpg\",\"name\":null,\"description\":null,\"canonical\":null,\"alt\":null,\"window\":\"\"},{\"image\":\"\\/userfiles\\/image\\/Slides\\/banner-3.jpg\",\"name\":\"Asion Shop\",\"description\":\"Mang l\\u1ea1i c\\u1ea3m gi\\u00e1c \\u1ea5m \\u00e1p cho b\\u1ea1n\",\"canonical\":null,\"alt\":null,\"window\":\"\"}]}', 2, '{\"width\":\"1.099\",\"height\":\"1.020\",\"animation\":\"coverflow\",\"navigate\":\"dots\",\"autoplay\":\"accept\",\"pausehover\":\"accept\",\"animationdelay\":\"231\",\"animationspeed\":\"123\"}', '<p>Mainninini</p>\r\n\r\n<p>&nbsp;</p>', NULL, '2024-05-06 23:44:00', '2024-05-15 05:03:12');
+(1, 'Main Slide', 'main-slide', NULL, '{\"1\":[{\"image\":\"\\/userfiles\\/image\\/Slides\\/banner-1.jpg\",\"name\":\"Sale hot v\\u00e0o h\\u00e8!!!\",\"description\":null,\"canonical\":null,\"alt\":\"Gi\\u1ea3m gi\\u00e1 \\u0111\\u1ebfn 50% c\\u00e1c s\\u1ea3n ph\\u1ea9m m\\u00f9a h\\u00e8\",\"window\":\"\"},{\"image\":\"\\/userfiles\\/image\\/Slides\\/banner-2.jpg\",\"name\":null,\"description\":null,\"canonical\":null,\"alt\":null,\"window\":\"\"},{\"image\":\"\\/userfiles\\/image\\/Slides\\/banner-3.jpg\",\"name\":null,\"description\":null,\"canonical\":null,\"alt\":null,\"window\":\"\"}]}', 2, '{\"animation\":\"wipe\",\"arrow\":\"accept\",\"navigate\":\"dots\",\"autoplay\":\"accept\",\"pausehover\":\"accept\",\"animationdelay\":\"3000\",\"animationspeed\":\"0\"}', '<p>None</p>', NULL, '2025-01-09 17:00:55', '2025-03-26 07:06:08');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sources`
+--
+
+CREATE TABLE `sources` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `keyword` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `publish` tinyint NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1778,46 +2032,31 @@ CREATE TABLE `systems` (
 --
 
 INSERT INTO `systems` (`id`, `language_id`, `user_id`, `keyword`, `content`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'homepage_company', 'Công ty Phgmnhd', NULL, NULL),
-(2, 1, 1, 'homepage_brand', 'Công ty Phgmnhd', NULL, NULL),
-(3, 1, 1, 'homepage_logo', '/userfiles/image/languages/Flag_of_Vietnam_svg.webp', NULL, NULL),
-(4, 1, 1, 'homepage_copyright', 'Công ty Phgmnhd', NULL, NULL),
-(5, 1, 1, 'homepage_website', 'open', NULL, NULL),
-(6, 1, 1, 'contact_office', 'Hà Nội', NULL, NULL),
-(7, 1, 1, 'contact_address', 'Hà Nội', NULL, NULL),
-(8, 1, 1, 'contact_hotline', '0889564869', NULL, NULL),
-(9, 1, 1, 'contact_technical_phone', '0889564869', NULL, NULL),
-(10, 1, 1, 'contact_phone', '0889564869', NULL, NULL),
-(11, 1, 1, 'contact_fax', NULL, NULL, NULL),
-(12, 1, 1, 'contact_email', 'adphgmnhd@gmail.com', NULL, NULL),
-(13, 1, 1, 'contact_tax', NULL, NULL, NULL),
-(14, 1, 1, 'contact_website', 'phgmnhd.id.vn', NULL, NULL),
-(15, 1, 1, 'contact_map', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1316.5808176944524!2d105.7467355097448!3d21.038571184623578!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313455e940879933%3A0xcf10b34e9f1a03df!2zVHLGsOG7nW5nIENhbyDEkeG6s25nIEZQVCBQb2x5dGVjaG5pYw!5e0!3m2!1svi!2s!4v1712766928806!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', NULL, NULL),
-(16, 1, 1, 'seo_meta_title', 'Công ty Phgmnhd', NULL, NULL),
-(17, 1, 1, 'seo_meta_keyword', 'Công ty Phgmnhd', NULL, NULL),
-(18, 1, 1, 'seo_meta_description', 'Công ty Phgmnhd', NULL, NULL),
-(19, 1, 1, 'seo_meta_images', '/userfiles/image/languages/Flag_of_Vietnam_svg.webp', NULL, NULL),
-(20, 1, 1, 'homepage_short_intro', '<p>C&ocirc;ng ty Phgmnhd</p>', NULL, NULL),
-(21, 2, 1, 'homepage_company', 'Company Phgmnhd', NULL, NULL),
-(22, 2, 1, 'homepage_brand', NULL, NULL, NULL),
-(23, 2, 1, 'homepage_logo', NULL, NULL, NULL),
-(24, 2, 1, 'homepage_copyright', NULL, NULL, NULL),
-(25, 2, 1, 'homepage_website', 'open', NULL, NULL),
-(26, 2, 1, 'homepage_short_intro', NULL, NULL, NULL),
-(27, 2, 1, 'contact_office', NULL, NULL, NULL),
-(28, 2, 1, 'contact_address', NULL, NULL, NULL),
-(29, 2, 1, 'contact_hotline', NULL, NULL, NULL),
-(30, 2, 1, 'contact_technical_phone', NULL, NULL, NULL),
-(31, 2, 1, 'contact_phone', NULL, NULL, NULL),
-(32, 2, 1, 'contact_fax', NULL, NULL, NULL),
-(33, 2, 1, 'contact_email', NULL, NULL, NULL),
-(34, 2, 1, 'contact_tax', NULL, NULL, NULL),
-(35, 2, 1, 'contact_website', NULL, NULL, NULL),
-(36, 2, 1, 'contact_map', NULL, NULL, NULL),
-(37, 2, 1, 'seo_meta_title', NULL, NULL, NULL),
-(38, 2, 1, 'seo_meta_keyword', NULL, NULL, NULL),
-(39, 2, 1, 'seo_meta_description', NULL, NULL, NULL),
-(40, 2, 1, 'seo_meta_images', NULL, NULL, NULL);
+(1, 1, 1, 'homepage_company', 'Công ty Phgmnhd', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(2, 1, 1, 'homepage_brand', 'Công ty Phgmnhd', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(3, 1, 1, 'homepage_logo', '/userfiles/image/languages/Flag_of_Vietnam_svg.web...', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(4, 1, 1, 'homepage_copyright', 'Công ty Phgmnhd', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(5, 1, 1, 'homepage_website', 'open', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(6, 1, 1, 'contact_office', 'Hà Nội', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(7, 1, 1, 'contact_address', 'Hà Nội', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(8, 1, 1, 'contact_hotline', '0889564869', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(9, 1, 1, 'contact_technical_phone', '0889564869', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(10, 1, 1, 'contact_phone', '0889564869', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(11, 1, 1, 'contact_fax', NULL, '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(12, 1, 1, 'contact_email', 'adphgmnhd@gmail.com', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(13, 1, 1, 'contact_tax', NULL, '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(14, 1, 1, 'contact_website', 'phgmnhd.id.vn', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(15, 1, 1, 'contact_map', '<iframe src=\"<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1316.5808176944524!2d105.7467355097448!3d21.038571184623578!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313455e940879933%3A0xcf10b34e9f1a03df!2zVHLGsOG7nW5nIENhbyDEkeG6s25nIEZQVCBQb2x5dGVjaG5pYw!5e0!3m2!1svi!2s!4v1712766928806!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(16, 1, 1, 'seo_meta_title', 'Công ty Phgmnhd', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(17, 1, 1, 'seo_meta_keyword', 'Công ty Phgmnhd', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(18, 1, 1, 'seo_meta_description', 'Công ty Phgmnhd', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(19, 1, 1, 'seo_meta_images', '/userfiles/image/languages/Flag_of_Vietnam_svg.webp', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(20, 1, 1, 'homepage_short_intro', '<p>Công ty Phgmnhd</p>', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(21, 2, 1, 'homepage_company', 'Company Phgmnhd', '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(22, 2, 1, 'homepage_brand', NULL, '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(23, 2, 1, 'homepage_logo', NULL, '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(24, 2, 1, 'homepage_copyright', NULL, '2025-01-08 05:56:25', '2025-01-08 05:56:25'),
+(25, 2, 1, 'homepage_website', 'open', '2025-01-08 05:56:25', '2025-01-08 05:56:25');
 
 -- --------------------------------------------------------
 
@@ -1827,35 +2066,35 @@ INSERT INTO `systems` (`id`, `language_id`, `user_id`, `keyword`, `content`, `cr
 
 CREATE TABLE `users` (
   `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `province_id` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `district_id` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ward_id` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `birthday` datetime DEFAULT NULL,
-  `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
   `user_agent` text COLLATE utf8mb4_unicode_ci,
   `ip` text COLLATE utf8mb4_unicode_ci,
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `publish` tinyint NOT NULL DEFAULT '1',
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `user_catalogue_id` bigint UNSIGNED NOT NULL DEFAULT '2',
-  `publish` tinyint NOT NULL DEFAULT '1',
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `user_catalogue_id` bigint UNSIGNED NOT NULL DEFAULT '2'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `phone`, `province_id`, `district_id`, `ward_id`, `address`, `birthday`, `image`, `description`, `user_agent`, `ip`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `user_catalogue_id`, `publish`, `deleted_at`) VALUES
-(1, 'Admin Phgmnhd', '0889564869', '01', '271', '09664', 'Vật Lại 3', '2006-01-17 04:27:24', '/userfiles/image/languages/%E1%BA%A2nh%20ch%E1%BB%A5p%20man%20hinh%202024-03-21%20231354.png', NULL, NULL, NULL, 'adphgmnhd@gmail.com', NULL, '$2y$12$Wllp8TX2zf4bgKWleXkfqe/CqjxwdWoWF2QztIh07qA8vvn2w456S', NULL, NULL, '2024-03-27 06:28:26', 1, 2, NULL),
-(103, 'Phùng Mạnh Đức', '0889564869', '01', '271', '09664', 'Hà Nội', '2003-09-22 04:44:27', NULL, 'None', NULL, NULL, 'phungmanhduc2209@gmail.com', NULL, '$2y$12$H9STmSNE/oP4iwAnMffBD.RZz8keZnA8.lyzR1p.tJ9OVKljJMUO.', NULL, '2024-03-24 02:26:05', '2024-04-03 21:44:29', 1, 2, NULL);
+INSERT INTO `users` (`id`, `name`, `phone`, `province_id`, `district_id`, `ward_id`, `address`, `birthday`, `image`, `description`, `user_agent`, `ip`, `publish`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`, `user_catalogue_id`) VALUES
+(1, 'Admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, 'admin@gmail.com', NULL, '$2y$12$SokYRn1lsPbXFGXS9T3oPOj.ZYxUP4QgrKnlXp1kWvWrRw5nCSOwy', NULL, '2025-01-08 05:56:25', '2025-01-08 05:56:25', NULL, 1),
+(2, 'User', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, 'user@gmail.com', NULL, '$2y$12$qEzdvf3PzLcMXbrZ5ZG91.BlgTrfJAL5eMiPU6BkEJJ5j5oCxQgmy', NULL, '2025-01-08 05:56:25', '2025-01-08 05:56:25', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -1867,23 +2106,19 @@ CREATE TABLE `user_catalogues` (
   `id` bigint UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
-  `deleted_at` timestamp NULL DEFAULT NULL,
+  `publish` tinyint NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `publish` tinyint NOT NULL DEFAULT '0'
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user_catalogues`
 --
 
-INSERT INTO `user_catalogues` (`id`, `name`, `description`, `deleted_at`, `created_at`, `updated_at`, `publish`) VALUES
-(1, 'Quản trị viên', 'Quản lý trang web', NULL, '2024-03-24 03:17:13', '2024-03-24 06:19:08', 2),
-(2, 'Cộng tác viên sản phẩm', 'Quản lý sản phẩm', NULL, '2024-03-24 06:40:07', '2024-05-12 04:37:18', 2),
-(3, 'Cộng tác viên bài viết', 'Writing', NULL, '2024-04-03 21:05:27', '2024-05-12 04:37:31', 2),
-(4, 'Quản lý chung', 'Quản lý các vấn đề chung cho trang web', NULL, '2024-05-12 04:37:52', '2024-05-12 04:44:32', 2),
-(5, 'Quản lý nhân sự', 'Quản lý chung về User, phân quyền chức năng,..', NULL, '2024-05-12 04:44:29', '2024-05-12 04:45:35', 2),
-(6, 'Cộng tác viên dịch thuật', 'Tạo bản dịch cho toàn bộ trang web', NULL, '2024-05-12 04:51:55', '2024-05-12 04:52:30', 2);
+INSERT INTO `user_catalogues` (`id`, `name`, `description`, `publish`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Admin', '', 2, '2025-01-08 05:56:25', '2025-01-08 05:56:25', NULL),
+(2, 'User', '', 2, '2025-01-08 05:56:25', '2025-01-08 05:56:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -1959,66 +2194,10 @@ INSERT INTO `user_catalogue_permission` (`user_catalogue_id`, `permission_id`) V
 (1, 56),
 (1, 57),
 (1, 58),
-(5, 1),
-(5, 2),
-(5, 3),
-(5, 4),
-(5, 5),
-(5, 6),
-(5, 7),
-(5, 8),
-(5, 9),
-(5, 10),
-(5, 11),
-(5, 12),
-(5, 13),
-(3, 14),
-(3, 15),
-(3, 16),
-(3, 17),
-(3, 18),
-(3, 19),
-(3, 20),
-(3, 21),
-(2, 22),
-(2, 23),
-(2, 24),
-(2, 25),
-(2, 26),
-(2, 27),
-(2, 28),
-(2, 29),
-(2, 41),
-(2, 42),
-(2, 43),
-(2, 44),
-(2, 45),
-(2, 46),
-(2, 47),
-(2, 48),
-(4, 30),
-(4, 31),
-(4, 32),
-(4, 33),
-(4, 35),
-(4, 36),
-(4, 37),
-(4, 38),
-(4, 39),
-(4, 49),
-(4, 50),
-(4, 51),
-(4, 52),
-(4, 53),
-(4, 55),
-(4, 56),
-(4, 57),
-(4, 58),
-(6, 34),
-(6, 35),
-(6, 37),
-(6, 40),
-(6, 54);
+(1, 59),
+(1, 60),
+(1, 61),
+(1, 62);
 
 -- --------------------------------------------------------
 
@@ -12668,18 +12847,26 @@ INSERT INTO `wards` (`code`, `name`, `name_en`, `full_name`, `full_name_en`, `co
 
 CREATE TABLE `widgets` (
   `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `keyword` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `keyword` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
   `album` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `model_id` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `model` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `publish` tinyint NOT NULL DEFAULT '1',
-  `short_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `short_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `widgets`
+--
+
+INSERT INTO `widgets` (`id`, `name`, `keyword`, `description`, `album`, `model_id`, `model`, `publish`, `short_code`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'New Product', 'new-product', '{\"1\":null}', '[\"\\/userfiles\\/image\\/products\\/product2\\/sp2.webp\"]', '[\"2\",\"1\"]', 'ProductCatalogue', 2, '[widget=new-product]', NULL, '2025-01-08 06:35:11', '2025-01-08 13:59:21'),
+(2, 'Hot Trend', 'hot-trend', '{\"1\":null}', '[\"\\/userfiles\\/image\\/products\\/product3\\/vn-11134207-7r98o-lxpsxc9k7ye3c1.webp\"]', '[\"3\",\"2\",\"1\"]', 'Product', 2, '[widget=hot-trend]', NULL, '2025-01-08 16:07:50', '2025-03-26 05:51:54');
 
 --
 -- Indexes for dumped tables
@@ -12702,6 +12889,7 @@ ALTER TABLE `administrative_units`
 --
 ALTER TABLE `attributes`
   ADD PRIMARY KEY (`id`),
+  ADD KEY `attributes_attribute_catalogue_id_foreign` (`attribute_catalogue_id`),
   ADD KEY `attributes_user_id_foreign` (`user_id`);
 
 --
@@ -12731,6 +12919,32 @@ ALTER TABLE `attribute_catalogue_language`
 ALTER TABLE `attribute_language`
   ADD KEY `attribute_language_attribute_id_foreign` (`attribute_id`),
   ADD KEY `attribute_language_language_id_foreign` (`language_id`);
+
+--
+-- Indexes for table `carts`
+--
+ALTER TABLE `carts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `checkouts`
+--
+ALTER TABLE `checkouts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `customers_customer_catalogue_id_foreign` (`customer_catalogue_id`),
+  ADD KEY `customers_source_id_foreign` (`source_id`);
+
+--
+-- Indexes for table `customer_catalogues`
+--
+ALTER TABLE `customer_catalogues`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `districts`
@@ -12766,15 +12980,15 @@ ALTER TABLE `languages`
 --
 ALTER TABLE `menus`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `menus_user_id_foreign` (`user_id`),
-  ADD KEY `menus_menu_catalogue_id_foreign` (`menu_catalogue_id`);
+  ADD KEY `menus_menu_catalogue_id_foreign` (`menu_catalogue_id`),
+  ADD KEY `menus_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `menu_catalogues`
 --
 ALTER TABLE `menu_catalogues`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `menu_catalogues_keyword_unique` (`keyword`);
+  ADD KEY `menu_catalogues_keyword_index` (`keyword`);
 
 --
 -- Indexes for table `menu_language`
@@ -12799,8 +13013,7 @@ ALTER TABLE `password_reset_tokens`
 -- Indexes for table `permissions`
 --
 ALTER TABLE `permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `permissions_canonical_unique` (`canonical`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `personal_access_tokens`
@@ -12828,9 +13041,9 @@ ALTER TABLE `post_catalogues`
 -- Indexes for table `post_catalogue_language`
 --
 ALTER TABLE `post_catalogue_language`
-  ADD UNIQUE KEY `post_catalogue_language_canonical_unique` (`canonical`),
-  ADD KEY `post_catalogue_translate_post_catalogue_id_foreign` (`post_catalogue_id`),
-  ADD KEY `post_catalogue_translate_language_id_foreign` (`language_id`);
+  ADD KEY `post_catalogue_language_post_catalogue_id_foreign` (`post_catalogue_id`),
+  ADD KEY `post_catalogue_language_language_id_foreign` (`language_id`),
+  ADD KEY `post_catalogue_language_canonical_index` (`canonical`);
 
 --
 -- Indexes for table `post_catalogue_post`
@@ -12843,9 +13056,9 @@ ALTER TABLE `post_catalogue_post`
 -- Indexes for table `post_language`
 --
 ALTER TABLE `post_language`
-  ADD UNIQUE KEY `canonical` (`canonical`),
   ADD KEY `post_language_post_id_foreign` (`post_id`),
-  ADD KEY `post_language_language_id_foreign` (`language_id`);
+  ADD KEY `post_language_language_id_foreign` (`language_id`),
+  ADD KEY `post_language_canonical_index` (`canonical`);
 
 --
 -- Indexes for table `products`
@@ -12887,6 +13100,7 @@ ALTER TABLE `product_language`
 --
 ALTER TABLE `product_variants`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `product_variants_uuid_unique` (`uuid`),
   ADD KEY `product_variants_product_id_foreign` (`product_id`),
   ADD KEY `product_variants_user_id_foreign` (`user_id`);
 
@@ -12906,6 +13120,27 @@ ALTER TABLE `product_variant_language`
   ADD KEY `product_variant_language_language_id_foreign` (`language_id`);
 
 --
+-- Indexes for table `promotions`
+--
+ALTER TABLE `promotions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `promotion_conditionable`
+--
+ALTER TABLE `promotion_conditionable`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `promotion_conditionable_promotion_id_foreign` (`promotion_id`);
+
+--
+-- Indexes for table `promotion_product_variant`
+--
+ALTER TABLE `promotion_product_variant`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `promotion_product_variant_promotion_id_foreign` (`promotion_id`),
+  ADD KEY `promotion_product_variant_product_id_foreign` (`product_id`);
+
+--
 -- Indexes for table `provinces`
 --
 ALTER TABLE `provinces`
@@ -12918,14 +13153,21 @@ ALTER TABLE `provinces`
 --
 ALTER TABLE `routers`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `routers_canonical_unique` (`canonical`);
+  ADD KEY `routers_canonical_index` (`canonical`);
 
 --
 -- Indexes for table `slides`
 --
 ALTER TABLE `slides`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `slides_keyword_unique` (`keyword`);
+  ADD KEY `slides_keyword_index` (`keyword`);
+
+--
+-- Indexes for table `sources`
+--
+ALTER TABLE `sources`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sources_keyword_index` (`keyword`);
 
 --
 -- Indexes for table `systems`
@@ -12939,9 +13181,7 @@ ALTER TABLE `systems`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`),
-  ADD KEY `users_user_catalogue_id_foreign` (`user_catalogue_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `user_catalogues`
@@ -12969,7 +13209,7 @@ ALTER TABLE `wards`
 --
 ALTER TABLE `widgets`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `widgets_keyword_unique` (`keyword`);
+  ADD KEY `widgets_keyword_index` (`keyword`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -12979,13 +13219,37 @@ ALTER TABLE `widgets`
 -- AUTO_INCREMENT for table `attributes`
 --
 ALTER TABLE `attributes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `attribute_catalogues`
 --
 ALTER TABLE `attribute_catalogues`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `carts`
+--
+ALTER TABLE `carts`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `checkouts`
+--
+ALTER TABLE `checkouts`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `customer_catalogues`
+--
+ALTER TABLE `customer_catalogues`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -13009,25 +13273,25 @@ ALTER TABLE `languages`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `menu_catalogues`
 --
 ALTER TABLE `menu_catalogues`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -13039,73 +13303,97 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `post_catalogues`
 --
 ALTER TABLE `post_catalogues`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `product_catalogues`
 --
 ALTER TABLE `product_catalogues`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `product_variant_language`
 --
 ALTER TABLE `product_variant_language`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `promotions`
+--
+ALTER TABLE `promotions`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `promotion_conditionable`
+--
+ALTER TABLE `promotion_conditionable`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `promotion_product_variant`
+--
+ALTER TABLE `promotion_product_variant`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `routers`
 --
 ALTER TABLE `routers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `slides`
 --
 ALTER TABLE `slides`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `sources`
+--
+ALTER TABLE `sources`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `systems`
 --
 ALTER TABLE `systems`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user_catalogues`
 --
 ALTER TABLE `user_catalogues`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `widgets`
 --
 ALTER TABLE `widgets`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -13115,6 +13403,7 @@ ALTER TABLE `widgets`
 -- Constraints for table `attributes`
 --
 ALTER TABLE `attributes`
+  ADD CONSTRAINT `attributes_attribute_catalogue_id_foreign` FOREIGN KEY (`attribute_catalogue_id`) REFERENCES `attribute_catalogues` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `attributes_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
@@ -13145,6 +13434,13 @@ ALTER TABLE `attribute_language`
   ADD CONSTRAINT `attribute_language_language_id_foreign` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `customers`
+--
+ALTER TABLE `customers`
+  ADD CONSTRAINT `customers_customer_catalogue_id_foreign` FOREIGN KEY (`customer_catalogue_id`) REFERENCES `customer_catalogues` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `customers_source_id_foreign` FOREIGN KEY (`source_id`) REFERENCES `sources` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `districts`
 --
 ALTER TABLE `districts`
@@ -13161,7 +13457,7 @@ ALTER TABLE `languages`
 -- Constraints for table `menus`
 --
 ALTER TABLE `menus`
-  ADD CONSTRAINT `menus_menu_catalogue_id_foreign` FOREIGN KEY (`menu_catalogue_id`) REFERENCES `menu_catalogues` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `menus_menu_catalogue_id_foreign` FOREIGN KEY (`menu_catalogue_id`) REFERENCES `menu_catalogues` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `menus_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
@@ -13187,8 +13483,8 @@ ALTER TABLE `post_catalogues`
 -- Constraints for table `post_catalogue_language`
 --
 ALTER TABLE `post_catalogue_language`
-  ADD CONSTRAINT `post_catalogue_translate_language_id_foreign` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `post_catalogue_translate_post_catalogue_id_foreign` FOREIGN KEY (`post_catalogue_id`) REFERENCES `post_catalogues` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `post_catalogue_language_language_id_foreign` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `post_catalogue_language_post_catalogue_id_foreign` FOREIGN KEY (`post_catalogue_id`) REFERENCES `post_catalogues` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `post_catalogue_post`
@@ -13259,6 +13555,19 @@ ALTER TABLE `product_variant_language`
   ADD CONSTRAINT `product_variant_language_product_variant_id_foreign` FOREIGN KEY (`product_variant_id`) REFERENCES `product_variants` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `promotion_conditionable`
+--
+ALTER TABLE `promotion_conditionable`
+  ADD CONSTRAINT `promotion_conditionable_promotion_id_foreign` FOREIGN KEY (`promotion_id`) REFERENCES `promotions` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `promotion_product_variant`
+--
+ALTER TABLE `promotion_product_variant`
+  ADD CONSTRAINT `promotion_product_variant_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `promotion_product_variant_promotion_id_foreign` FOREIGN KEY (`promotion_id`) REFERENCES `promotions` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `provinces`
 --
 ALTER TABLE `provinces`
@@ -13273,17 +13582,11 @@ ALTER TABLE `systems`
   ADD CONSTRAINT `systems_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_user_catalogue_id_foreign` FOREIGN KEY (`user_catalogue_id`) REFERENCES `user_catalogues` (`id`);
-
---
 -- Constraints for table `user_catalogue_permission`
 --
 ALTER TABLE `user_catalogue_permission`
   ADD CONSTRAINT `user_catalogue_permission_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `user_catalogue_permission_user_catalogue_id_foreign` FOREIGN KEY (`user_catalogue_id`) REFERENCES `user_catalogues` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `user_catalogue_permission_user_catalogue_id_foreign` FOREIGN KEY (`user_catalogue_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `wards`
