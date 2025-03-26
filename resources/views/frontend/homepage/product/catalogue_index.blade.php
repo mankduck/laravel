@@ -10,8 +10,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-3">
-                    <div class="shop__sidebar">
-
+                    {{-- <div class="shop__sidebar">
                         <div class="sidebar__filter">
                             <div class="section-title">
                                 <h4>Shop by price</h4>
@@ -123,9 +122,9 @@
                                 </label>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
-                <div class="col-lg-9 col-md-9">
+                <div class="col-lg-12 col-md-12">
                     <div class="row">
                         @if (!is_null($products) && count($products))
                             @foreach ($products as $key => $val)
@@ -135,26 +134,27 @@
                                     $image = $val->image;
                                     $price = number_format_custom($val->price);
                                 @endphp
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-3 col-md-6">
                                     <div class="product__item">
                                         <div class="product__item__pic set-bg" data-setbg="{{ $image }}">
                                             {{-- <div class="label new">New</div> --}}
                                             <ul class="product__hover">
                                                 <li><a href="{{ $image }}" class="image-popup"><span
                                                             class="arrow_expand"></span></a></li>
-                                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                                <li><a href="{{ $canonical }}"><span class="icon_bag_alt"></span></a></li>
+                                                {{-- <li><a href="#"><span class="icon_heart_alt"></span></a></li> --}}
+                                                {{-- <li><a href="{{ $canonical }}"><span class="icon_bag_alt"></span></a> --}}
+                                                </li>
                                             </ul>
                                         </div>
                                         <div class="product__item__text">
                                             <h6><a href="{{ $canonical }}">{{ $name }}</a></h6>
-                                            <div class="rating">
+                                            {{-- <div class="rating">
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
-                                            </div>
+                                            </div> --}}
                                             <div class="product__price">{{ $price }}</div>
                                         </div>
                                     </div>
@@ -162,10 +162,10 @@
                             @endforeach
                             {{-- Pagination --}}
                             <div class="col-lg-12 text-center">
-                            {{$products->links('pagination::bootstrap-4')}}
+                                {{ $products->links('pagination::bootstrap-4') }}
                             </div>
-                            @else
-                                <h5 class="px-3">Không có dữ liệu</h5>
+                        @else
+                            <h5 class="px-3">Không có dữ liệu</h5>
                         @endif
                     </div>
                 </div>

@@ -24,9 +24,9 @@
                     </div>
                     <ul class="header__right__widget">
                         {{-- <li><span class="icon_search search-switch"></span></li> --}}
-                        <li><a href="#"><span class="icon_heart_alt"></span>
+                        {{-- <li><a href="#"><span class="icon_heart_alt"></span>
                                 <div class="tip num-favaurite">2</div>
-                            </a></li>
+                            </a></li> --}}
                         <li><a href="{{ route('cart.index') }}"><span class="icon_bag_alt"></span>
                                 <div class="tip num-card">{{ $countCartUser }}</div>
                             </a></li>

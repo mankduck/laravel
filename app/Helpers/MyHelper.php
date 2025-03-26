@@ -16,7 +16,7 @@ if (!function_exists('number_format_custom')) {
     {
 
         if (is_numeric($price)) {
-            return number_format($price) . 'đ';
+            return number_format($price, 0, '.', '.') . 'đ';
 
         }
         return $price;

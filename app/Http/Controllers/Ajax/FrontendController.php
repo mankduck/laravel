@@ -65,4 +65,29 @@ class FrontendController extends Controller
             return false;
         }
     }
+
+    public function removeCart(Request $request)
+    {
+        $id = $request->only('id');
+        Cart::where('id', $id)->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Xoá khỏi giỏ hàng thành công!',
+        ]);
+    }
+
+    public function updateTotalCart(Request $request)
+    {
+        $data = $request->only('id', 'total');
+        $query = Cart::where('id', $data['id'])->update([
+            'total' => $data['total'],
+        ]);
+
+        if($query){
+            return response()->json([
+                'status' => true,
+                'message' => 'Thành công!',
+            ]);
+        }
+    }
 }

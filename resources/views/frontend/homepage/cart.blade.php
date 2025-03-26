@@ -25,7 +25,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (isset($cartUser) && !is_null($cartUser))
+                                @if (isset($cartUser) && !is_null($cartUser) && count($cartUser))
                                     @foreach ($cartUser as $item)
                                         <tr>
                                             <td class="cart__product__item">
@@ -37,16 +37,20 @@
                                                     </h6>
                                                 </div>
                                             </td>
-                                            <td class="cart__price">{{ $item->price }}đ</td>
+                                            <td class="cart__price">{{ number_format_custom($item->price) }}</td>
                                             <td class="cart__quantity">
                                                 <div class="pro-qty">
                                                     <input type="text" value="{{ $item->total }}">
                                                 </div>
                                             </td>
-                                            <td class="cart__total">{{ $item->price * $item->total }}đ</td>
-                                            <td class="cart__close"><span class="icon_close"></span></td>
+                                            <td class="cart__total">{{ number_format_custom($item->price * $item->total) }}</td>
+                                            <td class="cart__close" data-prd-id="{{$item->id}}"><span class="icon_close"></span></td>
                                         </tr>
                                     @endforeach
+                                    @else
+                                    <tr>
+                                        <td>Chưa có sản phẩm</td>
+                                    </tr>
                                 @endif
                             </tbody>
                         </table>
@@ -67,22 +71,22 @@
             </div> --}}
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="discount__content">
-                        <h6>Discount codes</h6>
+                    {{-- <div class="discount__content">
+                        <h6>Mã giảm giá</h6>
                         <form action="#">
                             <input type="text" placeholder="Enter your coupon code">
-                            <button type="submit" class="site-btn">Apply</button>
+                            <button type="submit" class="site-btn">Xác nhận</button>
                         </form>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="col-lg-4 offset-lg-2">
                     <div class="cart__total__procced">
-                        <h6>Cart total</h6>
+                        <h6>Thành tiền</h6>
                         <ul>
-                            <li>Subtotal <span>$ 750.0</span></li>
-                            <li>Total <span>$ 750.0</span></li>
+                            <li>Tiền giảm giá <span>0đ</span></li>
+                            <li>Tổng tiền <span class="sum-total-amount"></span></li>
                         </ul>
-                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                        <a href="{{route('checkout.index')}}" class="primary-btn">Thanh toán</a>
                     </div>
                 </div>
             </div>

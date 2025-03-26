@@ -18,6 +18,7 @@ use App\Http\Controllers\Backend\UserCatalogueController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\WidgetController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
@@ -272,6 +273,8 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
     Route::get('ajax/source/getAllSource', [AjaxSourceController::class, 'getAllSource'])->name('ajax.source.getAllSource');
     Route::get('ajax/dashboard/getPromotionConditionValue', [AjaxDashboardController::class, 'getPromotionConditionValue'])->name('ajax.dashboard.getPromotionConditionValue');
     Route::post('ajax/frontend/addToCart', [AjaxFrontendController::class, 'addToCart'])->name('ajax.frontend.addToCart');
+    Route::post('ajax/frontend/removeCart', [AjaxFrontendController::class, 'removeCart'])->name('ajax.frontend.removeCart');
+    Route::post('ajax/frontend/updateTotalCart', [AjaxFrontendController::class, 'updateTotalCart'])->name('ajax.frontend.updateTotalCart');
 });
 
 
@@ -281,4 +284,6 @@ Route::get('signin', [AuthController::class, 'signin'])->name('auth.signin');
 Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::post('login', [AuthController::class, 'login'])->name('auth.login');
 Route::get('my-cart', [CartController::class, 'index'])->name('cart.index');
+Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('create-checkout', [CheckoutController::class, 'store'])->name('checkout.create');
 Route::get('{canonical}', [RouterController::class, 'index'])->name('router.index');
