@@ -11,6 +11,7 @@ class Checkout extends Model
 
     protected $fillable = [
         'user_id',
+        'code',
         'name',
         'country',
         'phone',
@@ -19,7 +20,8 @@ class Checkout extends Model
         'description',
         'payment_method',
         'product',
-        'status'
+        'status',
+        'total'
     ];
 
     protected $casts = [

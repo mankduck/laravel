@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('checkouts', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned();
+            $table->string('code');
             $table->string('name');
             $table->string('country');
             $table->string('phone', 20);
@@ -21,6 +22,7 @@ return new class extends Migration {
             $table->string('description')->nullable();
             $table->json('product');
             $table->string('payment_method');
+            $table->bigInteger('total');
             $table->enum('status', ['pending', 'confirmed', 'inprocess', 'canceled', 'completed'])->default('pending');
             $table->timestamps();
         });

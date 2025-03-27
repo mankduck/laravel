@@ -291,9 +291,24 @@ if (!function_exists('seo')) {
     {
         return [
             'meta_title' => ($model->meta_title) ?? $model->name,
-            'meta_keyword' => ($model->meta_keyword) ??'',
+            'meta_keyword' => ($model->meta_keyword) ?? '',
             'meta_description' => ($model->meta_description) ?? $model->description,
             'canonical' => $model->canonical,
         ];
+    }
+}
+
+if (!function_exists('code_checkout')) {
+    function code_checkout($length = 15)
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $code = '';
+        $maxIndex = strlen($characters) - 1;
+
+        for ($i = 0; $i < $length; $i++) {
+            $code .= $characters[rand(0, $maxIndex)];
+        }
+
+        return $code;
     }
 }

@@ -92,6 +92,7 @@
                                     {{-- <li>Subtotal <span>$ 750.0</span></li> --}}
                                     <li>Tổng tiền: <span class="total-amount-checkout" name="total-amount"></span></li>
                                 </ul>
+                                <input type="hidden" name="total" class="total-checkout-db" value="">
                             </div>
                             <div class="checkout__order__widget">
                                 <label for="check-payment">
@@ -127,8 +128,10 @@
             });
 
             let totalAmountElement = document.querySelector(".total-amount-checkout");
+            let totalDB = document.querySelector(".total-checkout-db")
             if (totalAmountElement) {
                 totalAmountElement.textContent = total.toLocaleString('vi-VN') + 'đ';
+                totalDB.value = total
             }
         });
     </script>

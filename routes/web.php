@@ -290,4 +290,6 @@ Route::post('create-checkout', [CheckoutController::class, 'store'])->name('chec
 Route::get('about', [PageController::class, 'about'])->name('page.about');
 Route::get('contact', [PageController::class, 'contact'])->name('page.contact');
 Route::get('blog', [PageController::class, 'blog'])->name('page.blog');
+Route::get('vnpay_payment', [CheckoutController::class, 'vnpay_payment'])->name('checkout.vnpay_payment');
+Route::get('vnpay-return', [CheckoutController::class, 'vnpayReturn'])->name('vnpay.return');
 Route::get('{canonical}', [RouterController::class, 'index'])->name('router.index');
