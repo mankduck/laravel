@@ -80,6 +80,12 @@ return [
         'made_in' => 'Xuất xứ',
         'price' => 'Giá bán sản phẩm',
     ],
+    'order' => [
+        'index' => [
+            'title' => 'Quản lý đơn hàng',
+            'table' => 'Danh sách đơn hàng'
+        ],
+    ],
     'postCatalogue' => [
         'index' => [
             'title' => 'Quản lý bài viết',

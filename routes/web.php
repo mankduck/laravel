@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\AttributeCatalogueController;
 use App\Http\Controllers\Backend\AttributeController;
 use App\Http\Controllers\Backend\LanguageController;
 use App\Http\Controllers\Backend\MenuController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\PostCatalogueController;
 use App\Http\Controllers\Backend\PostController;
@@ -257,6 +258,10 @@ Route::group(['middleware' => ['admin', 'locale', 'backend_default_locale']], fu
         Route::post('{id}/update', [promotionController::class, 'update'])->where(['id' => '[0-9]+'])->name('promotion.update');
         Route::get('{id}/delete', [promotionController::class, 'delete'])->where(['id' => '[0-9]+'])->name('promotion.delete');
         Route::delete('{id}/destroy', [promotionController::class, 'destroy'])->where(['id' => '[0-9]+'])->name('promotion.destroy');
+    });
+
+    Route::group(['prefix' => 'order'], function () {
+        Route::get('index', [OrderController::class, 'index'])->name('order.index');
     });
 
     /* AJAX */

@@ -77,6 +77,12 @@ return [
             ]
         ],
         [
+            'title' => 'QL Đơn Hàng',
+            'icon' => 'fa fa-cube',
+            'name' => ['order'],
+            'route' => 'order/index'
+        ],
+        [
             'title' => 'QL Bài viết',
             'icon' => 'fa fa-file',
             'name' => ['post'],
